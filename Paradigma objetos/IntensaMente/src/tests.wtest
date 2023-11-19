@@ -1,10 +1,72 @@
+import Personas.*
+import Recuerdos.*
+import Emociones.*
+
+// -----------------------------------------------------------------------
+// 🔸 Mi Universo.
+// -----------------------------------------------------------------------
+// Otras chicas.
+const neutralGirl = new Chica(felicidad = 400, dominante = disgusto)
+const sadGirl = new Chica(felicidad = 1, dominante = furia)
+
+// Recuerdos.
+const recuerdoAlegre = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = alegria)
+const recuerdoTriste = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = tristeza)
+const recuerdoDisgusto = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = disgusto)
+const recuerdoFuria = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = furia)
+const recuerdoTemor = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = temor)
+const recuerdoDificil = new Recuerdo(descripcion = "Esto es la descripcion de un recuerdo super mega hiper dificil", emocion = alegria)
+
 // -----------------------------------------------------------------------
 // 🔸 Vivir.
 // -----------------------------------------------------------------------
 describe "Vivir" {
-	test "testX" {
-		assert.that(true)
-	}	
+	test "PUNTO 1 - Hacer que Riley viva un evento" {
+		riley.vivirEvento("Esto es una descripcion de un recuerdo")
+		riley.vivirEvento("Esto es una descripcion de otro recuerdo")
+		// Si Riley vive un evento, entonces ahora tiene uno en sus recuerdos del dia.
+		assert.equals(2, riley.recuerdosDelDia().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo de alegria en Riley (felicidad > 500) se asienta en un pensamiento central" {
+		riley.asentar(recuerdoAlegre)
+		assert.equals(1, riley.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo de alegria en neutralGirl (felicidad <= 500) no se asienta en un pensamiento central" {
+		neutralGirl.asentar(recuerdoAlegre)
+		assert.equals(0, neutralGirl.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo triste en Riley (nivel de felicidad resultante >= 1) se asienta en un pensamiento central" {
+		riley.asentar(recuerdoTriste)
+		assert.equals(1, riley.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo triste en sadGirl (nivel de felicidad resultante < 1) lanza una excepcion al asentarlo" {
+		assert.throwsExceptionWithMessage("La felicidad de la chica esta por debajo de 1", {sadGirl.asentar(recuerdoTriste)})
+	}
+	
+	test "PUNTO 2 - Un recuerdo de disgusto en Riley no hace nada al asentarlo" {
+		riley.asentar(recuerdoDisgusto)
+		assert.equals(0, riley.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo de furia en Riley no hace nada al asentarlo" {
+		riley.asentar(recuerdoFuria)
+		assert.equals(0, riley.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 2 - Un recuerdo de temor en Riley no hace nada al asentarlo" {
+		riley.asentar(recuerdoTemor)
+		assert.equals(0, riley.pensamientosCentrales().size())
+	}
+	
+	test "PUNTO 5 - Es posible obtener los pensamientos centrales dificiles de explicar" {
+		riley.asentar(recuerdoAlegre)
+		riley.asentar(recuerdoDificil)
+		assert.equals(#{recuerdoDificil}, riley.pensamientosDificiles())
+	}
 }
 
 // -----------------------------------------------------------------------
