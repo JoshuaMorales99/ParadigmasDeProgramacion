@@ -1,6 +1,50 @@
+import Empleados.*
 
-test "testX" {
+// -------------------------------------------------
+// 🔸 Mi universo.
+// -------------------------------------------------
+const unEspia = new Empleado(salud = 100, rol = espia)
+const unOficinista = new Empleado(salud = 100, rol = oficinista)
+const unJefeEspia = new Jefe(salud = 100, rol = espia)
+const unJefeOficinista = new Jefe(salud = 100, rol = oficinista)
 
-	assert.that(true)
-
+// -------------------------------------------------
+// 🔸 Empleados.
+// -------------------------------------------------
+describe "Empleados" {
+	test "PUNTO 1 - Es posible saber si un espia esta incapacitado" {
+		assert.notThat(unEspia.incapacitado())
+	}
+	
+	test "PUNTO 1 - Si la salud del espia es menor a 15, esta incapacitado" {
+		unEspia.sufrirDanio(95)
+		assert.that(unEspia.incapacitado())
+	}
+	
+	test "PUNTO 1 - Es posible saber si un oficinista esta incapacitado" {
+		assert.notThat(unOficinista.incapacitado())
+	}
+	
+	test "PUNTO 1 - Si la salud del oficinista es menor a 40 - 5 * cantEstrellas, esta incapacitado" {
+		unOficinista.sufrirDanio(95)
+		assert.that(unOficinista.incapacitado())
+	}
+	
+	test "PUNTO 1 - Es posible saber si un jefe espia esta incapacitado" {
+		assert.notThat(unJefeEspia.incapacitado())
+	}
+	
+	test "PUNTO 1 - Si la salud del jefe espia es menor a 15, esta incapacitado" {
+		unJefeEspia.sufrirDanio(95)
+		assert.that(unJefeEspia.incapacitado())
+	}
+	
+	test "PUNTO 1 - Es posible saber si un jefe oficinista esta incapacitado" {
+		assert.notThat(unJefeOficinista.incapacitado())
+	}
+	
+	test "PUNTO 1 - Si la salud del jefe oficinista es menor a 40 - 5 * cantEstrellas, esta incapacitado" {
+		unJefeOficinista.sufrirDanio(95)
+		assert.that(unJefeOficinista.incapacitado())
+	}
 }
