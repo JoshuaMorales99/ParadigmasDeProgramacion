@@ -13,11 +13,13 @@ class Recuerdo {
 	// Saber si el recuerdo es dificil de explicar (Posee mas de 10 palabras en su descripcion)
 	method esDificil() = descripcion.words().size() > 10
 	// Saber si el recuerdo contiene una palabra dada.
-	method contiene(palabra) = descripcion.contains(palabra)
+	method contiene(unaPalabra) = descripcion.contains(unaPalabra)
+	// Saber si el recuerdo es rememorable.
+	method esRememorable(unaChica) = new Date().year() - fecha.year() > unaChica.edad() / 2
 	
 	// Asentar el recuerdo en una persona dada.
-	method asentarEn(chica) {
+	method asentarEn(unaChica) {
 		// Al asentar un recuerdo, se tiene consecuencias dependiendo de la emocion del recuerdo.
-		emocion.aplicarConcecuencias(chica, self)
+		emocion.aplicarConcecuencias(unaChica, self)
 	}
 }

@@ -10,6 +10,10 @@ class Chica {
 	var felicidad
 	// Emocion dominante (Puede cambiar en cualquier momento)
 	var emocionDominante
+	// Fecha de nacimiento.
+	const fechaDeNacimiento
+	// Pensamiento actual.
+	var pensamientoActual = null
 	
 	// Recuerdos del dia.
 	const property recuerdosDelDia = []
@@ -22,22 +26,27 @@ class Chica {
 	
 	// GETTER: Saber la felicidad de la chica.
 	method felicidad() = felicidad
-	// Saber los recuerdos del dia que contengan una palabra dada.
-	method recuerdosCon(palabra) = recuerdosDelDia.filter{recuerdoDelDia => recuerdoDelDia.contiene(palabra)}
-	// Saber si un recuerdo es un pensamiento central (Recuerdo contenido en el pensamiento central)
-	method esPensamientoCentral(recuerdo) = pensamientosCentrales.contains(recuerdo)
-	// Saber si un recuerdo es profundo (Recuerdos no centrales del dia y no negados por el estado de animo actual)
-	method esRecuerdoProfundo(recuerdo) = not self.esPensamientoCentral(recuerdo) and not self.niega(recuerdo)
-	// Saber los recuerdos profundos de los recuerdos dados.
-	method recuerdosProfundos() = recuerdosDelDia.filter{recuerdoDelDia => self.esRecuerdoProfundo(recuerdoDelDia)}
+	// Saber la edad de la chica.
+	method edad() = new Date().year() - fechaDeNacimiento.year()
 	// Saber si se hay un desequilibrio hormonal (Hay pensamiento central en memoria a largo plazo o misma emocion dominante en todos los recuerdos del dia)
 	method hayDesequilibrioHormonal() = self.pensamientoCentralEnLargoPlazo() or self.mismaEmocionEnElDia()
+	
+	// Saber los recuerdos del dia que contengan una palabra dada.
+	method recuerdosCon(unaPalabra) = recuerdosDelDia.filter{recuerdoDelDia => recuerdoDelDia.contiene(unaPalabra)}
+	// Saber si un recuerdo es un pensamiento central (Recuerdo contenido en el pensamiento central)
+	method esPensamientoCentral(unRecuerdo) = pensamientosCentrales.contains(unRecuerdo)
+	// Saber si un recuerdo es profundo (Recuerdos no centrales del dia y no negados por el estado de animo actual)
+	method esRecuerdoProfundo(unRecuerdo) = not self.esPensamientoCentral(unRecuerdo) and not self.niega(unRecuerdo)
+	// Saber los recuerdos profundos de los recuerdos dados.
+	method recuerdosProfundos() = recuerdosDelDia.filter{recuerdoDelDia => self.esRecuerdoProfundo(recuerdoDelDia)}
 	// Saber si hay un pensamiento central en la memoria a largo plazo.
 	method pensamientoCentralEnLargoPlazo() = pensamientosCentrales.any{pensamientoCentral => memoriaLargoPlazo.contains(pensamientoCentral)}
 	// Saber si hubo misma emocion dominante en todos los recuerdos del dia.
 	method mismaEmocionEnElDia() = recuerdosDelDia.all{recuerdoDelDia => recuerdoDelDia.emocion() == recuerdosDelDia.head().emocion()}
 	// Saber el pensamiento central mas antiguo.
 	method pensamientoCentralMasAntiguo() = pensamientosCentrales.min{pensamientoCentral => pensamientoCentral.fecha()}
+	// Saber el recuerdo que se encuentra en el pensamiento actual (Para Test)
+	method pensamientoActual() = pensamientoActual
 	
 	// Agregar recuerdo a los pensamientos centrales.
 	method agregarPensamientoCentral(unRecuerdo) {
@@ -57,8 +66,8 @@ class Chica {
 	}
 	
 	// Asentar todos los recuerdos dados.
-	method asentarRecuerdos(recuerdos) {
-		recuerdos.forEach{recuerdo => self.asentar(recuerdo)}
+	method asentarRecuerdos(unosRecuerdos) {
+		unosRecuerdos.forEach{recuerdo => self.asentar(recuerdo)}
 	}
 	
 	// Agregar los recuerdos a la memoria de largo plazo.
@@ -85,8 +94,8 @@ class Chica {
 	}
 	
 	// Agregar un proceso dado en los procesos mentales (Para Test)
-	method agregarProcesoMental(proceso) {
-		procesosMentales.add(proceso)
+	method agregarProcesoMental(unProceso) {
+		procesosMentales.add(unProceso)
 	}
 	
 	// - PUNTO 1: Vivir un evento.
@@ -112,13 +121,29 @@ class Chica {
 	method pensamientosDificiles() = pensamientosCentrales.filter{pensamientoCentral => pensamientoCentral.esDificil()}
 	
 	// - PUNTO 6: Negar recuerdos.
-	method niega(recuerdo) = emocionDominante.niega(recuerdo)
+	method niega(unRecuerdo) = emocionDominante.niega(unRecuerdo)
 	
 	// - PUNTO 7: Enviar a la chica a dormir (Desencadenar los procesos mentales dados)
 	method dormir() {
 		procesosMentales.forEach{procesoMental => procesoMental.desencadenarEn(self)}
 	}
+	
+	// - PUNTO 8: Rememorar recuerdo de largo plazo.
+	method rememorar() {
+		pensamientoActual = memoriaLargoPlazo.findOrElse(
+			// Rememorar algun recuerdo de largo plazo.
+			{recuerdo => recuerdo.esRememorable(self)},
+			// Si no hay recuerdo parar rememorar, se lanza una excepcion.
+			{throw new Exception(message = "Sin recuerdos que rememorar")}
+		)
+	}
+	
+	// - PUNTO 9: Conocer la cantidad de repeticiones de un recuerdo en la memoria a largo plazo.
+	method repeticionesEnMemoriaLargoPlazoDe(unRecuerdo) = memoriaLargoPlazo.occurrencesOf(unRecuerdo)
+	
+	// - PUNTO 10: Producir un deja vu (ocurre cuando esta pensando algo que es un recuerdo repetido en la memoria a largo plazo)
+	method dejaVu() = memoriaLargoPlazo.contains(pensamientoActual)
 }
 
 // Riley es una chica de 11 anios que tiene una felicidad inicial de 1000 (Se puso como emocion dominante a la alegria para los test)
-const riley = new Chica(felicidad = 1000, emocionDominante = alegria)
+const riley = new Chica(felicidad = 1000, emocionDominante = alegria, fechaDeNacimiento = new Date().minusDays(4015))

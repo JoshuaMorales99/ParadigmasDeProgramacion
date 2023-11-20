@@ -7,11 +7,11 @@ import ProcesosMentales.*
 // 🔸 Mi Universo.
 // -----------------------------------------------------------------------
 // Otras chicas.
-const neutralGirl = new Chica(felicidad = 400, emocionDominante = disgusto)
-const sadGirl = new Chica(felicidad = 1, emocionDominante = tristeza)
+const neutralGirl = new Chica(felicidad = 400, emocionDominante = disgusto, fechaDeNacimiento = new Date().minusDays(3885))
+const sadGirl = new Chica(felicidad = 1, emocionDominante = tristeza, fechaDeNacimiento = new Date())
 
 // Recuerdos.
-const recuerdoAlegre = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = alegria)
+const recuerdoAlegre = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = alegria, fecha = new Date().minusDays(3885))
 const recuerdoTriste = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = tristeza)
 const recuerdoDisgusto = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = disgusto)
 const recuerdoFuria = new Recuerdo(descripcion = "Esto es la descripcion del recuerdo", emocion = furia)
@@ -167,7 +167,29 @@ describe "Descansar" {
 // 🔸 Rememorar.
 // -----------------------------------------------------------------------
 describe "Rememorar" {
-	test "testX" {
-		assert.that(true)
-	}	
+	test "PUNTO 8 - Riley puede rememorar un recuerdo que se encuentra en la memoria de largo plazo" {
+		riley.agregarLargoPlazo([recuerdoAlegre])
+		riley.rememorar()
+		assert.equals(recuerdoAlegre, riley.pensamientoActual())
+	}
+	
+	test "PUNTO 8 - Cuando Riley tiene recuerdos en la memoria de largo plazo, pero no son rememorables, lanza una excepcion" {
+		riley.agregarLargoPlazo([recuerdoFuria])
+		assert.throwsExceptionWithMessage("Sin recuerdos que rememorar", {riley.rememorar()})
+	}
+	
+	test "PUNTO 8 - Cuando Riley no tiene recuerdos en la memoria de largo plazo, lanza una excepcion al rememorar" {
+		assert.throwsExceptionWithMessage("Sin recuerdos que rememorar", {riley.rememorar()})
+	}
+	
+	test "PUNTO 9 - Es posible saber la cantidad de repeticiones de un recuerdo dado en la memoria a largo plazo" {
+		riley.agregarLargoPlazo([recuerdoAlegre, recuerdoFuria, recuerdoAlegre])
+		assert.equals(2, riley.repeticionesEnMemoriaLargoPlazoDe(recuerdoAlegre))
+	}
+	
+	test "PUNTO 10 - Es posible saber si riley tiene un Deja Vu" {
+		riley.agregarLargoPlazo([recuerdoAlegre])
+		riley.rememorar()
+		assert.that(riley.dejaVu())
+	}
 }

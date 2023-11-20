@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// 🔸 Emociones.
+// 🔸 Emociones simples.
 // -----------------------------------------------------------------------
 // Clase abstracta para las emociones.
 class Emocion {
@@ -7,10 +7,10 @@ class Emocion {
 	method esAlegre() = false
 	
 	// Saber si se niega un recuerdo dado.
-	method niega(recuerdo) = false
+	method niega(unRecuerdo) = false
 	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
-	method aplicarConcecuencias(chica, recuerdo) {
+	method aplicarConcecuencias(unaChica, unRecuerdo) {
 		// No hace nada.
 	}
 }
@@ -20,39 +20,52 @@ object alegria inherits Emocion {
 	override method esAlegre() = true
 
 	// Saber si se niega un recuerdo dado.
-	override method niega(recuerdo) = not recuerdo.emocion().esAlegre()
+	override method niega(unRecuerdo) = not unRecuerdo.emocion().esAlegre()
 	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
-	override method aplicarConcecuencias(chica, recuerdo) {
+	override method aplicarConcecuencias(unaChica, unRecuerdo) {
 		// Si la felicidad de la chica es mayor a 500.
-		if(chica.felicidad() > 500) {
+		if(unaChica.felicidad() > 500) {
 			// Convetir el recuerdo en un pensamiento central.
-			chica.agregarPensamientoCentral(recuerdo)
+			unaChica.agregarPensamientoCentral(unRecuerdo)
 		}
 	}
 }
 
 object tristeza inherits Emocion {
 	// Saber si se niega un recuerdo dado.
-	override method niega(recuerdo) = recuerdo.emocion().esAlegre()
+	override method niega(unRecuerdo) = unRecuerdo.emocion().esAlegre()
 	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
-	override method aplicarConcecuencias(chica, recuerdo) {
+	override method aplicarConcecuencias(unaChica, unRecuerdo) {
 		// Disminuir un 10% (0.1) el nivel de felicidad de la chica.
-		chica.disminuirFelicidad(0.1)
+		unaChica.disminuirFelicidad(0.1)
 		// Convertir el recuerdo en un pensamiento central.
-		chica.agregarPensamientoCentral(recuerdo)
+		unaChica.agregarPensamientoCentral(unRecuerdo)
 	}
 }
 
-object disgusto inherits Emocion {
-	
-}
+// Demas emociones.
+const disgusto = new Emocion()
+const furia = new Emocion()
+const temor = new Emocion()
 
-object furia inherits Emocion {
+// -----------------------------------------------------------------------
+// 🔸 Emociones compuestas.
+// -----------------------------------------------------------------------
+// Molde para las emociones compuestas.
+class EmocionCombinada {
+	const emociones = []
 	
-}
-
-object temor inherits Emocion {
+	// Saber si se trata de una emocion alegre.
+	method esAlegre() = emociones.any{emocion => emocion.esAlegre()}
 	
+	// Saber si se niega un recuerdo dado.
+	method niega(unRecuerdo) = emociones.all{emocion => emocion.niega(unRecuerdo)}
+	
+	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
+	method aplicarConcecuencias(unaChica, unRecuerdo) {
+		// Asienta un recuerdo aplicando las consecuencias de todas sus emociones.
+		emociones.forEach{emocion => emocion.aplicarConcecuencias(unaChica, unRecuerdo)}
+	}
 }
