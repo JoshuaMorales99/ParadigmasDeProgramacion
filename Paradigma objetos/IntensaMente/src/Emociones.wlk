@@ -3,6 +3,12 @@
 // -----------------------------------------------------------------------
 // Clase abstracta para las emociones.
 class Emocion {
+	// Saber si se trata de una emocion alegre.
+	method esAlegre() = false
+	
+	// Saber si se niega un recuerdo dado.
+	method niega(recuerdo) = false
+	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
 	method aplicarConcecuencias(chica, recuerdo) {
 		// No hace nada.
@@ -10,6 +16,12 @@ class Emocion {
 }
 
 object alegria inherits Emocion {
+	// Saber si se trata de una emocion alegre.
+	override method esAlegre() = true
+
+	// Saber si se niega un recuerdo dado.
+	override method niega(recuerdo) = not recuerdo.emocion().esAlegre()
+	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
 	override method aplicarConcecuencias(chica, recuerdo) {
 		// Si la felicidad de la chica es mayor a 500.
@@ -21,6 +33,9 @@ object alegria inherits Emocion {
 }
 
 object tristeza inherits Emocion {
+	// Saber si se niega un recuerdo dado.
+	override method niega(recuerdo) = recuerdo.emocion().esAlegre()
+	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
 	override method aplicarConcecuencias(chica, recuerdo) {
 		// Disminuir un 10% (0.1) el nivel de felicidad de la chica.
