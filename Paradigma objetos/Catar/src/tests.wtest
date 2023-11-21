@@ -1,6 +1,28 @@
+import Platillos.*
 
-test "testX" {
+// ---------------------------------------------------------
+// 🔸 Mi universo.
+// ---------------------------------------------------------
+// Platillos.
+const unPlatoEntrada = new Entrada()
+const unPlatoPrincipal = new Principal(cantAzucar = 25, esBonito = true)
+const otroPlatoPrincipal = new Principal(cantAzucar = 25, esBonito = false)
+const unPlatoPostre = new Postre(cantColores = 1)
+const otroPlatoPostre = new Postre(cantColores = 5)
 
-	assert.that(true)
-
+// ---------------------------------------------------------
+// 🔸 Platillos.
+// ---------------------------------------------------------
+describe "Platillos" {
+	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato entrada" {
+		assert.equals(100, unPlatoEntrada.calorias())
+	}
+	
+	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato principal" {
+		assert.equals(175, unPlatoPrincipal.calorias())
+	}
+	
+	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato postre" {
+		assert.equals(460, unPlatoPostre.calorias())
+	}
 }
