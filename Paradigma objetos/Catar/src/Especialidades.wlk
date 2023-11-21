@@ -6,7 +6,7 @@ class Pastelero {
 	const dulzorDeseado
 	
 	// Otorgar calificacion dado un plato (5 * Cantidad de azúcar / dulzor deseado. No puede ser mayor a 10)
-	method calificar(plato) = 10.min(5 * plato.cantAzucar() / dulzorDeseado)
+	method calificar(plato) = 10.min(5 * plato.cantAzucar() / dulzorDeseado) // TODO Div por 0???
 }
 
 class Chef {

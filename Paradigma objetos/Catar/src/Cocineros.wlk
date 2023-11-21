@@ -6,8 +6,6 @@ class Cocinero {
 	// Especialidad del cocinero.
 	var especialidad
 	
-	// Catar un plato dado.
-	method catar(plato) {
-		
-	}
+	// PUNTO 2 - Catar un plato dado.
+	method catar(plato) = especialidad.calificar(plato)
 }

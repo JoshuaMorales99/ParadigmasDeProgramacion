@@ -18,8 +18,8 @@ class Entrada inherits Plato(cantAzucar = 0) {
 
 // Molde para los principales.
 class Principal inherits Plato {
-	// Saber si es un plato bonito (Puede o no serlo) // TODO ???
-	const esBonito
+	// Saber si es un plato bonito (Puede o no serlo)
+	const property esBonito
 }
 
 // Molde para los postres.
