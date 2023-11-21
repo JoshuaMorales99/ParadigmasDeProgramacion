@@ -17,67 +17,111 @@ const unChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 500))
 const otroChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 50))
 
 // ---------------------------------------------------------
-// 🔸 Platillos.
+// 🔸 Punto 1.
 // ---------------------------------------------------------
-describe "Platillos" {
-	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato entrada" {
+describe "PUNTO 1" {
+	test "Es posible saber el nivel de calorias de un plato entrada" {
 		assert.equals(100, unPlatoEntrada.calorias())
 	}
 	
-	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato principal" {
+	test "Es posible saber el nivel de calorias de un plato principal" {
 		assert.equals(175, unPlatoPrincipal.calorias())
 	}
 	
-	test "PUNTO 1 - Es posible saber el nivel de calorias de un plato postre" {
+	test "Es posible saber el nivel de calorias de un plato postre" {
 		assert.equals(460, unPlatoPostre.calorias())
 	}
 }
 
 // ---------------------------------------------------------
-// 🔸 Cocineros.
+// 🔸 Punto 2.
 // ---------------------------------------------------------
-describe "Cocineros" {
-	test "PUNTO 2 - Un pastelero puede catar un plato entrada" {
+describe "PUNTO 2" {
+	test "Un pastelero puede catar un plato entrada" {
 		assert.equals(0, unPastelero.catar(unPlatoEntrada))
 	}
 	
-	test "PUNTO 2 - Un pastelero puede catar un plato principal" {
+	test "Un pastelero puede catar un plato principal" {
 		assert.equals(2.5, unPastelero.catar(unPlatoPrincipal))
 	}
 	
-	test "PUNTO 2 - Un pastelero puede catar un plato postre" {
+	test "Un pastelero puede catar un plato postre" {
 		assert.equals(10, unPastelero.catar(unPlatoPostre))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato entrada y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+	test "Un chef puede catar un plato entrada y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
 		assert.equals(10, unChef.catar(unPlatoEntrada))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato entrada y le da un 0 si tiene mas de cierta cantidad de calorias" {
+	test "Un chef puede catar un plato entrada y le da un 0 si tiene mas de cierta cantidad de calorias" {
 		assert.equals(0, otroChef.catar(unPlatoEntrada))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato principal y le da 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+	test "Un chef puede catar un plato principal y le da 10 si es bonito y tiene hasta cierta cantidad de calorias" {
 		assert.equals(10, unChef.catar(unPlatoPrincipal))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato principal y le da 0 si no es bonito" {
+	test "Un chef puede catar un plato principal y le da 0 si no es bonito" {
 		assert.equals(0, unChef.catar(otroPlatoPrincipal))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato principal y le da 0 si tiene mas de cierta cantidad de calorias" {
+	test "Un chef puede catar un plato principal y le da 0 si tiene mas de cierta cantidad de calorias" {
 		assert.equals(0, otroChef.catar(unPlatoPrincipal))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato postre y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+	test "Un chef puede catar un plato postre y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
 		assert.equals(10, unChef.catar(unPlatoPostre))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato postre y le da un 0 si no es bonito" {
+	test "Un chef puede catar un plato postre y le da un 0 si no es bonito" {
 		assert.equals(0, unChef.catar(otroPlatoPostre))
 	}
 	
-	test "PUNTO 2 - Un chef puede catar un plato postre y le da un 0 si tiene mas de cierta cantidad de calorias" {
+	test "Un chef puede catar un plato postre y le da un 0 si tiene mas de cierta cantidad de calorias" {
 		assert.equals(0, otroChef.catar(unPlatoPostre))
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Punto 3.
+// ---------------------------------------------------------
+describe "PUNTO 3" {
+	test "Un chef puede cambiar su especialidad a pastelero" {
+		const pastelero = new Pastelero(dulzorDeseado = 150)
+		unChef.especialidad(pastelero)
+		assert.equals(pastelero, unChef.especialidad())
+	}
+	
+	test "Un pastelero puede caambiar su especialidad a chef" {
+		const chef = new Chef(caloriasMaxima = 150)
+		unPastelero.especialidad(chef)
+		assert.equals(chef, unPastelero.especialidad())
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Punto 4.
+// ---------------------------------------------------------
+describe "PUNTO 4" {
+	test "x" {
+		assert.that(false)
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Punto 5.
+// ---------------------------------------------------------
+describe "PUNTO 5" {
+	test "x" {
+		assert.that(false)
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Punto 6.
+// ---------------------------------------------------------
+describe "PUNTO 6" {
+	test "x" {
+		assert.that(false)
 	}
 }
