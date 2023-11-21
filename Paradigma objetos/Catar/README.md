@@ -1,12 +1,14 @@
 # Catar 2022
 ## Ejercicio integrador
 
+___
 **Catar**
 1. tr. Probar, gustar algo para examinar su sabor o sazón. 
 2. sp. Lugar donde se juega la copa del mundo.
 3. pdep. Parcial de objetos.
 
 **Queremos modelar un sistema en el que los cocineros se ocupan de preparar y catar platos**
+___
 
 Hay diferentes platos: 
 - Las entradas nunca tienen azúcar y siempre son bonitas.
