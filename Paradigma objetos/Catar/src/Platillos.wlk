@@ -5,6 +5,8 @@
 class Plato {
 	// Cantidad de azucar en el platillo (En gramos)
 	const property cantAzucar
+	// Establecer el cocinero que preparo el platillo.
+	const property cocinero
 	
 	// PUNTO 1 - Obtener la cantidad de calorias del plato (3 * Cantidad de azúcar + 100 de base)
 	method calorias() = 3 * cantAzucar + 100
