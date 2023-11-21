@@ -15,6 +15,8 @@ const otroPlatoPostre = new Postre(cantColores = 1)
 const unPastelero = new Cocinero(especialidad = new Pastelero(dulzorDeseado = 50))
 const unChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 500))
 const otroChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 50))
+const unSousChef = new Cocinero(especialidad = new SousChef(caloriasMaxima = 500))
+const otroSousChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 50))
 
 // ---------------------------------------------------------
 // 🔸 Punto 1.
@@ -103,8 +105,36 @@ describe "PUNTO 3" {
 // 🔸 Punto 4.
 // ---------------------------------------------------------
 describe "PUNTO 4" {
-	test "x" {
-		assert.that(false)
+	test "Un sous chef puede catar un plato entrada y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+		assert.equals(10, unSousChef.catar(unPlatoEntrada))
+	}
+	
+	test "Un sous chef puede catar un plato entrada y le da un mal puntaje si tiene mas de cierta cantidad de calorias" {
+		assert.equals(0, otroSousChef.catar(unPlatoEntrada))
+	}
+	
+	test "Un sous chef puede catar un plato principal y le da 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+		assert.equals(10, unSousChef.catar(unPlatoPrincipal))
+	}
+	
+	test "Un sous chef puede catar un plato principal y le da un mal puntaje si no es bonito" {
+		assert.equals(1.75, unSousChef.catar(otroPlatoPrincipal))
+	}
+	
+	test "Un sous chef puede catar un plato principal y le da un mal puntaje si tiene mas de cierta cantidad de calorias" {
+		assert.equals(0, otroSousChef.catar(unPlatoPrincipal))
+	}
+	
+	test "Un sous chef puede catar un plato postre y le da un 10 si es bonito y tiene hasta cierta cantidad de calorias" {
+		assert.equals(10, unSousChef.catar(unPlatoPostre))
+	}
+	
+	test "Un sous chef puede catar un plato postre y le da un un mal puntaje si no es bonito" {
+		assert.equals(4.6, unSousChef.catar(otroPlatoPostre))
+	}
+	
+	test "Un sous chef puede catar un plato postre y le da un un mal puntaje si tiene mas de cierta cantidad de calorias" {
+		assert.equals(0, otroSousChef.catar(unPlatoPostre))
 	}
 }
 
