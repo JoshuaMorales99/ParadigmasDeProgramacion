@@ -1,5 +1,6 @@
 import Empleados.*
 import Habilidades.*
+import Misiones.*
 
 // -------------------------------------------------
 // 🔸 Mi universo.
@@ -10,9 +11,13 @@ const unOficinista = new Empleado(salud = 100, rol = new Oficinista(cantEstrella
 // Jefes.
 const unJefeEspia = new Jefe(salud = 100, rol = espia)
 const unJefeOficinista = new Jefe(salud = 100, rol = new Oficinista(cantEstrellas = 2))
+// Equipo.
+const unEquipo = new Equipo()
 // Habilidades.
 const unaHabilidad = new Habilidad()
 const otraHabilidad = new Habilidad()
+// Mision.
+const unaMision = new Mision(peligrosidad = 30)
 
 // -------------------------------------------------
 // 🔸 Empleados.
@@ -156,5 +161,79 @@ describe "Empleados" {
 		unJefeOficinista.agregarSubordinado(unEspia)
 		unJefeOficinista.sufrirDanio(95)
 		assert.that(unJefeOficinista.puedeUsar(unaHabilidad))
+	}
+	
+	test "PUNTO 3 - Si un empleado no puede cumplir la mision, se lanza una excepcion" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		assert.throwsExceptionWithMessage("No se puede completar la mision", {unaMision.comenzar(unEspia)})
+	}
+	
+	test "PUNTO 3 - Si un espia puede cumplir la mision, pierde salud (dependiendo de la peligrosida)" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unaMision.comenzar(unEspia)
+		assert.equals(70, unEspia.salud())
+		assert.equals(#{unaHabilidad}, unEspia.habilidades())
+	}
+	
+	test "PUNTO 3 - Si un oficinista puede cumplir la mision, pierde salud (dependiendo de la peligrosidad) y suma una estrella" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
+		unOficinista.aprender([unaHabilidad])
+		unaMision.comenzar(unOficinista)
+		assert.equals(70, unOficinista.salud())
+		assert.equals(1, unOficinista.rol().cantEstrellas())
+	}
+	
+	test "PUNTO 3 - Si un oficinista puede cumplir la mision y tiene 2 estrellas, suma una y pasa a ser espia" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
+		unJefeOficinista.aprender([unaHabilidad])
+		unaMision.comenzar(unJefeOficinista)
+		assert.equals(espia, unJefeOficinista.rol())
+	}
+	
+	test "PUNTO 3 - Si un equipo no puede cumplir la mision, se lanza una excepcion" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unOficinista.aprender([unaHabilidad])
+		unEquipo.agregarIntegrantes([unEspia, unOficinista])
+		assert.throwsExceptionWithMessage("No se puede completar la mision", {unaMision.comenzar(unEquipo)})
+	}
+	
+	test "PUNTO 3 - Si un equipo puede cumplir la mision, pierde salud (un tercio de la peligrosidad de la mision)" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unOficinista.aprender([otraHabilidad])
+		unEquipo.agregarIntegrantes([unEspia, unOficinista])
+		unaMision.comenzar(unEquipo)
+		assert.equals(90, unEspia.salud())
+		assert.equals(90, unOficinista.salud())
+	}
+	
+	test "PUNTO 3 - Si un equipo puede cumplir la mision, los que tiene el rol de espia, aprenden habilidades" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unOficinista.aprender([otraHabilidad])
+		unEquipo.agregarIntegrantes([unEspia, unOficinista])
+		unaMision.comenzar(unEquipo)
+		assert.equals(#{unaHabilidad, otraHabilidad}, unEspia.habilidades())
+	}
+	
+	test "PUNTO 3 - Si un equipo puede cumplir la mision, los que tienen el rol de oficinistas, suman una estrella" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unOficinista.aprender([otraHabilidad])
+		unEquipo.agregarIntegrantes([unEspia, unOficinista])
+		unaMision.comenzar(unEquipo)
+		assert.equals(1, unOficinista.rol().cantEstrellas())
+	}
+	
+	test "PUNTO 3 - Si un equipo puede cumplir la mision, los que tienen el rol de oficinistas con 2 estrellas, suman una y pasan a ser espias" {
+		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
+		unEspia.aprender([unaHabilidad])
+		unJefeOficinista.aprender([otraHabilidad])
+		unEquipo.agregarIntegrantes([unEspia, unJefeOficinista])
+		unaMision.comenzar(unEquipo)
+		assert.equals(espia, unJefeOficinista.rol())
 	}
 }
