@@ -9,18 +9,26 @@ class Empleado {
 	var rol
 	// Jefe asignado. // TODO ???
 	var jefe = null
+	
 	// Habilidades para resolver misiones.
-	const habilidades = #{}
+	const property habilidades = #{}
 	
+	// Saber el rol del empleado (TODO Para Test)
+	method rol() = rol
 	// Saber si posee una habilidad dada.
-	method posee(habilidad) = habilidades.contains(habilidad)
+	method posee(unaHabilidad) = habilidades.contains(unaHabilidad)
 	
-	// Sufrir un danio dado (Para Test)
+	// Sufrir un danio dado (TODO Para Test)
 	method sufrirDanio(cantidad) {
 		salud = 0.max(salud - cantidad)
 	}
 	
-	// Asistir al jefe.
+	// Aprender nuevas habilidades.
+	method aprender(unasHabilidades) {
+		habilidades.addAll(unasHabilidades)
+	}
+	
+	// Asistir al jefe. // TODO ???
 	method asistirJefe() {
 		
 	}
@@ -29,7 +37,7 @@ class Empleado {
 	method incapacitado() = salud < rol.saludCritica()
 	
 	// PUNTO 2 - Saber si puede usar una habilidad dada (No esta incapacitado y posee la habilidad)
-	method puedeUsar(habilidad) = not self.incapacitado() and self.posee(habilidad)
+	method puedeUsar(unaHabilidad) = not self.incapacitado() and self.posee(unaHabilidad)
 }
 
 // -------------------------------------------------
@@ -40,7 +48,13 @@ class Jefe inherits Empleado {
 	// Subordinados asignados.
 	const subordinados = #{}
 	
+	// Agregar subordinado.
+	method agregarSubordinado(nuevoSubordinado) {
+		subordinados.add(nuevoSubordinado)
+	}
 	
+	// PUNTO 2 - Saber si puede usar una habilidad dada (No esta incapacitado y posee la habilidad o alguno de sus subordinados puede usarla)
+	override method puedeUsar(unaHabilidad) = super(unaHabilidad) or subordinados.any{subordinado => subordinado.puedeUsar(unaHabilidad)}
 }
 
 // -------------------------------------------------
@@ -50,23 +64,26 @@ object espia {
 	// Nivel de salud critica.
 	method saludCritica() = 15
 	
-	// Aprender nuevas habilidades.
-	
 	// Completar misiones.
+		// Si sobrevive a una mision.
+	
 		// Aprender nuevas habilidades.
 		
 }
 
-object oficinista {
+class Oficinista {
 	// Cantidad de estrellas.
-	var cantEstrellas = 0
+	var cantEstrellas
 	
 	// Nivel de salud critica.
 	method saludCritica() = 40 - 5 * cantEstrellas
 	
 	// Sobrevive a mision.
 	
-	// Ganar estrella.
+	// Ganar una estrella.
+	method ganarEstrellas() {
+		cantEstrellas = cantEstrellas + 1
+	}
 	
 	// Completar misiones.
 		// Si sobrevive a una mision.

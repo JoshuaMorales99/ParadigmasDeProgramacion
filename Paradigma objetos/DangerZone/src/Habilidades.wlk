@@ -1,7 +1,7 @@
 // -------------------------------------------------
-// 🔸 Misiones.
+// 🔸 Posibles habilidades.
 // -------------------------------------------------
-object mision {
-	// Equipo designado para la mision.
-	const equipo = #{}
+// Molde para las habilidades
+class Habilidad {
+	
 }
