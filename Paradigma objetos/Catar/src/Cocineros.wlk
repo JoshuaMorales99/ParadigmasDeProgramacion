@@ -11,4 +11,7 @@ class Cocinero {
 	
 	// PUNTO 3 - Cambiar de especialidad.
 	// Se establecio el property para unificar el SETTER de este punto y el GETTER para los Test.
+	
+	// PUNTO 5 - Cocinar un platillo.
+	method cocinar() = especialidad.preparar()
 }
