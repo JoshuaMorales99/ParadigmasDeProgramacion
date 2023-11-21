@@ -1,6 +1,7 @@
 import Empleados.*
 import Habilidades.*
 import Misiones.*
+import Roles.*
 
 // -------------------------------------------------
 // 🔸 Mi universo.
