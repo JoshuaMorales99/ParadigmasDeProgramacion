@@ -1,7 +1,7 @@
 # Pdep Brawls
 ## Parcial 2021
 
-![](PdePBrawls.jpg)
+![](PdePBrawls.png)
 
 > La empresa Superchet nos ha contratado para desarrollar la lógica de su nuevo juego Pdep Brawls en el lenguaje Wollok. Cualquier coincidencia con juegos existentes es mera casualidad.... ¡El juego es completamente diferente!
 
