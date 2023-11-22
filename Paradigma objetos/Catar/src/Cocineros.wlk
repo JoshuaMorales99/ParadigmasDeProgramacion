@@ -3,7 +3,7 @@
 // ---------------------------------------------------------
 // Molde para los cocineros.
 class Cocinero {
-	// Especialidad del cocinero. (SETTER necesario, TODO GETTER para Test)
+	// Especialidad del cocinero. (SETTER necesario, GETTER para Test)
 	var property especialidad
 	
 	// PUNTO 2 - Catar un plato dado.

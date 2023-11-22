@@ -8,7 +8,7 @@ class Pastelero {
 	const dulzorDeseado
 	
 	// Otorgar calificacion dado un plato (5 * Cantidad de azúcar / dulzor deseado. No puede ser mayor a 10)
-	method calificar(platillo) = 10.min(5 * platillo.cantAzucar() / dulzorDeseado) // TODO Division por 0???
+	method calificar(platillo) = 10.min(5 * platillo.cantAzucar() / dulzorDeseado)
 	
 	// Preparar un platillo (Cantidad de colores va a ser el nivel de dulzor deseado dividido 50)
 	method preparar(unCocinero) = new Postre(cantColores = dulzorDeseado / 50, cocinero = unCocinero)
