@@ -1,31 +1,28 @@
-# Danger Zone
-## Parcial 2020
+# Pdep Brawls
+## Parcial 2021
 
-![](DangerZone.jpg)
+![](PdePBrawls.jpg)
 
-En un edificio de Manhattan, disfrazado como una tintorería, existe una agencia de espionaje llamada ISIS (Servicio Internacional de Inteligencia Secreta), que cuenta con los mejores agentes de Estados Unidos. Si bien el servicio de lavandería es bien retribuido, los principales ingresos de la agencia están ligados a la resolución efectiva de misiones.
+> La empresa Superchet nos ha contratado para desarrollar la lógica de su nuevo juego Pdep Brawls en el lenguaje Wollok. Cualquier coincidencia con juegos existentes es mera casualidad.... ¡El juego es completamente diferente!
 
-Todos los empleados poseen habilidades, las cuales usan para resolver misiones, y una cantidad de salud variable. Sabemos que los empleados quedan incapacitados cuando su salud se encuentra por debajo de su salud crítica.
+En este juego se pueden tener varios **personajes** con los cuales participar de distintas **misiones**. Cada personaje tiene una cierta cantidad de copas ganadas y al realizar una misión puede pasar que los personajes ganen o pierdan copas.
 
-Los distintos empleados que necesitamos representar son o bien espías u oficinistas, los cuales reaccionan de maneras diversas:
+Estos son los personajes que existen en este juego, pero puede haber más a futuro:
+- Arqueros: la destreza de los arqueros se calcula como su agilidad por su rango, y tienen estrategia cuando su rango supera los 100 metros.
+- Guerreras: hay guerreras que tienen estrategia y guerreras que no. Además, su destreza es 50% más que su fuerza.
+- Ballesteros: los ballesteros son arqueros entrenados cuya destreza es el doble que la de un arquero normal.
 
-Espías: Son los referentes más importantes dentro de la agencia y son capaces de aprender nuevas habilidades al completar misiones.
-La salud crítica de los espías es 15.
-Oficinistas: de alguna forma u otra siempre terminan involucrándose en las misiones. Sabemos que si un oficinista sobrevive a una misión gana una estrella.
-Su salud crítica es de 40 - 5 * la cantidad de estrellas que tenga.
-Para resolver una misión, los empleados pueden conformar equipos, para colaborar y mejorar sus chances de éxito.
+En toda misión, hay **copas** que están en juego y estas se suman o se restan de los personajes que participan en la misión dependiendo de si la misión puede ser superada o no.  
 
-Además algunos empleados son jefes de otros empleados, y pueden ser asistidos por ellos cuando la misión lo amerite. Los jefes también pueden ser tanto espías como oficinistas.
+Existen las misiones **individuales** y las misiones **por equipo**. En las misiones individuales, las copas que están en juego son el doble de la dificultad de la misión, y puede ser superada cuando el personaje tiene estrategia o bien cuando su destreza supera la dificultad de la misión.
 
-Se pide:
+En las misiones por equipo las copas que están en juego son 50 dividido la cantidad de personajes que participan, y pueden ser superadas cuando más de la mitad de los participantes tienen estrategia, o bien, cada uno tiene una destreza mayor a 400.
 
-Saber si un empleado está incapacitado.
-Saber si un empleado puede usar una habilidad, que se cumple si no está incapacitado y efectivamente posee la habilidad indicada. En el caso de los jefes, también consideramos que la posee si alguno de sus subordinados la puede usar.
-Hacer que un empleado o un equipo cumpla una misión.
-Esto sólo puede llevarse a cabo si quien la cumple reúne todas las habilidades requeridas de la misma (si puede usarlas todas). Para los equipos alcanza con que al menos uno de sus integrantes pueda usar cada una de ellas.
-
-Luego, el empleado o el equipo que cumplió la misión recibe daño en base a la peligrosidad de la misión. Para los equipos, esto implica que todos los integrantes reciban un tercio del daño total.
-
-Por último, los empleados que sobreviven al finalizar la misión (por tener salud > 0) registran que la completaron, teniendo en cuenta que:
-- Los oficinistas consiguen una estrella. Cuando un oficinista junta tres estrellas adquiere la suficiente experiencia como para empezar a trabajar de espía.
-- Los espías aprenden las habilidades de la misión que no poseían.
+Se pide **codificación y diagrama estático (de clases) completo** para resolver lo siguiente, incluyendo los **puntos de entrada** de cada punto:
+1. Saber si una misión puede ser superada.
+2. Realizar una misión, repartiendo las copas (sumando o restando) de acuerdo a lo establecido. Tener en cuenta que no debe ser posible realizar misiones individuales cuyo participante tenga menos de 10 copas, ni misiones por equipo con un total de copas entre los participantes menor a 60, en ambos casos debe ocurrir el error “Misión no puede comenzar”.
+> Por ejemplo, al realizar una misión por equipo con 5 participantes, cada uno recibe 10 copas (si es que puede ser superada) y si no puede ser superada a cada uno se le restan 10 copas. Pero si la misión no puede realizarse, no ocurre ninguna de las dos cosas y en su lugar salta el error “Misión no puede comenzar”.
+3. El tiempo pasa y nos piden agregar además de las misiones comunes, las misiones Boost y las misiones Bonus. Cada una de las misiones Boost tiene un multiplicador que multiplica la cantidad de copas en juego, mientras que las misiones Bonus otorgan 1 copa más por cada participante de la misión. Tener en cuenta que puede haber misiones comunes, Boost y Bonus tanto por equipo como individuales.
+4. Escribir los tests necesarios para probar el correcto funcionamiento del código que prueba que una misión individual fue superada. Se espera un test bien nombrado por cada clase de equivalencia.
+5. ¿En qué lugar de tu solución aparece el polimorfismo? Justificar marcando objetos polimórficos y quién se aprovecha del polimorfismo.
+6. Realizar el diagrama estático de toda la solución. No hace falta poner getters ni setters.
