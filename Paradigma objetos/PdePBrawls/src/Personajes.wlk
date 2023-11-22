@@ -6,23 +6,21 @@ class Personaje {
 	// Cantidad de copas obtenidas.
 	var cantCopas = 0
 	
-	// Ganar una cantidad de copas dada.
-	method ganarCopas(cantidad) {
-		cantCopas = cantCopas + cantidad
-	}
+	// GETTER: Obtener la cantidad de copas obtenidas.
+	method cantCopas() = cantCopas
 	
-	// Perder una cantidad de copas dada.
-	method perderCopas(cantidad) {
-		cantCopas = 0.max(cantCopas - cantidad)
+	// Sumar una cantidad de copas dada.
+	method sumarCopas(cantidad) {
+		cantCopas = cantCopas + cantidad
 	}
 }
 
 // Molde para los arqueros.
 class Arquero inherits Personaje {
 	// Agilidad del personaje.
-	var agilidad // TODO var ???
+	const agilidad
 	// Rango del personaje (En metros)
-	var rango // TODO var ???
+	const rango
 	
 	// Calcular la destreza del personaje.
 	method destreza() = agilidad * rango
@@ -34,9 +32,9 @@ class Arquero inherits Personaje {
 // Molde para los guerreras.
 class Gerrera inherits Personaje {
 	// Fuerza del personaje.
-	var fuerza // TODO var ???
+	const fuerza
 	// Saber si el personaje tiene estrategia.
-	const property tieneEstrategia // TODO const ???
+	const property tieneEstrategia
 	
 	// Cancular la destreza del personaje (50% (0.5) mas que su fuerza)
 	method destreza() = fuerza + fuerza * 0.5
