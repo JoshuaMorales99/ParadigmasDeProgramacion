@@ -1,6 +1,153 @@
+import Personajes.*
+import Misiones.*
 
-test "testX" {
+// --------------------------------------------------
+// 🔸 Mi universo.
+// --------------------------------------------------
+// Personajes.
+const unArquero = new Arquero(agilidad = 500, rango = 120)
+const otroArquero = new Arquero(agilidad = 25, rango = 10)
+const unaGerrera = new Gerrera(fuerza = 500, tieneEstrategia = true)
+const otraGerrera = new Gerrera(fuerza = 30, tieneEstrategia = false)
+const unBallestero = new Ballestero(agilidad = 500, rango = 150)
+const otroBallestero = new Ballestero(agilidad = 15, rango = 10)
+// Misiones grupales.
+const unaMisionGrupal = new MisionGrupal()
 
-	assert.that(true)
+// --------------------------------------------------
+// 🔸 Punto 1.
+// --------------------------------------------------
+describe "PUNTO 1" {
+	// MISIONES INDIVIDUALES
+	test "Un arquero que no tiene estrategia pero supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = otroArquero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un arquero que tiene estrategia pero no supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = unArquero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un arquero que tiene estrategia y supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = unArquero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un arquero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = otroArquero)
+		assert.notThat(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Una gerrera que no tiene estrategia pero supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = otraGerrera)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Una gerrera que tiene estrategia pero no supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = unaGerrera)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Una gerrera que tiene estrategia y supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = unaGerrera)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Una gerrera que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = otraGerrera)
+		assert.notThat(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un ballestero que no tiene estrategia pero supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = otroBallestero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un ballestero que tiene estrategia pero no supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = unBallestero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un ballestero que tiene estrategia y supera la destreza necesaria, puede completar la mision individual dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 20, personaje = unBallestero)
+		assert.that(unaMisionIndividual.puedeSuperar())
+	}
+	
+	test "Un ballestero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+		const unaMisionIndividual = new MisionIndividual(dificultad = 1000000000000, personaje = otroBallestero)
+		assert.notThat(unaMisionIndividual.puedeSuperar())
+	}
+	
+	// MISIONES GRUPALES.
+	test "Un equipo donde mas de la mitad de los participantes no tienen estrategia pero superan la destreza necesaria, puede completar la mision grupal dada" {
+		const arquero = new Arquero(agilidad = 500, rango = 10)
+		const gerrera = new Gerrera(fuerza = 500, tieneEstrategia = false)
+		const ballestero = new Ballestero(agilidad = 500, rango = 10)
+		unaMisionGrupal.agregarPersonajes([arquero, gerrera, ballestero])
+		assert.that(unaMisionGrupal.puedeSuperar())
+	}
+	
+	test "Un equipo donde mas de la mitad de los participantes tienen estrategia pero no superan la destreza necesaria, puede completar la mision grupal dada" {
+		const arquero = new Arquero(agilidad = 25, rango = 120)
+		const gerrera = new Gerrera(fuerza = 30, tieneEstrategia = true)
+		const ballestero = new Ballestero(agilidad = 15, rango = 150)
+		unaMisionGrupal.agregarPersonajes([arquero, gerrera, ballestero])
+		assert.that(unaMisionGrupal.puedeSuperar())
+	}
+	
+	test "Un equipo donde mas de la mitad de los participantes tienen estrategia y superan la destreza necesaria, puede completar la mision individual dada" {
+		unaMisionGrupal.agregarPersonajes([unArquero, unaGerrera, unBallestero])
+		assert.that(unaMisionGrupal.puedeSuperar())
+	}
+	
+	test "Un equipo donde mas de la mitad de los participantes no tienen estrategia y no superan la destreza necesaria, no puede completar la mision individul dada" {
+		unaMisionGrupal.agregarPersonajes([otroArquero, otraGerrera, otroBallestero])
+		assert.notThat(unaMisionGrupal.puedeSuperar())
+	}
+}
 
+// --------------------------------------------------
+// 🔸 Punto 2.
+// --------------------------------------------------
+describe "PUNTO 2" {
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Punto 3.
+// --------------------------------------------------
+describe "PUNTO 3" {
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Punto 4.
+// --------------------------------------------------
+describe "PUNTO 4" {
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Punto 5.
+// --------------------------------------------------
+describe "PUNTO 5" {
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Punto 6.
+// --------------------------------------------------
+describe "PUNTO 6" {
+	test "testX" {
+		assert.that(true)
+	}
 }
