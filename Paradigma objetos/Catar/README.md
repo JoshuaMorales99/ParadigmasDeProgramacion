@@ -1,5 +1,5 @@
 # Catar 2022
-## Ejercicio integrador
+## Parcial 2022
 
 ___
 **Catar**
