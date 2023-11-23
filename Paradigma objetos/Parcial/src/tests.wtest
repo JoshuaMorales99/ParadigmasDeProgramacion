@@ -1,0 +1,26 @@
+// -------------------------------------------------------------
+// 🔸 La Parrilla del nuevo Miguelito.
+// -------------------------------------------------------------
+describe "La parrilla del nuevo Miguelito" {
+	test "testX" {
+		assert.that(true)
+	}	
+}
+
+// -------------------------------------------------------------
+// 🔸 Comidas disponibles en La Parrilla del nuevo Miguelito.
+// -------------------------------------------------------------
+describe "Comidas disponibles" {
+	test "testX" {
+		assert.that(true)
+	}	
+}
+
+// -------------------------------------------------------------
+// 🔸 Comensales.
+// -------------------------------------------------------------
+describe "Comensales" {
+	test "testX" {
+		assert.that(true)
+	}	
+}
