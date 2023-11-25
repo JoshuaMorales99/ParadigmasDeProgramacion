@@ -58,7 +58,7 @@ class HamburguesaCarne inherits Hamburguesa {
 	override method cantMedallones() = 1
 }
 
-// Molde para las hamburguesas dobles (Al instanciar, hay que pasarle )
+// Molde para las hamburguesas dobles (Al instanciar, hay que pasarle 'pesoCarne' y 'pan')
 class HamburguesaDoble inherits Hamburguesa {
 	// Saber si es especial (Peso > 500 gramos)
 	override method esEspecial() = self.peso() > 500
@@ -81,7 +81,7 @@ class CorteCarne inherits Comida {
 	override method valoracion() = 100
 }
 
-// Molde para las parrilladas (Al instanciar, hay que pasarle )
+// Molde para las parrilladas (Al instanciar, hay que pasarle 'comidas' (OPCIONAL))
 class Parrillada inherits Comida {
 	// Comidas que componen la parrillada.
 	const comidas = []
