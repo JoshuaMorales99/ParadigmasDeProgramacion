@@ -3,11 +3,11 @@
 // -------------------------------------------------------------
 object parrillaMiguelito {
 	// Menu de la parrilla.
-	const menu = []
+	const menu = #{}
 	
-	// Agregar una comida dada al menu.
-	method agregarAMenu(comida) {
-		menu.add(comida)
+	// Agregar comidas dadas al menu.
+	method agregarAMenu(comidas) {
+		menu.addAll(comidas)
 	}
 	
 	// Quitar una comidad dada del menu.

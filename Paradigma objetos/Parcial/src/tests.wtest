@@ -1,4 +1,6 @@
+import Parrilla.*
 import Comidas.*
+import Comensales.*
 
 // -------------------------------------------------------------
 // 🔸 Mi universo.
@@ -17,6 +19,16 @@ const unCorteCarne = new CorteCarne(peso = 300, puntoCoccion = aPunto)
 const otroCorteCarne = new CorteCarne(peso = 10, puntoCoccion = jugoso)
 
 const parrillada = new Parrillada()
+
+// COMENSALES.
+const unComensalCeliaco = new Comensal(tipoComensal = celiaco, dinero = 100000)
+const otroComensalCeliaco = new Comensal(tipoComensal = celiaco, dinero = 1000)
+
+const unComensalPaladarFino = new Comensal(tipoComensal = paladarFino, dinero = 100000)
+const otroComensalPaladarFino = new Comensal(tipoComensal = paladarFino, dinero = 1000)
+
+const unComensalTodoTerreno = new Comensal(tipoComensal = todoTerreno, dinero = 100000)
+const otroComensalTodoTerreno = new Comensal(tipoComensal = todoTerreno, dinero = 1000)
 
 // -------------------------------------------------------------
 // 🔸 La Parrilla del nuevo Miguelito.
@@ -243,8 +255,58 @@ describe "PARRILLADA" {
 // -------------------------------------------------------------
 // 🔸 Comensales.
 // -------------------------------------------------------------
-describe "Comensales" {
-	test "testX" {
-		assert.that(true)
+describe "Comensal celiaco" {
+	test "Le agreda la comida si es apta para celiacos" {
+		assert.that(unComensalCeliaco.leAgrada(otraProvoleta))
 	}
+	
+	test "No le agrada la comida si no es apta para celiacos" {
+		assert.notThat(unComensalCeliaco.leAgrada(unaProvoleta))
+	}
+	
+	test "Puede pagar una comida si le alcanza el dinero" {
+		assert.that(unComensalCeliaco.puedePagar(unaProvoleta))
+	}
+	
+	test "No puede pagar una comida si no le alcanza el dinero" {
+		assert.notThat(otroComensalCeliaco.puedePagar(unaProvoleta))
+	}
+	
+	test "Puede comprar una comida si le agrada y puede pagarla" {
+		assert.that(unComensalCeliaco.puedeComprar(otraProvoleta))
+	}
+	
+	test "No puede comprar una comida si no le agrada, a pesar de poder pagarla" {
+		assert.notThat(unComensalCeliaco.puedeComprar(unaProvoleta))
+	}
+	
+	test "No puede comprar una comida si no puede pagarla, a pesar de que le agrade" {
+		assert.notThat(otroComensalCeliaco.puedeComprar(otraProvoleta))
+	}
+	
+	test "No puede comprar una comida si no le agrada y no puede pagarla" {
+		assert.notThat(otroComensalCeliaco.puedeComprar(unaProvoleta))
+	}
+}
+
+describe "Comensal paladar fino" {
+	test "Le agrada la comida si es especial y si su valoracion es mayor a 100" {
+		assert.that(unComensalPaladarFino.leAgrada(unaProvoleta))
+	}
+	
+	test "No le agrada la comida si no es especial y su valoracion es menor a 100" {
+		assert.notThat(unComensalPaladarFino.leAgrada(otraProvoleta))
+	}
+	
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
+}
+
+describe "Comensal todo terreno" {
+	test "Le agrada todo tipo de comida" {
+		assert.that(unComensalTodoTerreno.leAgrada(unaProvoleta))
+	}
+	
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
 }
