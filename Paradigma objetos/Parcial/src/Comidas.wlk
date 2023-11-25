@@ -74,6 +74,8 @@ class CorteCarne inherits Comida {
 	// Punto de coccion de la carne (jugoso, aPunto o cocido)
 	const puntoCoccion
 	
+	// Saber si es apto para celiacos (Siempre lo es)
+	override method aptoCeliacos() = true
 	// Saber si es especial (Peso > 250 gramos y es un punto de coccion especial)
 	override method esEspecial() = super() and puntoCoccion.esPuntoEspecial()
 	
@@ -95,8 +97,13 @@ class Parrillada inherits Comida {
 	override method peso() = comidas.sum{comida => comida.peso()}
 	// Obtener la cantidad de comidas que la componen.
 	method cantComidas() = comidas.size()
-	// Obtener su valoracion (Es igual a la mayor valoracion de todas las comidas que la componen)
+	// Obtener su valoracion (Es igual a la mayor valoracion de entre todas las comidas que la componen)
 	override method valoracion() = comidas.max{comida => comida.valoracion()}.valoracion()
+	
+	// Agregar comidas a la parrillada.
+	method agregarAParrillada(unasComidas) {
+		comidas.addAll(unasComidas)
+	}
 }
 
 // -------------------------------------------------------------
