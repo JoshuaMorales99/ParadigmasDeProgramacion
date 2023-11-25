@@ -181,6 +181,7 @@ describe "CORTE DE CARNE" {
 	}
 }
 
+// PUNTO 4a - Tests de la Parrillada.
 describe "PARRILLADA" {
 	test "Es apto para celiacos si todas las comidas que la componen lo son" {
 		parrillada.agregarAParrillada([otraProvoleta, otraHamburguesaCarne, otraHamburguesaDoble, unCorteCarne])
