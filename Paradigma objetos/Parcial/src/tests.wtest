@@ -30,12 +30,108 @@ const otroComensalPaladarFino = new Comensal(tipoComensal = paladarFino, dinero 
 const unComensalTodoTerreno = new Comensal(tipoComensal = todoTerreno, dinero = 100000)
 const otroComensalTodoTerreno = new Comensal(tipoComensal = todoTerreno, dinero = 1000)
 
+// UN MENU.
+const unMenu = #{unaProvoleta, otraProvoleta, unaHamburguesaCarne, otraHamburguesaCarne, unaHamburguesaDoble, otraHamburguesaDoble, unCorteCarne, otroCorteCarne}
+const unMenuCeliaco = #{otraProvoleta, otraHamburguesaCarne, otraHamburguesaDoble, unCorteCarne, otroCorteCarne}
+const unMenuNoCeliaco = #{unaProvoleta, unaHamburguesaCarne, unaHamburguesaDoble}
+
 // -------------------------------------------------------------
 // 🔸 La Parrilla del nuevo Miguelito.
 // -------------------------------------------------------------
 describe "La parrilla del nuevo Miguelito" {
-	test "testX" {
-		assert.that(true)
+	test "Es posible obtener los platillos validos (que puede comprar) para un comensal dado" {
+		parrillaMiguelito.agregarAMenu(unMenu)
+		assert.equals(unMenuCeliaco, parrillaMiguelito.platillosValidosPara(unComensalCeliaco))
+	}
+	
+	test "Si no hay platillos validos (que no puede comprar) para un comensal dado, se devuelve un set vacio" {
+		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
+		assert.equals(#{}, parrillaMiguelito.platillosValidosPara(unComensalCeliaco))
+	}
+	
+	test "Cuando no hay platillos validos (que no puede comprar) para un comensal dado, se puede lanzar una excepcion" {
+		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
+		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.verificarMenu(unComensalCeliaco)})
+	}
+	
+	test "Es posible agregar una dada cantidad de fondos a sus ingresos" {
+		parrillaMiguelito.agregarFondos(10000)
+		assert.equals(10000, parrillaMiguelito.ingresos())
+	}
+	
+	test "Es posible cobrarle el platillo escogido al comensal dado" {
+		parrillaMiguelito.agregarAMenu(unMenu)
+		parrillaMiguelito.cobrar(unComensalCeliaco)
+		// Del menu, elije 'unCorteCarne' por tener la valoracion mas alta. Por lo tanto, le sale 31200.
+		assert.equals(68800, unComensalCeliaco.dinero())
+		assert.equals(31200, parrillaMiguelito.ingresos())
+	}
+	
+	test "Es posible ofrecerle el menu a un comensal y que este pueda comprarlo" {
+		parrillaMiguelito.agregarAMenu(unMenu)
+		parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)
+		// Del menu, elije 'unCorteCarne' por tener la valoracion mas alta. Por lo tanto, le sale 31200.
+		assert.equals(68800, unComensalCeliaco.dinero())
+		assert.equals(31200, parrillaMiguelito.ingresos())
+		assert.equals(#{unComensalCeliaco}, parrillaMiguelito.historialComensales())
+	}
+	
+	test "Cuando se le ofrece un menu a un comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
+		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
+		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)})
+	}
+	
+	test "Es posible saber la cantidad de comensales registrados en el historial" {
+		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
+		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
+		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
+		assert.equals(3, parrillaMiguelito.cantComensalesRegistrados())
+	}
+	
+	test "Es posible saber la cantidad total de dinero a entregar a cada comensal registrado en el historial" {
+		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
+		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
+		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
+		assert.equals(300, parrillaMiguelito.cantTotalPromocion(100))
+	}
+	
+	test "Cuando no hay suficientes ingresos para realizar la promocion, se puede lanzar una excepcion" {
+		assert.throwsExceptionWithMessage("No hay suficientes ingresos para realizar la promocion", {parrillaMiguelito.verificarIngresos(300)})
+	}
+	
+	test "Es posible quitar una dada cantidad de fondos a sus ingresos" {
+		parrillaMiguelito.agregarFondos(10000)
+		parrillaMiguelito.quitarFondos(1000)
+		assert.equals(9000, parrillaMiguelito.ingresos())
+	}
+	
+	test "Es posible entregar la promocion a cada comensal registrado en el historial" {
+		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
+		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
+		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
+		parrillaMiguelito.entregarPromocion(100)
+		assert.equals(100100, unComensalCeliaco.dinero())
+		assert.equals(100100, unComensalPaladarFino.dinero())
+		assert.equals(100100, unComensalTodoTerreno.dinero())
+	}
+	
+	test "Es posible realizar una promocion si hay suficientes ingresos" {
+		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
+		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
+		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
+		parrillaMiguelito.agregarFondos(10000)
+		parrillaMiguelito.hacerPromocion(1000)
+		assert.equals(7000, parrillaMiguelito.ingresos())
+		assert.equals(101000, unComensalCeliaco.dinero())
+		assert.equals(101000, unComensalPaladarFino.dinero())
+		assert.equals(101000, unComensalTodoTerreno.dinero())
+	}
+	
+	test "Cuando se quiere realizar una promocion, pero no hay suficientes ingresos para realizarla, se lanza una excepcion"{
+		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
+		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
+		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
+		assert.throwsExceptionWithMessage("No hay suficientes ingresos para realizar la promocion", {parrillaMiguelito.hacerPromocion(1000)})
 	}
 }
 
@@ -287,6 +383,20 @@ describe "Comensal celiaco" {
 	test "No puede comprar una comida si no le agrada y no puede pagarla" {
 		assert.notThat(otroComensalCeliaco.puedeComprar(unaProvoleta))
 	}
+	
+	test "Elige el platillo del menu con mayor valoracion" {
+		assert.equals(unaProvoleta, unComensalCeliaco.elegirPlatillo([unaProvoleta, unaHamburguesaCarne, unaHamburguesaDoble, unCorteCarne]))
+	}
+	
+	test "Es posible descontar una dada cantidad de dinero" {
+		unComensalCeliaco.pagar(1000)
+		assert.equals(99000, unComensalCeliaco.dinero())
+	}
+	
+	test "Es posible recibir la promocion de la parrilla" {
+		unComensalCeliaco.recibirPromocion(1000)
+		assert.equals(101000, unComensalCeliaco.dinero())
+	}
 }
 
 describe "Comensal paladar fino" {
@@ -298,8 +408,11 @@ describe "Comensal paladar fino" {
 		assert.notThat(unComensalPaladarFino.leAgrada(otraProvoleta))
 	}
 	
-	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
 }
 
 describe "Comensal todo terreno" {
@@ -307,6 +420,9 @@ describe "Comensal todo terreno" {
 		assert.that(unComensalTodoTerreno.leAgrada(unaProvoleta))
 	}
 	
-	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
 }

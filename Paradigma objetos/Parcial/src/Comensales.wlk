@@ -14,6 +14,22 @@ class Comensal {
 	method puedePagar(comida) = comida.precio() <= dinero
 	// Saber si puede comprar una comida dada (Si le agrada y tiene dinero suficiente para comprarla)
 	method puedeComprar(comida) = self.leAgrada(comida) and self.puedePagar(comida)
+	
+	// GETTER: Obtener la cantidad de dinero disponible (Para test)
+	method dinero() = dinero
+	
+	// Elegir un platillo para comprar del menu dado (Obtener el platillo de maxima valoracion)
+	method elegirPlatillo(menu) = menu.max{platillo => platillo.valoracion()}
+	
+	// Pagar el precio dado.
+	method pagar(precio) {
+		dinero = dinero - precio
+	}
+	
+	// Recibir una promocion de la parrilla.
+	method recibirPromocion(cantidad) {
+		dinero = dinero + cantidad
+	}
 }
 
 // -------------------------------------------------------------
