@@ -2,6 +2,9 @@ import Parrilla.*
 import Comidas.*
 import Comensales.*
 
+/** Si bien no se piden OBLIGATORIAMENTE todos estos tests realizados, los hice para practicar esta herramienta. :D */
+/** Los que valen del punto 4, estan marcados con comentarios. */
+
 // -------------------------------------------------------------
 // 🔸 Mi universo.
 // -------------------------------------------------------------
@@ -67,7 +70,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(31200, parrillaMiguelito.ingresos())
 	}
 	
-	// PARTE 4b - Test de un gustito en la parrilla.
+	/** PARTE 4b - Test de un gustito en la parrilla. */
 	test "Es posible ofrecerle el menu a un comensal y que este pueda comprarlo" {
 		parrillaMiguelito.agregarAMenu(unMenu)
 		parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)
@@ -77,7 +80,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(#{unComensalCeliaco}, parrillaMiguelito.historialComensales())
 	}
 	
-	// PARTE 4b - Test de un gustito en la parrilla.
+	/** PARTE 4b - Test de un gustito en la parrilla. */
 	test "Cuando se le ofrece un menu a un comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)})
@@ -136,7 +139,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.throwsExceptionWithMessage("No hay suficientes ingresos para realizar la promocion", {parrillaMiguelito.hacerPromocion(1000)})
 	}
 	
-	// PARTE 4c - Test de cambio de habito.
+	/** PARTE 4c - Test de cambio de habito. */
 	test "Es posible realizar un cambio de hambito a un comensal. Es posible ofrecerle el menu al comensal y que este pueda comprarlo" {
 		parrillaMiguelito.agregarAMenu(unMenu)
 		unComensalTodoTerreno.problemasGastricos()
@@ -147,7 +150,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(#{unComensalTodoTerreno}, parrillaMiguelito.historialComensales())
 	}
 	
-	// PARTE 4c - Test de cambio de habito.
+	/** PARTE 4c - Test de cambio de habito. */
 	test "Es posible realizar un cambio de habito a un comensal. Cuando se le ofrece un menu al comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		unComensalTodoTerreno.problemasGastricos()
@@ -309,7 +312,7 @@ describe "CORTE DE CARNE" {
 	}
 }
 
-// PUNTO 4a - Tests de la Parrillada.
+/** PUNTO 4a - Tests de la Parrillada. */
 describe "PARRILLADA" {
 	test "Es apto para celiacos si todas las comidas que la componen lo son" {
 		parrillada.agregarAParrillada([otraProvoleta, otraHamburguesaCarne, otraHamburguesaDoble, unCorteCarne])
