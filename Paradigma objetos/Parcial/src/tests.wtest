@@ -67,6 +67,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(31200, parrillaMiguelito.ingresos())
 	}
 	
+	// PARTE 4b - Test de un gustito en la parrilla.
 	test "Es posible ofrecerle el menu a un comensal y que este pueda comprarlo" {
 		parrillaMiguelito.agregarAMenu(unMenu)
 		parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)
@@ -76,6 +77,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(#{unComensalCeliaco}, parrillaMiguelito.historialComensales())
 	}
 	
+	// PARTE 4b - Test de un gustito en la parrilla.
 	test "Cuando se le ofrece un menu a un comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)})
@@ -132,6 +134,24 @@ describe "La parrilla del nuevo Miguelito" {
 		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
 		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
 		assert.throwsExceptionWithMessage("No hay suficientes ingresos para realizar la promocion", {parrillaMiguelito.hacerPromocion(1000)})
+	}
+	
+	// PARTE 4c - Test de cambio de habito.
+	test "Es posible realizar un cambio de hambito a un comensal. Es posible ofrecerle el menu al comensal y que este pueda comprarlo" {
+		parrillaMiguelito.agregarAMenu(unMenu)
+		unComensalTodoTerreno.problemasGastricos()
+		parrillaMiguelito.ofrecerMenuA(unComensalTodoTerreno)
+		// Del menu, elije 'unCorteCarne' por tener la valoracion mas alta y ser apto para celiacos. Por lo tanto, le sale 31200.
+		assert.equals(68800, unComensalTodoTerreno.dinero())
+		assert.equals(31200, parrillaMiguelito.ingresos())
+		assert.equals(#{unComensalTodoTerreno}, parrillaMiguelito.historialComensales())
+	}
+	
+	// PARTE 4c - Test de cambio de habito.
+	test "Es posible realizar un cambio de habito a un comensal. Cuando se le ofrece un menu al comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
+		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
+		unComensalTodoTerreno.problemasGastricos()
+		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalTodoTerreno)})
 	}
 }
 
@@ -293,12 +313,12 @@ describe "CORTE DE CARNE" {
 describe "PARRILLADA" {
 	test "Es apto para celiacos si todas las comidas que la componen lo son" {
 		parrillada.agregarAParrillada([otraProvoleta, otraHamburguesaCarne, otraHamburguesaDoble, unCorteCarne])
-		assert.that(true)
+		assert.that(parrillada.aptoCeliacos())
 	}
 	
 	test "No es apto para celiacos si hay alguna comida que lo compone que no lo sea" {
 		parrillada.agregarAParrillada([otraProvoleta, otraHamburguesaCarne, unaHamburguesaDoble, otroCorteCarne])
-		assert.notThat(false)
+		assert.notThat(parrillada.aptoCeliacos())
 	}
 	
 	test "Es posible obtener su valoracion que es igual a la mayor valoracion de entre todas las comidas que la componen" {
@@ -397,6 +417,11 @@ describe "Comensal celiaco" {
 		unComensalCeliaco.recibirPromocion(1000)
 		assert.equals(101000, unComensalCeliaco.dinero())
 	}
+	
+	test "Es posible limitarlo Economicamente" {
+		unComensalCeliaco.limitarEconomicamente()
+		assert.equals(todoTerreno , unComensalCeliaco.tipoComensal())
+	}
 }
 
 describe "Comensal paladar fino" {
@@ -413,6 +438,11 @@ describe "Comensal paladar fino" {
 	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
 	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
 	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+
+	test "Es posible lanzarle problemas gastricos" {
+		unComensalPaladarFino.problemasGastricos()
+		assert.equals(celiaco , unComensalPaladarFino.tipoComensal())
+	}
 }
 
 describe "Comensal todo terreno" {
@@ -425,4 +455,9 @@ describe "Comensal todo terreno" {
 	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
 	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
 	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+
+	test "Es posible desarrollarlo profesionalmente en el hambito degustacion"{
+		unComensalTodoTerreno.desarrollarProfesionalmente()
+		assert.equals(paladarFino , unComensalTodoTerreno.tipoComensal())
+	}
 }

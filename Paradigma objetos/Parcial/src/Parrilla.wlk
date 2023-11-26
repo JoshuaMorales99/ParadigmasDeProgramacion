@@ -48,7 +48,7 @@ object parrillaMiguelito {
 		ingresos = ingresos - cantidad
 	}
 	
-	// Hacer una promocion (Regala una cantidad de dinero a todos los comensales registrados en el historial de comensales) // TODO test
+	// Hacer una promocion (Regala una cantidad de dinero a todos los comensales registrados en el historial de comensales)
 	method hacerPromocion(cantidad) {
 		// Obtener la cantidad total de dinero a entregar.
 		const totalAEntregar = self.cantTotalPromocion(cantidad)

@@ -17,6 +17,8 @@ class Comensal {
 	
 	// GETTER: Obtener la cantidad de dinero disponible (Para test)
 	method dinero() = dinero
+	// GETTER: Obtener el tipo de comensal que es (Para test)
+	method tipoComensal() = tipoComensal
 	
 	// Elegir un platillo para comprar del menu dado (Obtener el platillo de maxima valoracion)
 	method elegirPlatillo(menu) = menu.max{platillo => platillo.valoracion()}
@@ -29,6 +31,21 @@ class Comensal {
 	// Recibir una promocion de la parrilla.
 	method recibirPromocion(cantidad) {
 		dinero = dinero + cantidad
+	}
+	
+	// PARTE 3a - Lanzar problemas gastricos.
+	method problemasGastricos() {
+		tipoComensal = celiaco
+	}
+	
+	// PARTE 3b - Lanzar limitacion economica.
+	method limitarEconomicamente() {
+		tipoComensal = todoTerreno
+	}
+	
+	// PARTE 3c - Desarrollar profesionalmente en el hambito de la degustacion.
+	method desarrollarProfesionalmente() {
+		tipoComensal = paladarFino
 	}
 }
 
