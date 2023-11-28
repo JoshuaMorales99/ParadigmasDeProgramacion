@@ -14,6 +14,9 @@ class Mision {
 	// Saber si sumar o restar las copas en juego.
 	method sumarORestar() = if(self.puedeSuperar()) 1 else - 1
 	
+	// Obtener la cantidad de copas a repartir.
+	method cantCopas(mision) = self.sumarORestar() * tipoMision.copasARepartir(mision)
+	
 	// Repartir copas.
 	method repartirCopas()
 	
@@ -23,7 +26,7 @@ class Mision {
 	// PUNTO 2 - Realizar mision.
 	method realizarMision() {
 		// Si no se puede comenzar con la mision, se lanza una excepcion.
-		if(self.puedeComenzar()) throw new Exception(message = "La mision no puede comenzar")
+		if(not self.puedeComenzar()) throw new Exception(message = "La mision no puede comenzar")
 		// Repartir copas.
 		self.repartirCopas()
 	}
@@ -50,7 +53,7 @@ class MisionIndividual inherits Mision {
 	
 	// Repartir las copas al personaje dependiendo si superaron la mision o no.
 	override method repartirCopas() {
-		personaje.sumarCopas(self.sumarORestar() * tipoMision.copasARepartir(self))
+		personaje.sumarCopas(self.cantCopas(self))
 	}
 }
 
@@ -80,7 +83,7 @@ class MisionGrupal inherits Mision {
 	
 	// Repartir las copas al equipo dependiendo si superaron la mision o no.
 	override method repartirCopas() {
-		equipo.forEach{personaje => personaje.sumarCopas(self.sumarORestar() * tipoMision.copasARepartir(self))}
+		equipo.forEach{personaje => personaje.sumarCopas(self.cantCopas(self))}
 	}
 }
 

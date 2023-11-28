@@ -11,8 +11,6 @@ const unaGerrera = new Gerrera(fuerza = 500, tieneEstrategia = true)
 const otraGerrera = new Gerrera(fuerza = 30, tieneEstrategia = false)
 const unBallestero = new Ballestero(agilidad = 500, rango = 150)
 const otroBallestero = new Ballestero(agilidad = 15, rango = 10)
-// Misiones grupales.
-const unaMisionGrupal = new MisionGrupal(tipoMision = comun)
 
 // --------------------------------------------------
 // 🔸 Punto 1.
@@ -34,7 +32,7 @@ describe "PUNTO 1" {
 		assert.that(unaMisionIndividual.puedeSuperar())
 	}
 	
-	test "Un arquero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+	test "Un arquero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individual dada" {
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 1000000000000, personaje = otroArquero)
 		assert.notThat(unaMisionIndividual.puedeSuperar())
 	}
@@ -54,7 +52,7 @@ describe "PUNTO 1" {
 		assert.that(unaMisionIndividual.puedeSuperar())
 	}
 	
-	test "Una gerrera que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+	test "Una gerrera que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individual dada" {
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 1000000000000, personaje = otraGerrera)
 		assert.notThat(unaMisionIndividual.puedeSuperar())
 	}
@@ -74,7 +72,7 @@ describe "PUNTO 1" {
 		assert.that(unaMisionIndividual.puedeSuperar())
 	}
 	
-	test "Un ballestero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individul dada" {
+	test "Un ballestero que no tiene estrategia y no supera la destreza necesaria, no puede completar la mision individual dada" {
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 1000000000000, personaje = otroBallestero)
 		assert.notThat(unaMisionIndividual.puedeSuperar())
 	}
@@ -84,7 +82,7 @@ describe "PUNTO 1" {
 		const arquero = new Arquero(agilidad = 500, rango = 10)
 		const gerrera = new Gerrera(fuerza = 500, tieneEstrategia = false)
 		const ballestero = new Ballestero(agilidad = 500, rango = 10)
-		unaMisionGrupal.agregarPersonajes([arquero, gerrera, ballestero])
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{arquero, gerrera, ballestero})
 		assert.that(unaMisionGrupal.puedeSuperar())
 	}
 	
@@ -92,17 +90,17 @@ describe "PUNTO 1" {
 		const arquero = new Arquero(agilidad = 25, rango = 120)
 		const gerrera = new Gerrera(fuerza = 30, tieneEstrategia = true)
 		const ballestero = new Ballestero(agilidad = 15, rango = 150)
-		unaMisionGrupal.agregarPersonajes([arquero, gerrera, ballestero])
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{arquero, gerrera, ballestero})
 		assert.that(unaMisionGrupal.puedeSuperar())
 	}
 	
-	test "Un equipo donde mas de la mitad de los participantes tienen estrategia y superan la destreza necesaria, puede completar la mision individual dada" {
-		unaMisionGrupal.agregarPersonajes([unArquero, unaGerrera, unBallestero])
+	test "Un equipo donde mas de la mitad de los participantes tienen estrategia y superan la destreza necesaria, puede completar la mision grupal dada" {
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{unArquero, unaGerrera, unBallestero})
 		assert.that(unaMisionGrupal.puedeSuperar())
 	}
 	
-	test "Un equipo donde mas de la mitad de los participantes no tienen estrategia y no superan la destreza necesaria, no puede completar la mision individul dada" {
-		unaMisionGrupal.agregarPersonajes([otroArquero, otraGerrera, otroBallestero])
+	test "Un equipo donde mas de la mitad de los participantes no tienen estrategia y no superan la destreza necesaria, no puede completar la mision grupal dada" {
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{otroArquero, otraGerrera, otroBallestero})
 		assert.notThat(unaMisionGrupal.puedeSuperar())
 	}
 }
@@ -111,9 +109,52 @@ describe "PUNTO 1" {
 // 🔸 Punto 2.
 // --------------------------------------------------
 describe "PUNTO 2" {
-	// COMUN.
-	test "testX" {
-		assert.that(true)
+	// COMUN INDIVIDUAL.
+	test "No es posible realizar una mision individual si no se tiene al menos 10 copas. Se lanza una excepcion" {
+		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 100, personaje = unArquero)
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionIndividual.realizarMision()})
+	}
+	
+	test "Cuando se completa la mision individual, se ganan una cantidad de copas equivalente a 2 * la dificultad de la mision" {
+		unArquero.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 10, personaje = unArquero)
+		unaMisionIndividual.realizarMision()
+		assert.equals(30, unArquero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision individual, se pierden una cantidad de copas equivalente a 2 * la dificultad de la mision" {
+		otraGerrera.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 50, personaje = otraGerrera)
+		unaMisionIndividual.realizarMision()
+		assert.equals(-90, otraGerrera.cantCopas())
+	}
+	
+	// COMUN GRUPAL.
+	test "No es posible realizar una mision grupal si la suma de las copas del equipo es menor a 60. Se lanza una excepcion" {
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{unArquero, unaGerrera, unBallestero})
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionGrupal.realizarMision()})
+	}
+	
+	test "Cuando se completa la mision grupal, se gana una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
+		unArquero.sumarCopas(20)
+		unaGerrera.sumarCopas(20)
+		unBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{unArquero, unaGerrera, unBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(36, unArquero.cantCopas())
+		assert.equals(36, unaGerrera.cantCopas())
+		assert.equals(36, unBallestero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision grupal, se pierden una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
+		otroArquero.sumarCopas(20)
+		otraGerrera.sumarCopas(20)
+		otroBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{otroArquero, otraGerrera, otroBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(4, otroArquero.cantCopas())
+		assert.equals(4, otraGerrera.cantCopas())
+		assert.equals(4, otroBallestero.cantCopas())
 	}
 }
 
