@@ -108,3 +108,33 @@ object bonus {
 	// Obtener la cantidad de copas total a repartir al finalizar/perder mision.
 	method copasARepartir(mision) = mision.copasEnJuego() + mision.cantParticipantes()
 }
+
+// --------------------------------------------------
+// 🔸 PUNTO 5 - Polimorfismo.
+// --------------------------------------------------
+/* En este archivo se presentan los siguientes elementos polimorficos:
+
+MisionIndividual y MisionGrupal son clases cuyos objetos instanciables son polimorficos entre si puesto que comparten una misma interfaz
+aunque algunos de ellos tienen comportamiento distinto. Este polimorfismo lo aprovecha el Usuario, puesto que para realizar la mision
+se les manda a las misiones (Indistintamente de cual sea) unos mensajes que son entendibles para cada uno de ellos.
+
+Los mensajes polimorficos son:
+* cantParticipantes()
+* copasEnJuego()
+* tieneEstrategia()
+* tieneDestrezaSuficiente()
+* puedeComenzar()
+* repartirCopas()
+* sumarORestar()
+* cantCopas(mision)
+* puedeSuperar()
+* realizarMision()
+
+comun, Boost (clase cuyo objetos instanciables son polimorficos) y bonus son objetos polimorficos entre si puesto que comparten una misma
+interfaz aunque tengan comportamiento distinto. Este polimorfismo lo aprovecha una Mision, ya que para poder calcular la cantidad de copas
+a repartir se les manda a los tipos de misiones (Indistintamente de cual sea) un mensaje que es entendible para cada uno de ellos.
+
+Los mensajes polimorficos son:
+* copasARepartir(mision)
+
+*/

@@ -45,3 +45,20 @@ class Gerrera inherits Personaje {
 class Ballestero inherits Arquero {
 	override method destreza() = 2 * super()
 }
+
+// --------------------------------------------------
+// 🔸 PUNTO 5 - Polimorfismo.
+// --------------------------------------------------
+/* En este archivo se presentan los siguientes elementos polimorficos:
+
+Arquero, Gerrero y Ballestero son clases cuyos objetos instanciables son polimorficos entre si puesto que comparten una misma interfaz
+aunque algunos de ellos tienen comportamiento distinto. Este polimorfismo lo aprovecha una Mision, ya que para realizar y completar la
+misma (o no) se les manda a los personajes (Indistintamente de cual sea) unos mensajes que son entendibles para cada uno de ellos.
+
+Los mensajes polimorficos son:
+* cantCopas()
+* sumarCopas()
+* destreza()
+* tieneEstrategia()
+
+*/
