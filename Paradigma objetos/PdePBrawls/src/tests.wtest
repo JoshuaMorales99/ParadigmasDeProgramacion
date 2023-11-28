@@ -110,19 +110,19 @@ describe "PUNTO 1" {
 // --------------------------------------------------
 describe "PUNTO 2" {
 	// COMUN INDIVIDUAL.
-	test "No es posible realizar una mision individual si no se tiene al menos 10 copas. Se lanza una excepcion" {
+	test "No es posible realizar una mision individual comun si no se tiene al menos 10 copas. Se lanza una excepcion" {
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 100, personaje = unArquero)
 		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionIndividual.realizarMision()})
 	}
 	
-	test "Cuando se completa la mision individual, se ganan una cantidad de copas equivalente a 2 * la dificultad de la mision" {
+	test "Cuando se completa la mision individual comun, se ganan una cantidad de copas equivalente a 2 * la dificultad de la mision" {
 		unArquero.sumarCopas(10)
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 10, personaje = unArquero)
 		unaMisionIndividual.realizarMision()
 		assert.equals(30, unArquero.cantCopas())
 	}
 	
-	test "Cuando no se completa la mision individual, se pierden una cantidad de copas equivalente a 2 * la dificultad de la mision" {
+	test "Cuando no se completa la mision individual comun, se pierden una cantidad de copas equivalente a 2 * la dificultad de la mision" {
 		otraGerrera.sumarCopas(10)
 		const unaMisionIndividual = new MisionIndividual(tipoMision = comun, dificultad = 50, personaje = otraGerrera)
 		unaMisionIndividual.realizarMision()
@@ -130,12 +130,12 @@ describe "PUNTO 2" {
 	}
 	
 	// COMUN GRUPAL.
-	test "No es posible realizar una mision grupal si la suma de las copas del equipo es menor a 60. Se lanza una excepcion" {
+	test "No es posible realizar una mision grupal comun si la suma de las copas del equipo es menor a 60. Se lanza una excepcion" {
 		const unaMisionGrupal = new MisionGrupal(tipoMision = comun, equipo = #{unArquero, unaGerrera, unBallestero})
 		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionGrupal.realizarMision()})
 	}
 	
-	test "Cuando se completa la mision grupal, se gana una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
+	test "Cuando se completa la mision grupal comun, se gana una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
 		unArquero.sumarCopas(20)
 		unaGerrera.sumarCopas(20)
 		unBallestero.sumarCopas(20)
@@ -146,7 +146,7 @@ describe "PUNTO 2" {
 		assert.equals(36, unBallestero.cantCopas())
 	}
 	
-	test "Cuando no se completa la mision grupal, se pierden una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
+	test "Cuando no se completa la mision grupal comun, se pierden una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo" {
 		otroArquero.sumarCopas(20)
 		otraGerrera.sumarCopas(20)
 		otroBallestero.sumarCopas(20)
@@ -162,14 +162,100 @@ describe "PUNTO 2" {
 // 🔸 Punto 3.
 // --------------------------------------------------
 describe "PUNTO 3" {
-	// BOOST.
-	test "testX" {
-		assert.that(true)
+	// BOOST INDIVIDUAL.
+	test "No es posible realizar una mision individual boost x3 si no se tiene al menos 10 copas. Se lanza una excepcion" {
+		const unaMisionIndividual = new MisionIndividual(tipoMision = new Boost(multiplicador = 3), dificultad = 100, personaje = unArquero)
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionIndividual.realizarMision()})
 	}
 	
-	// BONUS.
-	test "testY" {
-		assert.that(true)
+	test "Cuando se completa la mision individual boost x3, se ganan una cantidad de copas equivalente a 2 * la dificultad de la mision * el multiplicador" {
+		unArquero.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = new Boost(multiplicador = 3), dificultad = 10, personaje = unArquero)
+		unaMisionIndividual.realizarMision()
+		assert.equals(70, unArquero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision individual boost x3, se pierden una cantidad de copas equivalente a 2 * la dificultad de la mision * el multiplicador" {
+		otraGerrera.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = new Boost(multiplicador = 3), dificultad = 50, personaje = otraGerrera)
+		unaMisionIndividual.realizarMision()
+		assert.equals(-290, otraGerrera.cantCopas())
+	}
+	
+	// BOOST GRUPAL.
+	test "No es posible realizar una mision grupal boost x3 si la suma de las copas del equipo es menor a 60. Se lanza una excepcion" {
+		const unaMisionGrupal = new MisionGrupal(tipoMision = new Boost(multiplicador = 3), equipo = #{unArquero, unaGerrera, unBallestero})
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionGrupal.realizarMision()})
+	}
+	
+	test "Cuando se completa la mision grupal boost x3, se gana una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo * el multiplicador" {
+		unArquero.sumarCopas(20)
+		unaGerrera.sumarCopas(20)
+		unBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = new Boost(multiplicador = 3), equipo = #{unArquero, unaGerrera, unBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(68, unArquero.cantCopas())
+		assert.equals(68, unaGerrera.cantCopas())
+		assert.equals(68, unBallestero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision grupal boost x3, se pierden una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo * el multiplicador" {
+		otroArquero.sumarCopas(20)
+		otraGerrera.sumarCopas(20)
+		otroBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = new Boost(multiplicador = 3), equipo = #{otroArquero, otraGerrera, otroBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(-28, otroArquero.cantCopas())
+		assert.equals(-28, otraGerrera.cantCopas())
+		assert.equals(-28, otroBallestero.cantCopas())
+	}
+	
+	// BONUS INDIVIDUAL.
+	test "No es posible realizar una mision individual bonus si no se tiene al menos 10 copas. Se lanza una excepcion" {
+		const unaMisionIndividual = new MisionIndividual(tipoMision = bonus, dificultad = 100, personaje = unArquero)
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionIndividual.realizarMision()})
+	}
+	
+	test "Cuando se completa la mision individual bonus, se ganan una cantidad de copas equivalente a 2 * la dificultad de la mision + cant. participantes" {
+		unArquero.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = bonus, dificultad = 10, personaje = unArquero)
+		unaMisionIndividual.realizarMision()
+		assert.equals(31, unArquero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision individual bonus, se pierden una cantidad de copas equivalente a 2 * la dificultad de la mision + cant. participantes" {
+		otraGerrera.sumarCopas(10)
+		const unaMisionIndividual = new MisionIndividual(tipoMision = bonus, dificultad = 50, personaje = otraGerrera)
+		unaMisionIndividual.realizarMision()
+		assert.equals(-91, otraGerrera.cantCopas())
+	}
+	
+	// BONUS GRUPAL.
+	test "No es posible realizar una mision grupal bonus si la suma de las copas del equipo es menor a 60. Se lanza una excepcion" {
+		const unaMisionGrupal = new MisionGrupal(tipoMision = bonus, equipo = #{unArquero, unaGerrera, unBallestero})
+		assert.throwsExceptionWithMessage("La mision no puede comenzar", {unaMisionGrupal.realizarMision()})
+	}
+	
+	test "Cuando se completa la mision grupal bonus, se gana una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo + cant. participantes" {
+		unArquero.sumarCopas(20)
+		unaGerrera.sumarCopas(20)
+		unBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = bonus, equipo = #{unArquero, unaGerrera, unBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(39, unArquero.cantCopas())
+		assert.equals(39, unaGerrera.cantCopas())
+		assert.equals(39, unBallestero.cantCopas())
+	}
+	
+	test "Cuando no se completa la mision grupal bonus, se pierden una cantidad de copas equivalente a 50 dividido la cant. de personajes en el equipo + cant. participantes" {
+		otroArquero.sumarCopas(20)
+		otraGerrera.sumarCopas(20)
+		otroBallestero.sumarCopas(20)
+		const unaMisionGrupal = new MisionGrupal(tipoMision = bonus, equipo = #{otroArquero, otraGerrera, otroBallestero})
+		unaMisionGrupal.realizarMision()
+		assert.equals(1, otroArquero.cantCopas())
+		assert.equals(1, otraGerrera.cantCopas())
+		assert.equals(1, otroBallestero.cantCopas())
 	}
 }
 
