@@ -1,6 +1,115 @@
+import Mensajes.*
 
-test "testX" {
+// --------------------------------------------------
+// 🔸 Mi universo.
+// --------------------------------------------------
+// Tipos de contenido en mensajes.
+const unTexto = new Texto(mensaje = "Hola que tal. Me llamo Pepito")
+const unAudio = new Audio(duracion = 60)
+const unaImagenOriginal = new Imagen(alto = 120, ancho = 180, modoCompresion = original)
+const unaImagenVariable = new Imagen(alto = 120, ancho = 180, modoCompresion = new Variable(porcentaje = 50))
+const unaImagenMaxima = new Imagen(alto = 120, ancho = 180, modoCompresion = maxima)
+const otraImagenMaxima = new Imagen(alto = 100, ancho = 58, modoCompresion = maxima)
+const unGifOriginal = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCompresion = original)
+const unGifVariable = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCompresion = new Variable(porcentaje = 50))
+const unGifMaxima = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCompresion = maxima)
+const otroGifMaxima = new Gif(alto = 100, ancho = 58, cantCuadros = 10, modoCompresion = maxima)
+const unContacto = new Contacto(usuario = "Pepita")
 
-	assert.that(true)
+// Mensajes.
+const unMensajeTexto = new Mensaje(emisor = "Pepo", tipoContenido = unTexto)
+const unMensajeAudio = new Mensaje(emisor = "Pepo", tipoContenido = unAudio)
+const unMensajeImagen = new Mensaje(emisor = "Pepo", tipoContenido = unaImagenOriginal)
+const unMensajeGif = new Mensaje(emisor = "Pepo", tipoContenido = unGifOriginal)
+const unMensajeContacto = new Mensaje(emisor = "Pepo", tipoContenido = unContacto)
 
+// --------------------------------------------------
+// 🔸 Tipo de contenidos en mensajes.
+// --------------------------------------------------
+describe "Tipos de contenidos en mensajes" {
+	// TEXTO.
+	test "Es posible obtener la cantidad de caracteres en el contenido de Texto" {
+		assert.equals(29, unTexto.cantCaracteres())
+	}
+	
+	test "Es posible obtener el peso del contenido de Texto" {
+		assert.equals(29, unTexto.pesoContenido())
+	}
+	
+	// AUDIO.
+	test "Es posible obtener el peso del contenido de Audio" {
+		assert.equals(72, unAudio.pesoContenido())
+	}
+	
+	// IMAGEN.
+	test "Es posible obtener la cantidad de pixeles totales del contenido de Imagen" {
+		assert.equals(21600, unaImagenOriginal.cantTotalPixeles())
+	}
+	
+	test "Es posible obtener el peso del contenido de Imagen con compresion original" {
+		assert.equals(43200, unaImagenOriginal.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Imagen con compresion variable" {
+		assert.equals(21600, unaImagenVariable.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Imagen con compresion maxima (Superior a 10000 pixeles)" {
+		assert.equals(11600, otraImagenMaxima.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Imagen con compresion maxima (No superior a 10000 pixeles)" {
+		assert.equals(20000, unaImagenMaxima.pesoContenido())
+	}
+	
+	// GIF.
+	test "Es posible obtener el peso del contenido de Gif con compresion original" {
+		assert.equals(432000, unGifOriginal.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Gif con compresion variable" {
+		assert.equals(216000, unGifVariable.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Gif con compresion maxima (Superior a 10000 pixeles)" {
+		assert.equals(116000, otroGifMaxima.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido de Gif con compresion maxima (No superior a 10000 pixeles)" {
+		assert.equals(200000, unGifMaxima.pesoContenido())
+	}
+	
+	// CONTACTO.
+	test "Es posible obtener el peso del contenido de Contacto" {
+		assert.equals(3, unContacto.pesoContenido())
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Mensajes.
+// --------------------------------------------------
+describe "Mensajes" {
+	test "Es posible obtener el peso del contenido del tipo Texto" {
+		assert.equals(29, unMensajeTexto.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido del tipo Audio" {
+		assert.equals(72, unMensajeAudio.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido del tipo Imagen" {
+		assert.equals(43200, unMensajeImagen.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido del tipo Gif" {
+		assert.equals(432000, unMensajeGif.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso del contenido del tipo Contacto" {
+		assert.equals(3, unMensajeContacto.pesoContenido())
+	}
+	
+	test "Es posible obtener el peso de un mensaje" {
+		assert.equals(42.7, unMensajeTexto.pesoMensaje())
+	}
 }
