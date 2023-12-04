@@ -7,6 +7,7 @@ En lo más recóndito de la galaxia orientada a Objetos, en una zona plagada de 
 
 ### Los mensajes.
 De los mensajes es importante saber qué usuario lo envió y cuántos KB pesa. El peso de un mensaje siempre se calcula como:
+
     5 (datos fijos de transferencia) + peso del contenido * 1,3 (factor de la red)
 
 Un mensaje puede tener varios tipos de contenido (cada mensaje tiene uno), describimos algunos de ellos:
@@ -36,7 +37,7 @@ Además de los chats clásicos, se pueden tener chats premium para tener otro co
 Se pide la codificación completa en Wollok para los siguientes requerimientos. Además, se debe aclarar de alguna forma **el punto de entrada** para cada punto (dónde empieza todo en cada caso):
 1. Saber el **espacio que ocupa** un chat, que es la suma de los pesos de los mensajes enviados.
 2. **Enviar un mensaje** a un chat considerando los tipos de chats y las restricciones que tienen. 
-3. Hacer una **búsqueda de un texto** en los chats de un usuario. La búsqueda obtiene como resultado los chats que tengan algún mensaje con ese texto. Un mensaje contiene un texto si es parte del nombre de quien lo envía, si es parte del texto del mensaje, o del nombre del contacto enviado.[1]
+3. Hacer una **búsqueda de un texto** en los chats de un usuario. La búsqueda obtiene como resultado los chats que tengan algún mensaje con ese texto. Un mensaje contiene un texto si es parte del nombre de quien lo envía, si es parte del texto del mensaje, o del nombre del contacto enviado. [1]
 4. Dado un usuario, conocer sus **mensajes más pesados**. Que es el conjunto formado por el mensaje más pesado de cada uno de sus chat.
 5. Los usuarios también son notificados de sus chats sin leer. Hacer que:
     - Al enviar un mensaje a un chat cada participante debe **recibir una notificación**.
