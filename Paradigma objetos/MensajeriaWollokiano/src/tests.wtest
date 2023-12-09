@@ -1,4 +1,6 @@
 import Mensajes.*
+import Usuarios.*
+import Chats.*
 
 // --------------------------------------------------
 // 🔸 Mi universo.
@@ -14,14 +16,21 @@ const unGifOriginal = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCom
 const unGifVariable = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCompresion = new Variable(porcentaje = 50))
 const unGifMaxima = new Gif(alto = 120, ancho = 180, cantCuadros = 10, modoCompresion = maxima)
 const otroGifMaxima = new Gif(alto = 100, ancho = 58, cantCuadros = 10, modoCompresion = maxima)
-const unContacto = new Contacto(usuario = "Pepita")
+const unContacto = new Contacto(usuario = otroUsuario)
 
 // Mensajes.
-const unMensajeTexto = new Mensaje(emisor = "Pepo", tipoContenido = unTexto)
-const unMensajeAudio = new Mensaje(emisor = "Pepo", tipoContenido = unAudio)
-const unMensajeImagen = new Mensaje(emisor = "Pepo", tipoContenido = unaImagenOriginal)
-const unMensajeGif = new Mensaje(emisor = "Pepo", tipoContenido = unGifOriginal)
-const unMensajeContacto = new Mensaje(emisor = "Pepo", tipoContenido = unContacto)
+const unMensajeTexto = new Mensaje(emisor = unUsuario, tipoContenido = unTexto)
+const unMensajeAudio = new Mensaje(emisor = unUsuario, tipoContenido = unAudio)
+const unMensajeImagen = new Mensaje(emisor = unUsuario, tipoContenido = unaImagenOriginal)
+const unMensajeGif = new Mensaje(emisor = otroUsuario, tipoContenido = unGifOriginal)
+const unMensajeContacto = new Mensaje(emisor = unUsuario, tipoContenido = unContacto)
+
+// Usuarios.
+const unUsuario = new Usuario(cantMemoria = 1000)
+const otroUsuario = new Usuario(cantMemoria = 10)
+
+// Chats.
+const unChat = new Chat()
 
 // --------------------------------------------------
 // 🔸 Tipo de contenidos en mensajes.
@@ -111,5 +120,48 @@ describe "Mensajes" {
 	
 	test "Es posible obtener el peso de un mensaje" {
 		assert.equals(42.7, unMensajeTexto.pesoMensaje())
+	}
+}
+
+// --------------------------------------------------
+// 🔸 Chats.
+// --------------------------------------------------
+describe "Chats" {
+	test "Es posible saber si un usuario es participante" {
+		unChat.agregarParticipante(unUsuario)
+		assert.that(unChat.esParticipante(unUsuario))
+		assert.notThat(unChat.esParticipante(otroUsuario))
+	}
+	
+	test "Es posible saber si todos los participantes del grupo poseen estacio en memoria" {
+		unChat.agregarParticipante(unUsuario)
+		assert.that(unChat.espacioSuficiente(100))
+		assert.notThat(unChat.espacioSuficiente(2000))
+	}
+	
+	test "Al verificar que un usuario no es participante de un chat, lanza una excepcion" {
+		unChat.agregarParticipante(unUsuario)
+		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChat.verificarParticipantes(otroUsuario)})
+	}
+	
+	test "Al verificar que algun participante del chat no posee memoria suficiente, lanza una excepcion" {
+		unChat.agregarParticipante(unUsuario)
+		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChat.verificarMemorias(2000)})
+	}
+	
+	test "Al enviar un mensaje, se almacena en el chat" {
+		unChat.agregarParticipante(unUsuario)
+		unChat.enviar(unMensajeTexto)
+		assert.equals([unMensajeTexto], unChat.mensajes())
+	}
+	
+	test "Al enviar un mensaje y no ser participante del chat, se lanza una excepcion" {
+		unChat.agregarParticipante(unUsuario)
+		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChat.enviar(unMensajeGif)})
+	}
+	
+	test "Al enviar un mensaje y que algun participante no poseea memoria suficiente, se lanza una excepcion" {
+		unChat.agregarParticipante(unUsuario)
+		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChat.enviar(unMensajeImagen)})
 	}
 }

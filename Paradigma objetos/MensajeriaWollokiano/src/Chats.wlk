@@ -5,8 +5,8 @@
 class Chat {
 	// Participantes del chat.
 	const participantes = #{}
-	// Mensajes almacenados.
-	const mensajes = []
+	// Mensajes almacenados (Property para test)
+	const property mensajes = []
 	
 	// Saber si un usuario dado es un participante del chat.
 	method esParticipante(usuario) = participantes.contains(usuario)
@@ -37,5 +37,13 @@ class Chat {
 	// Verificar que cada participante del chat tenga espacio suficiente en memoria.
 	method verificarMemorias(cantAOcupar) {
 		if(not self.espacioSuficiente(cantAOcupar)) throw new Exception(message = "Algun participante no posee espacio suficiente en memoria")
+	}
+	
+	// Agregar participantes al chat.
+	method agregarParticipante(usuario) {
+		// Agregar al usuario.
+		participantes.add(usuario)
+		// Unirse al chat.
+		usuario.unirse(self)
 	}
 }
