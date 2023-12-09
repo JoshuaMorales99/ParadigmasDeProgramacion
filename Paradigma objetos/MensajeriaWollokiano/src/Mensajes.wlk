@@ -4,7 +4,7 @@
 // Molde para los mensajes.
 class Mensaje {
 	// Usuario emisor del mensaje.
-	const emisor
+	const property emisor
 	// Tipo de contenido (Puede ser Texto, Audio, Imagen o Contacto)
 	const tipoContenido
 	
