@@ -68,7 +68,7 @@ class Gif inherits Imagen {
 // Molde para los contactos.
 class Contacto {
 	// Usuario que se envia.
-	const usuario
+	const property usuario
 	
 	// Obtener el peso del contenido (Siempre 3 KB)
 	method pesoContenido() = 3
