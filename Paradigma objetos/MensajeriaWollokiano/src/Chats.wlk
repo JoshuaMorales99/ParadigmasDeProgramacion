@@ -18,7 +18,7 @@ class Chat {
 	// PUNTO 1: Obtener el espacio que ocupa el chat (Suma de todos los pesos de los mensajes)
 	method peso() = mensajes.sum{mensaje => mensaje.peso()}
 	
-	// Enviar un mensaje dado.
+	// PUNTO 2: Enviar un mensaje dado.
 	method enviar(mensaje) {
 		// Verificar si se cumplen las restricciones del chat.
 		self.verificarRestricciones(mensaje)
