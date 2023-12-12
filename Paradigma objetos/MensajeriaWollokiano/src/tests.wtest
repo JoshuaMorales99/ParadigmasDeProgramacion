@@ -46,12 +46,12 @@ describe "Tipos de contenidos en mensajes" {
 	}
 	
 	test "Es posible obtener el peso del contenido de Texto" {
-		assert.equals(29, unTexto.pesoContenido())
+		assert.equals(29, unTexto.peso())
 	}
 	
 	// AUDIO.
 	test "Es posible obtener el peso del contenido de Audio" {
-		assert.equals(72, unAudio.pesoContenido())
+		assert.equals(72, unAudio.peso())
 	}
 	
 	// IMAGEN.
@@ -60,41 +60,41 @@ describe "Tipos de contenidos en mensajes" {
 	}
 	
 	test "Es posible obtener el peso del contenido de Imagen con compresion original" {
-		assert.equals(43200, unaImagenOriginal.pesoContenido())
+		assert.equals(43200, unaImagenOriginal.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Imagen con compresion variable" {
-		assert.equals(21600, unaImagenVariable.pesoContenido())
+		assert.equals(21600, unaImagenVariable.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Imagen con compresion maxima (Superior a 10000 pixeles)" {
-		assert.equals(11600, otraImagenMaxima.pesoContenido())
+		assert.equals(11600, otraImagenMaxima.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Imagen con compresion maxima (No superior a 10000 pixeles)" {
-		assert.equals(20000, unaImagenMaxima.pesoContenido())
+		assert.equals(20000, unaImagenMaxima.peso())
 	}
 	
 	// GIF.
 	test "Es posible obtener el peso del contenido de Gif con compresion original" {
-		assert.equals(432000, unGifOriginal.pesoContenido())
+		assert.equals(432000, unGifOriginal.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Gif con compresion variable" {
-		assert.equals(216000, unGifVariable.pesoContenido())
+		assert.equals(216000, unGifVariable.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Gif con compresion maxima (Superior a 10000 pixeles)" {
-		assert.equals(116000, otroGifMaxima.pesoContenido())
+		assert.equals(116000, otroGifMaxima.peso())
 	}
 	
 	test "Es posible obtener el peso del contenido de Gif con compresion maxima (No superior a 10000 pixeles)" {
-		assert.equals(200000, unGifMaxima.pesoContenido())
+		assert.equals(200000, unGifMaxima.peso())
 	}
 	
 	// CONTACTO.
 	test "Es posible obtener el peso del contenido de Contacto" {
-		assert.equals(3, unContacto.pesoContenido())
+		assert.equals(3, unContacto.peso())
 	}
 }
 
@@ -123,7 +123,7 @@ describe "Mensajes" {
 	}
 	
 	test "Es posible obtener el peso de un mensaje" {
-		assert.equals(42.7, unMensajeTexto.pesoMensaje())
+		assert.equals(42.7, unMensajeTexto.peso())
 	}
 }
 
@@ -179,6 +179,14 @@ describe "Chats clasicos" {
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
 		assert.equals(1, unChatClasico.cantMensajes())
+	}
+	
+	test "PUNTO 1 - Es posible obtener el espacio ocupado por el chat" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		unChatClasico.enviar(unMensajeAudio)
+		unChatClasico.enviar(unMensajeContacto)
+		assert.equals(42.7 + 98.6 + 8.9, unChatClasico.peso())
 	}
 }
 

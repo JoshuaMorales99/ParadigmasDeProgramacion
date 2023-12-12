@@ -15,6 +15,8 @@ class Chat {
 	
 	// Obtener la cantidad de mensajes almacenados.
 	method cantMensajes() = mensajes.size()
+	// PUNTO 1: Obtener el espacio que ocupa el chat (Suma de todos los pesos de los mensajes)
+	method peso() = mensajes.sum{mensaje => mensaje.peso()}
 	
 	// Enviar un mensaje dado.
 	method enviar(mensaje) {
@@ -22,7 +24,7 @@ class Chat {
 		self.verificarRestricciones(mensaje)
 		
 		// Reducir la memoria de los participantes.
-		self.reducirMemoriaUsuarios(mensaje.pesoMensaje())
+		self.reducirMemoriaUsuarios(mensaje.peso())
 		// Almacenar mensaje en el chat.
 		self.almacenarMensaje(mensaje)
 	}
@@ -42,7 +44,7 @@ class Chat {
 		// Verificar que el usuario emisor del mensaje este entre los participantes del chat.
 		self.verificarParticipantes(mensaje.emisor())
 		// Verificar que cada participante del chat tenga espacio suficiente en memoria.
-		self.verificarMemorias(mensaje.pesoMensaje())
+		self.verificarMemorias(mensaje.peso())
 	}
 	
 	// Verificar que el usuario dado este entre los participantes del chat.
@@ -121,5 +123,5 @@ class Ahorro {
 	const pesoMaximo
 	
 	// Saber si un chat dado cumple la restriccion (Mientras no se exceda el peso maximo de mensajes establecido)
-	method cumpleRestriccion(chat, mensaje) = mensaje.pesoMensaje() <= pesoMaximo
+	method cumpleRestriccion(chat, mensaje) = mensaje.peso() <= pesoMaximo
 }

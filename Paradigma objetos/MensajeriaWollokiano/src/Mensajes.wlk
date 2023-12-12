@@ -9,9 +9,9 @@ class Mensaje {
 	const tipoContenido
 	
 	// Obtener el peso del mensaje (En KB) (Datos fijos de transferencia + peso del contenido * factor de la red)
-	method pesoMensaje() = self.cantDatosFijosDeTransferencia() + self.pesoContenido() * self.factorDeRed()
+	method peso() = self.cantDatosFijosDeTransferencia() + self.pesoContenido() * self.factorDeRed()
 	// Obtener el peso del contenido.
-	method pesoContenido() = tipoContenido.pesoContenido()
+	method pesoContenido() = tipoContenido.peso()
 	// Obtener la cantidad de datos fijos de transferencia.
 	method cantDatosFijosDeTransferencia() = 5
 	// Obtener el factor de la red.
@@ -27,7 +27,7 @@ class Texto {
 	const mensaje
 	
 	// Obtener el peso del contenido (1 KB por caracter)
-	method pesoContenido() = 1 * self.cantCaracteres()
+	method peso() = 1 * self.cantCaracteres()
 	// Obtener la cantidad de caracteres del mansaje.
 	method cantCaracteres() = mensaje.size()
 }
@@ -38,7 +38,7 @@ class Audio {
 	const duracion
 	
 	// Obtener el peso del contenido (1.2 KB por segundos)
-	method pesoContenido() = 1.2 * duracion
+	method peso() = 1.2 * duracion
 }
 
 // Molde para las imagenes.
@@ -53,7 +53,7 @@ class Imagen {
 	// Obtener la cantidad total de pixeles (Ancho de la imagen * Alto de la imagen)
 	method cantTotalPixeles() = ancho * alto
 	// Obtener el peso del contenido (2 KB * cantidad de pixeles a enviar dependiendo del modo de compresion)
-	method pesoContenido() = 2 * modoCompresion.cantAEnviar(self.cantTotalPixeles())
+	method peso() = 2 * modoCompresion.cantAEnviar(self.cantTotalPixeles())
 }
 
 // Molde para los gif.
@@ -62,7 +62,7 @@ class Gif inherits Imagen {
 	const cantCuadros
 	
 	// Obtener el peso del contenido (2 KB * Cantidad de pixeles a enviar dependiendo del modo de compresion * cantidad de cuadros)
-	override method pesoContenido() = super() * cantCuadros
+	override method peso() = super() * cantCuadros
 }
 
 // Molde para los contactos.
@@ -71,7 +71,7 @@ class Contacto {
 	const property usuario
 	
 	// Obtener el peso del contenido (Siempre 3 KB)
-	method pesoContenido() = 3
+	method peso() = 3
 }
 
 // --------------------------------------------------
