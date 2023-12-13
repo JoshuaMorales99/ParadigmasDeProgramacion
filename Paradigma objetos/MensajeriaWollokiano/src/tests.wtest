@@ -26,9 +26,9 @@ const unMensajeGif = new Mensaje(emisor = otroUsuario, tipoContenido = unGifOrig
 const unMensajeContacto = new Mensaje(emisor = unUsuario, tipoContenido = unContacto)
 
 // Usuarios.
-const unUsuario = new Usuario(cantMemoria = 1000)
-const otroUsuario = new Usuario(cantMemoria = 10)
-const unDuenio = new Usuario(cantMemoria = 1000)
+const unUsuario = new Usuario(nombre = "Pepito", cantMemoria = 1000)
+const otroUsuario = new Usuario(nombre = "Usuario", cantMemoria = 10)
+const unDuenio = new Usuario(nombre = "Pepita", cantMemoria = 1000)
 
 // Chats.
 const unChatClasico = new Chat()
@@ -49,9 +49,18 @@ describe "Tipos de contenidos en mensajes" {
 		assert.equals(29, unTexto.peso())
 	}
 	
+	test "Es posible saber si el contenido de Texto contiene un texto dado" {
+		assert.that(unTexto.contiene("que tal"))
+		assert.notThat(unTexto.contiene("Chau. Buena suerte"))
+	}
+	
 	// AUDIO.
 	test "Es posible obtener el peso del contenido de Audio" {
 		assert.equals(72, unAudio.peso())
+	}
+	
+	test "Es posible saber si el contenido de Audio contiene un texto dado" {
+		assert.notThat(unAudio.contiene("Chau. Buena suerte"))
 	}
 	
 	// IMAGEN.
@@ -75,6 +84,10 @@ describe "Tipos de contenidos en mensajes" {
 		assert.equals(20000, unaImagenMaxima.peso())
 	}
 	
+	test "Es posible saber si el contenido de Imagen contiene un texto dado" {
+		assert.notThat(unaImagenOriginal.contiene("Chau. Buena suerte"))
+	}
+		
 	// GIF.
 	test "Es posible obtener el peso del contenido de Gif con compresion original" {
 		assert.equals(432000, unGifOriginal.peso())
@@ -95,6 +108,11 @@ describe "Tipos de contenidos en mensajes" {
 	// CONTACTO.
 	test "Es posible obtener el peso del contenido de Contacto" {
 		assert.equals(3, unContacto.peso())
+	}
+	
+	test "Es posible saber si el contenido de Contacto contiene un texto dado" {
+		assert.that(unContacto.contiene("Usuario"))
+		assert.notThat(unContacto.contiene("Firulais"))
 	}
 }
 
@@ -124,6 +142,16 @@ describe "Mensajes" {
 	
 	test "Es posible obtener el peso de un mensaje" {
 		assert.equals(42.7, unMensajeTexto.peso())
+	}
+	
+	test "Es posible saber si un mensaje contiene un texto dado por nombre del emisor" {
+		assert.that(unMensajeTexto.contiene("Pepito"))
+		assert.notThat(unMensajeTexto.contiene("Usuario"))
+	}
+	
+	test "Es posible saber si un mensaje contiene un texto por tipo de contenido" {
+		assert.that(unMensajeTexto.contiene("que tal"))
+		assert.notThat(unMensajeTexto.contiene("Chau. Buena suerte"))
 	}
 }
 
@@ -193,6 +221,22 @@ describe "Chats clasicos" {
 		unChatClasico.enviar(unMensajeAudio)
 		unChatClasico.enviar(unMensajeContacto)
 		assert.equals(42.7 + 98.6 + 8.9, unChatClasico.peso())
+	}
+	
+	test "Es posible saber si posee algun mensaje que contiene un texto dado por el nombre del emisor" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		
+		assert.that(unChatClasico.contiene("Pepito"))
+		assert.notThat(unChatClasico.contiene("Usuario"))
+	}
+	
+	test "Es posible saber si posee algun mensaje que contiene un texto dado por el tipo de contenido del mensaje" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		
+		assert.that(unChatClasico.contiene("que tal"))
+		assert.notThat(unChatClasico.contiene("Chau. Buena suerte"))
 	}
 }
 
@@ -340,5 +384,24 @@ describe "Usuarios" {
 	test "Es posible reducir el espacio de memoria" {
 		unUsuario.reducirMemoria(500)
 		assert.equals(500, unUsuario.cantMemoria())
+	}
+	
+	test "Es posible saber si el nombre de usuario contiene un texto dado" {
+		assert.that(unUsuario.contiene("Pepito"))
+		assert.notThat(unUsuario.contiene("Usuario"))
+	}
+	
+	test "PUNTO 3: Es posible obtener los chats del usuario que contienen un texto dado" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		
+		unChatPremiumAhorro.agregarParticipante(unDuenio)
+		unChatPremiumAhorro.agregarParticipante(unUsuario)
+		unChatPremiumAhorro.enviar(unMensajeTexto)
+		
+		assert.equals(#{unChatClasico}, unDuenio.buscarChatsCon("Usuario"))
+		assert.equals(#{unChatPremiumAhorro}, unDuenio.buscarChatsCon("que tal"))
+		assert.equals(#{unChatClasico, unChatPremiumAhorro}, unDuenio.buscarChatsCon("Pepito"))
 	}
 }

@@ -12,6 +12,8 @@ class Chat {
 	method esParticipante(usuario) = participantes.contains(usuario)
 	// Saber si cada participante posee espacio suficiente en memoria.
 	method espacioSuficiente(cantAOcupar) = participantes.all{participante => participante.hayMemoriaSuficiente(cantAOcupar)}
+	// Saber si el chat posee algun mensaje que contenga un texto dado.
+	method contiene(texto) = mensajes.any{mensaje => mensaje.contiene(texto)}
 	
 	// Obtener la cantidad de mensajes almacenados.
 	method cantMensajes() = mensajes.size()
