@@ -1,3 +1,5 @@
+import Notificaciones.*
+
 // --------------------------------------------------
 // 🔸 Chats.
 // --------------------------------------------------
@@ -31,6 +33,13 @@ class Chat {
 		self.reducirMemoriaUsuarios(mensaje.peso())
 		// Almacenar mensaje en el chat.
 		self.almacenarMensaje(mensaje)
+		// PUNTO 5.a - Enviar notificacion del chat.
+		self.enviarNotificacion()
+	}
+	
+	// Reducir la memoria de los participantes.
+	method reducirMemoriaUsuarios(cantidad) {
+		participantes.forEach{participante => participante.reducirMemoria(cantidad)}
 	}
 	
 	// Almacenar mensaje.
@@ -38,9 +47,9 @@ class Chat {
 		mensajes.add(mensaje)
 	}
 	
-	// Reducir la memoria de los participantes.
-	method reducirMemoriaUsuarios(cantidad) {
-		participantes.forEach{participante => participante.reducirMemoria(cantidad)}
+	// Enviar notificacion del chat (Cada participante es notificado de mensajes sin leer)
+	method enviarNotificacion() {
+		participantes.forEach{participante => participante.notificar(new Notificacion(chat = self))}
 	}
 	
 	// Verificar restricciones del chat.
@@ -82,7 +91,7 @@ class Chat {
 class ChatPremium inherits Chat {
 	// Duenio del chat.
 	const property duenio
-	// Restricciones.
+	// Restricciones (difusion, Restringido o Ahorro)
 	var otraRestriccion
 	
 	// SETTER: Cambiar restriccion.

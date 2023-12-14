@@ -238,6 +238,29 @@ describe "Chats clasicos" {
 		assert.that(unChatClasico.contiene("que tal"))
 		assert.notThat(unChatClasico.contiene("Chau. Buena suerte"))
 	}
+	
+	test "Es posible obtener el mensaje mas pesado del chat" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		unChatClasico.enviar(unMensajeAudio)
+		unChatClasico.enviar(unMensajeContacto)
+		assert.equals(unMensajeAudio, unChatClasico.mensajeMasPesado())
+	}
+	
+	test "Es posible enviar a cada participante del chat una notificacion" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviarNotificacion()
+		unChatClasico.enviarNotificacion()
+		assert.equals(2, unUsuario.notificaciones().size())
+	}
+	
+	test "PUNTO 5.a - Al enviar un mensaje, se notifica a cada participante del chat" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		unChatClasico.enviar(unMensajeAudio)
+		unChatClasico.enviar(unMensajeContacto)
+		assert.equals(3, unUsuario.notificaciones().size())
+	}
 }
 
 describe "Chats premium" {
@@ -370,14 +393,6 @@ describe "Chats premium" {
 		otroChatPremiumAhorro.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {otroChatPremiumAhorro.enviar(unMensajeAudio)})
 	}
-	
-	test "Es posible obtener el mensaje mas pesado del chat" {
-		unChatClasico.agregarParticipante(unUsuario)
-		unChatClasico.enviar(unMensajeTexto)
-		unChatClasico.enviar(unMensajeAudio)
-		unChatClasico.enviar(unMensajeContacto)
-		assert.equals(unMensajeAudio, unChatClasico.mensajeMasPesado())
-	}
 }
 
 // --------------------------------------------------
@@ -424,5 +439,46 @@ describe "Usuarios" {
 		unChatPremiumAhorro.enviar(unMensajeAudio)
 		
 		assert.equals([unMensajeContacto, unMensajeAudio], unDuenio.mensajesMasPesados())
+	}
+	
+	test "Es posible obtener las notificaciones de un chat dado" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		
+		unChatPremiumAhorro.agregarParticipante(unDuenio)
+		unChatPremiumAhorro.agregarParticipante(unUsuario)
+		unChatPremiumAhorro.enviar(unMensajeTexto)
+		unChatPremiumAhorro.enviar(unMensajeAudio)
+		
+		assert.equals(2, unUsuario.notificacionesDe(unChatPremiumAhorro).size())
+	}
+	
+	test "PUNTO 5.c - Es posible obtener las notificaciones sin leer" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		
+		unChatPremiumAhorro.agregarParticipante(unDuenio)
+		unChatPremiumAhorro.agregarParticipante(unUsuario)
+		unChatPremiumAhorro.enviar(unMensajeTexto)
+		unChatPremiumAhorro.enviar(unMensajeAudio)
+		
+		assert.equals(3, unUsuario.notificacionesSinLeer().size())
+	}
+	
+	test "PUNTO 5.b - Es posible leer un chat dado" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		
+		unChatPremiumAhorro.agregarParticipante(unDuenio)
+		unChatPremiumAhorro.agregarParticipante(unUsuario)
+		unChatPremiumAhorro.enviar(unMensajeTexto)
+		unChatPremiumAhorro.enviar(unMensajeAudio)
+		
+		unUsuario.leer(unChatPremiumAhorro)
+		
+		assert.equals(1, unUsuario.notificacionesSinLeer().size())
 	}
 }
