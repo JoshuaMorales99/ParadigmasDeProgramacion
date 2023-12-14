@@ -370,6 +370,14 @@ describe "Chats premium" {
 		otroChatPremiumAhorro.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {otroChatPremiumAhorro.enviar(unMensajeAudio)})
 	}
+	
+	test "Es posible obtener el mensaje mas pesado del chat" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		unChatClasico.enviar(unMensajeAudio)
+		unChatClasico.enviar(unMensajeContacto)
+		assert.equals(unMensajeAudio, unChatClasico.mensajeMasPesado())
+	}
 }
 
 // --------------------------------------------------
@@ -403,5 +411,18 @@ describe "Usuarios" {
 		assert.equals(#{unChatClasico}, unDuenio.buscarChatsCon("Usuario"))
 		assert.equals(#{unChatPremiumAhorro}, unDuenio.buscarChatsCon("que tal"))
 		assert.equals(#{unChatClasico, unChatPremiumAhorro}, unDuenio.buscarChatsCon("Pepito"))
+	}
+	
+	test "PUNTO 4 - Es posible obtener los mensajes más pesados de cada uno de sus chat" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		
+		unChatPremiumAhorro.agregarParticipante(unDuenio)
+		unChatPremiumAhorro.agregarParticipante(unUsuario)
+		unChatPremiumAhorro.enviar(unMensajeTexto)
+		unChatPremiumAhorro.enviar(unMensajeAudio)
+		
+		assert.equals([unMensajeContacto, unMensajeAudio], unDuenio.mensajesMasPesados())
 	}
 }

@@ -19,6 +19,8 @@ class Chat {
 	method cantMensajes() = mensajes.size()
 	// PUNTO 1: Obtener el espacio que ocupa el chat (Suma de todos los pesos de los mensajes)
 	method peso() = mensajes.sum{mensaje => mensaje.peso()}
+	// Obtener el mensaje mas pesado del chat.
+	method mensajeMasPesado() = mensajes.max({mensaje => mensaje.peso()})
 	
 	// PUNTO 2: Enviar un mensaje dado.
 	method enviar(mensaje) {
