@@ -1,6 +1,49 @@
+import LineasTelefonicas.*
+import Consumos.*
+import Packs.*
 
-test "testX" {
+// ----------------------------------------------------------------
+// 🔸 Mi Universo.
+// ----------------------------------------------------------------
+// CONSUMOS.
+const unConsumoTelefonico = new ConsumoLlamada(cantSegundos = 10)
+const otroConsumoTelefonico = new ConsumoLlamada(cantSegundos = 40)
+const unConsumoInternet = new ConsumoInternet(cantMB = 100)
 
-	assert.that(true)
+// ----------------------------------------------------------------
+// 🔸 Lineas Telefonicas.
+// ----------------------------------------------------------------
 
+
+// ----------------------------------------------------------------
+// 🔸 Consumos.
+// ----------------------------------------------------------------
+describe "Consumos de llamadas" {
+	test "Es posible obtener los segundos restantes despues de los primeros 30 segundos de llamada" {
+		assert.equals(0, unConsumoTelefonico.segundosRestantes())
+		assert.equals(10, otroConsumoTelefonico.segundosRestantes())
+	}
+	
+	test "Es posible obtener el costo de los segundos restantes" {
+		assert.equals(0, unConsumoTelefonico.costoRestante())
+		assert.equals(10 * 0.05, otroConsumoTelefonico.costoRestante())
+	}
+	
+	test "PUNTO 1: Es posible obtener el costo del consumo de llamada (por 10 segundos)" {
+		assert.equals(1 + 0 * 0.05, unConsumoTelefonico.costo())
+	}
+	
+	test "PUNTO 1: Es posible obtener el costo del consumo de llamada (por 40 segundos)" {
+		assert.equals(1 + 10 * 0.05, otroConsumoTelefonico.costo())
+	}
 }
+
+describe "Consumos de internet" {
+	test "PUNTO 1: Es posible obtener el costo del consumo de internet (por 100 MB)" {
+		assert.equals(100 * 0.10, unConsumoInternet.costo())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Packs Telefonicos.
+// ----------------------------------------------------------------
