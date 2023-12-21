@@ -3,8 +3,17 @@ import Compania.*
 // ----------------------------------------------------------------
 // 🔸 Consumos.
 // ----------------------------------------------------------------
+// Clase abstracta de consumos.
+class Consumo {
+	// Fecha de cuando se realizo el consumo.
+	const fecha = new Date()
+	
+	// Saber si la fecha del consumo esta entre las fechas dadas.
+	method entreFechas(fechaMin, fechaMax) = fecha.between(fechaMin, fechaMax)
+}
+
 // Molde para los consumos de llamadas.
-class ConsumoLlamada {
+class Llamada inherits Consumo {
 	// Cantidad de segundos consumidos.
 	const cantSegundos
 	
@@ -19,7 +28,7 @@ class ConsumoLlamada {
 }
 
 // Molde para los consumos de internet.
-class ConsumoInternet {
+class Internet inherits Consumo {
 	// Cantidad de MB consumidos.
 	const cantMB
 	

@@ -1,19 +1,41 @@
 import LineasTelefonicas.*
 import Consumos.*
-import Packs.*
 
 // ----------------------------------------------------------------
 // 🔸 Mi Universo.
 // ----------------------------------------------------------------
 // CONSUMOS.
-const unConsumoTelefonico = new ConsumoLlamada(cantSegundos = 10)
-const otroConsumoTelefonico = new ConsumoLlamada(cantSegundos = 40)
-const unConsumoInternet = new ConsumoInternet(cantMB = 100)
+const unConsumoTelefonico = new Llamada(cantSegundos = 10)
+const otroConsumoTelefonico = new Llamada(cantSegundos = 40, fecha = new Date().minusYears(2))
+const unConsumoInternet = new Internet(cantMB = 100)
+
+// LINEAS TELEFONICAS.
+const unaLineaTelefonica = new LineaTelefonica(telefono = 1234567890, consumos = [unConsumoTelefonico, otroConsumoTelefonico, unConsumoInternet])
 
 // ----------------------------------------------------------------
 // 🔸 Lineas Telefonicas.
 // ----------------------------------------------------------------
-
+describe "Lineas telefonicas" {
+	test "Es posible obtener la cantidad de consumos realizados" {
+		assert.equals(3, unaLineaTelefonica.cantConsumos())
+	}
+	
+	test "Es posible obtener los consumos realizados entre dos fechas dadas" {
+		assert.equals([unConsumoTelefonico, unConsumoInternet], unaLineaTelefonica.consumosEntre(new Date().minusDays(30) , new Date()))
+	}
+	
+	test "Es posible obtener el costo total de los consumos realizados entre dos fechas dadas" {
+		assert.equals(1 + 10, unaLineaTelefonica.costoTotalEntre(new Date().minusDays(30) , new Date()))
+	}
+	
+	test "PUNTO 2.a: Es posible obtener el costo promedio de todos los consumos realizados entre dos fechas dadas" {
+		assert.equals(11 / 3, unaLineaTelefonica.costoPromedioEntre(new Date().minusDays(30) , new Date()))
+	}
+	
+	test "PUNTO 2.b: Es posible obtener el costo total de los consumos realizados en los ultimos 30 dias" {
+		assert.equals(11, unaLineaTelefonica.ultimosCostosTotales())
+	}
+}
 
 // ----------------------------------------------------------------
 // 🔸 Consumos.
@@ -35,6 +57,11 @@ describe "Consumos de llamadas" {
 	
 	test "PUNTO 1: Es posible obtener el costo del consumo de llamada (por 40 segundos)" {
 		assert.equals(1 + 10 * 0.05, otroConsumoTelefonico.costo())
+	}
+	
+	test "Es posible saber si la fecha de un consumo esta entre las fechas dadas" {
+		assert.that(unConsumoTelefonico.entreFechas(new Date().minusDays(30) , new Date()))
+		assert.notThat(otroConsumoTelefonico.entreFechas(new Date().minusDays(30) , new Date()))
 	}
 }
 
