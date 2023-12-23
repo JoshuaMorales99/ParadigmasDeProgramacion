@@ -1,18 +1,21 @@
 // ----------------------------------------------------------------
 // 🔸 Packs. TODO
 // ----------------------------------------------------------------
-// Clase abstracta para los diferentes packs disponibles.
+// Clase abstracta para los distintos packs disponibles.
 class Pack {
 	// Tipo de vencimiento (ilimitado o Vencimiento)
 	const tipoVencimiento
 	
 	// Saber si se cubre el consumo dado.
-	method cubre(consumo)
+	method cubre(consumo) = self.puedeCubrirElTipo(consumo)
+	// Saber si se puede cubrir el tipo de consumo dado.
+	method puedeCubrirElTipo(consumo)
 	
 	// PUNTO 3: Saber si se puede utilizar en un consumo dado (Esta en fecha y cubre el consumo dado)
 	method satisface(consumo) = tipoVencimiento.estaEnFecha() and self.cubre(consumo)
 }
 
+// Clase abstracta para los distintos packs consumibles.
 class PackConsumible inherits Pack {
 	// Cantidad disponible a consumir.
 	var cantidad
@@ -21,15 +24,14 @@ class PackConsumible inherits Pack {
 	method cantAConsumir(consumo)
 	
 	// Saber si se cubre el consumo dado (Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo)
-	override method cubre(consumo) = self.puedeCubrirElTipo(consumo) and self.puedeCubrirLaCantidad(consumo)
-	// Saber si se puede cubrir el tipo de consumo dado.
-	method puedeCubrirElTipo(consumo)
+	override method cubre(consumo) = super(consumo) and self.puedeCubrirLaCantidad(consumo)
 	// Saber si se puede cubrir la cantidad del consumo dado.
 	method puedeCubrirLaCantidad(consumo) = self.cantAConsumir(consumo) <= cantidad
 }
 
+// Clase abstracta para los distintos packs ilimitados.
 class PackIlimitado inherits Pack {
-	
+	// TODO sirve?
 }
 
 // ----------------------------------------------------------------
@@ -55,13 +57,20 @@ class InternetLibre inherits PackConsumible {
 }
 
 // Molde para el pack de llamadas gratis.
-class LlamadasGratis {
-	
+class LlamadasGratis inherits PackIlimitado {
+	// Saber si se puede cubrir el tipo de consumo dado (Cubre solamente Llamadas)
+	override method puedeCubrirElTipo(consumo) = consumo.esDeLlamada()
 }
 
 // Molde para el pack de internet ilimitado los fines de semana.
-class InternetIlimitado {
+class InternetIlimitado inherits PackIlimitado {
+	// Saber si se puede cubrir el tipo de consumo dado (Cubre solamente Internet)
+	override method puedeCubrirElTipo(consumo) = consumo.esDeInternet()
 	
+	// Saber si se cubre el consumo dado (Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo)
+	override method cubre(consumo) = super(consumo) and self.esFinDeSemana()
+	// Saber si es fin de semana.
+	method esFinDeSemana() = new Date().isWeekendDay()
 }
 
 // ----------------------------------------------------------------
