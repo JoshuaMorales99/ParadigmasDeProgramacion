@@ -16,6 +16,7 @@ class LineaTelefonica {
 	method consumosEntre(fechaMin, fechaMax) = consumos.filter{consumo => consumo.entreFechas(fechaMin, fechaMax)}
 	// Obtener el costo total de los consumos realizados entre dos fechas dadas.
 	method costoTotalEntre(fechaMin, fechaMax) = self.consumosEntre(fechaMin, fechaMax).sum{consumo => consumo.costo()}
+	
 	// PUNTO 2.a: Obtener el costo promedio de todos los consumos realizados entre dos fechas dadas.
 	method costoPromedioEntre(fechaMin, fechaMax) = self.costoTotalEntre(fechaMin, fechaMax) / self.cantConsumos()
 	// PUNTO 2.b: Obtener el costo total de los consumos realizados en los ultimos 30 dias.
