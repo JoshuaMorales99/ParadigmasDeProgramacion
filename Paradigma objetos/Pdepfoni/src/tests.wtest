@@ -1,16 +1,35 @@
 import LineasTelefonicas.*
 import Consumos.*
+import Packs.*
 
 // ----------------------------------------------------------------
 // 🔸 Mi Universo.
 // ----------------------------------------------------------------
 // CONSUMOS.
-const unConsumoTelefonico = new Llamada(cantSegundos = 10)
-const otroConsumoTelefonico = new Llamada(cantSegundos = 40, fecha = new Date().minusYears(2))
+const unConsumoLlamada = new Llamada(cantSegundos = 10)
+const otroConsumoLlamada = new Llamada(cantSegundos = 40, fecha = new Date().minusYears(2))
 const unConsumoInternet = new Internet(cantMB = 100)
+const otroConsumoInternet = new Internet(cantMB = 1000)
 
 // LINEAS TELEFONICAS.
-const unaLineaTelefonica = new LineaTelefonica(telefono = 1234567890, consumos = [unConsumoTelefonico, otroConsumoTelefonico, unConsumoInternet])
+const unaLineaTelefonica = new LineaTelefonica(telefono = 1234567890, consumos = [unConsumoLlamada, otroConsumoLlamada, unConsumoInternet])
+
+// VENCIMIENTOS.
+const fechaVencida = new Vencimiento(fecha = new Date().minusDays(25))
+const fechaNoVencida = new Vencimiento(fecha = new Date().plusDays(25))
+
+// PACKS.
+const packCredito = new Credito(cantidad = 100, tipoVencimiento = fechaNoVencida)
+const packCreditoVencido = new Credito(cantidad = 100, tipoVencimiento = fechaVencida)
+const packCreditoInsuficiente = new Credito(cantidad = 0, tipoVencimiento = fechaNoVencida)
+const packInternetLibre = new InternetLibre(cantidad = 100, tipoVencimiento = fechaNoVencida)
+const packInternetLibreVencido = new InternetLibre(cantidad = 100, tipoVencimiento = fechaVencida)
+const packInternetLibreInsuficiente = new InternetLibre(cantidad = 0, tipoVencimiento = fechaNoVencida)
+
+const packLlamadasGratis = new LlamadasGratis(tipoVencimiento = fechaNoVencida)
+const packLlamadasGratisVencido = new LlamadasGratis(tipoVencimiento = fechaVencida)
+const packInternetIlimitadoFinde = new InternetIlimitadoFindes(tipoVencimiento = fechaNoVencida)
+const packInternetIlimitadoFindeVencido = new InternetIlimitadoFindes(tipoVencimiento = fechaVencida)
 
 // ----------------------------------------------------------------
 // 🔸 Lineas Telefonicas.
@@ -21,7 +40,7 @@ describe "Lineas telefonicas" {
 	}
 	
 	test "Es posible obtener los consumos realizados entre dos fechas dadas" {
-		assert.equals([unConsumoTelefonico, unConsumoInternet], unaLineaTelefonica.consumosEntre(new Date().minusDays(30) , new Date()))
+		assert.equals([unConsumoLlamada, unConsumoInternet], unaLineaTelefonica.consumosEntre(new Date().minusDays(30) , new Date()))
 	}
 	
 	test "Es posible obtener el costo total de los consumos realizados entre dos fechas dadas" {
@@ -42,26 +61,26 @@ describe "Lineas telefonicas" {
 // ----------------------------------------------------------------
 describe "Consumos de llamadas" {
 	test "Es posible obtener los segundos restantes despues de los primeros 30 segundos de llamada" {
-		assert.equals(0, unConsumoTelefonico.segundosRestantes())
-		assert.equals(10, otroConsumoTelefonico.segundosRestantes())
+		assert.equals(0, unConsumoLlamada.segundosRestantes())
+		assert.equals(10, otroConsumoLlamada.segundosRestantes())
 	}
 	
 	test "Es posible obtener el costo de los segundos restantes" {
-		assert.equals(0, unConsumoTelefonico.costoRestante())
-		assert.equals(10 * 0.05, otroConsumoTelefonico.costoRestante())
+		assert.equals(0, unConsumoLlamada.costoRestante())
+		assert.equals(10 * 0.05, otroConsumoLlamada.costoRestante())
 	}
 	
 	test "PUNTO 1: Es posible obtener el costo del consumo de llamada (por 10 segundos)" {
-		assert.equals(1 + 0 * 0.05, unConsumoTelefonico.costo())
+		assert.equals(1 + 0 * 0.05, unConsumoLlamada.costo())
 	}
 	
 	test "PUNTO 1: Es posible obtener el costo del consumo de llamada (por 40 segundos)" {
-		assert.equals(1 + 10 * 0.05, otroConsumoTelefonico.costo())
+		assert.equals(1 + 10 * 0.05, otroConsumoLlamada.costo())
 	}
 	
 	test "Es posible saber si la fecha de un consumo esta entre las fechas dadas" {
-		assert.that(unConsumoTelefonico.entreFechas(new Date().minusDays(30) , new Date()))
-		assert.notThat(otroConsumoTelefonico.entreFechas(new Date().minusDays(30) , new Date()))
+		assert.that(unConsumoLlamada.entreFechas(new Date().minusDays(30) , new Date()))
+		assert.notThat(otroConsumoLlamada.entreFechas(new Date().minusDays(30) , new Date()))
 	}
 }
 
@@ -74,3 +93,192 @@ describe "Consumos de internet" {
 // ----------------------------------------------------------------
 // 🔸 Packs Telefonicos.
 // ----------------------------------------------------------------
+describe "PACK: Credito" {
+	test "Es posible saber si esta en fecha" {
+		assert.that(packCredito.estaEnFecha())
+		assert.notThat(packCreditoVencido.estaEnFecha())
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo llamada" {
+		assert.that(packCredito.puedeCubrirElTipo(unConsumoLlamada))
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo internet" {
+		assert.that(packCredito.puedeCubrirElTipo(unConsumoInternet))
+	}
+	
+	test "Es posible obtener la cantidad a consumir, el cual es igual al costo del consumo" {
+		assert.equals(1, packCredito.cantAConsumir(unConsumoLlamada))
+		assert.equals(10, packCredito.cantAConsumir(unConsumoInternet))
+	}
+	
+	test "Es posible saber si puede cubrir la cantidad a consumir" {
+		assert.that(packCredito.puedeCubrirLaCantidad(unConsumoLlamada))
+		assert.that(packCredito.puedeCubrirLaCantidad(unConsumoInternet))
+	}
+	
+	test "Se puede cubrir un consumo si: Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo" {
+		// Recordar que este pack puede cubrir cualquiera de los dos tipos de consumo: Llamada e Internet.
+		assert.that(packCredito.cubre(unConsumoLlamada))
+		assert.that(packCredito.cubre(unConsumoInternet))
+	}
+	
+	test "No se puede cubrir un consumo si no se puede cubrir la cantidad del consumo" {
+		assert.notThat(packCreditoInsuficiente.cubre(unConsumoLlamada))
+		assert.notThat(packCreditoInsuficiente.cubre(unConsumoInternet))
+	}
+	
+	test "PUNTO 3: Se puede utilizar en un consumo dado si: Esta en fecha y cubre el consumo" {
+		// Recordar que este pack puede cubrir cualquiera de los dos tipos de consumo: Llamada e Internet.
+		assert.that(packCredito.satisface(unConsumoLlamada))
+		assert.that(packCredito.satisface(unConsumoInternet))
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no esta en fecha" {
+		assert.notThat(packCreditoVencido.satisface(unConsumoLlamada))
+		assert.notThat(packCreditoVencido.satisface(unConsumoInternet))
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no cubre el consumo" {
+		assert.notThat(packCreditoInsuficiente.satisface(unConsumoLlamada))
+		assert.notThat(packCreditoInsuficiente.satisface(unConsumoInternet))
+	}
+}
+
+describe "PACK: Internet Libre" {
+	test "Es posible saber si esta en fecha" {
+		assert.that(packInternetLibre.estaEnFecha())
+		assert.notThat(packInternetLibreVencido.estaEnFecha())
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo llamada" {
+		assert.notThat(packInternetLibre.puedeCubrirElTipo(unConsumoLlamada))
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo internet" {
+		assert.that(packInternetLibre.puedeCubrirElTipo(unConsumoInternet))
+	}
+	
+	test "Es posible obtener la cantidad a consumir, el cual es igual a la cantidad de MB" {
+		assert.equals(0, packInternetLibre.cantAConsumir(unConsumoLlamada))
+		assert.equals(100, packInternetLibre.cantAConsumir(unConsumoInternet))
+	}
+	
+	test "Es posible saber si puede cubir la cantidad a consumir" {
+		assert.that(packInternetLibre.puedeCubrirLaCantidad(unConsumoInternet))
+	}
+	
+	test "Se puede cubrir un consumo si: Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo" {
+		// Recordar que este pack puede cubrir solamente los consumos de Internet.
+		assert.that(packInternetLibre.cubre(unConsumoInternet))	
+	}
+	
+	test "No se puede cubrir un consumo si no se puede cubrir el tipo del consumo" {
+		// Recordar que este pack no puede cubrir los consumos de Llamadas.
+		assert.notThat(packInternetLibre.cubre(unConsumoLlamada))
+	}
+	
+	test "No se puede cubrir un consumo si no se puede cubrir la cantidad del consumo" {
+		assert.notThat(packInternetLibre.cubre(otroConsumoInternet))
+	}
+	
+	test "PUNTO 3: Se puede utilizar en un consumo dado si: Esta en fecha y cubre el consumo" {
+		// Recordar que este pack puede cubrir solamente los consumos de Internet.
+		assert.that(packInternetLibre.satisface(unConsumoInternet))	
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no esta en fecha" {
+		assert.notThat(packInternetLibreVencido.satisface(unConsumoInternet))
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no cubre el consumo" {
+		// Recordar que este pack no puede cubrir los consumos de Llamadas.
+		assert.notThat(packInternetLibre.satisface(unConsumoLlamada))
+		assert.notThat(packInternetLibre.satisface(otroConsumoInternet))
+	}
+}
+
+describe "PACK: Llamadas Gratis" {
+	test "Es posible saber si esta en fecha" {
+		assert.that(packLlamadasGratis.estaEnFecha())
+		assert.notThat(packLlamadasGratisVencido.estaEnFecha())
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo llamada" {
+		assert.that(packLlamadasGratis.puedeCubrirElTipo(unConsumoLlamada))
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo internet" {
+		assert.notThat(packLlamadasGratis.puedeCubrirElTipo(unConsumoInternet))
+	}
+	
+	test "Es posible usarlo cualquier dia de la semana" {
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 24, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 25, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 26, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 27, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 28, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 29, month = 12, year = 2023)))
+		assert.that(packLlamadasGratis.esDiaSemanaValido(new Date(day = 30, month = 12, year = 2023)))
+	}
+	
+	test "Se puede cubrir un consumo si se puede cubrir el tipo del consumo" {
+		// Recordar que este pack puede cubrir solamente los consumos de Llamada.
+		assert.that(packLlamadasGratis.cubre(unConsumoLlamada))
+		
+	}
+	
+	test "No se puede cubrir un consumo si no se puede cubrir el tipo del consumo" {
+		// Recordar que este pack no puede cubrir los consumos de Internet.
+		assert.notThat(packLlamadasGratis.cubre(unConsumoInternet))
+	}
+	
+	test "PUNTO 3: Se puede utilizar en un consumo dado si: Esta en fecha y cubre el consumo" {
+		// Recordar que este pack puede cubrir solamente los consumos de Llamada.
+		assert.that(packLlamadasGratis.satisface(unConsumoLlamada))
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no esta en fecha" {
+		assert.notThat(packLlamadasGratisVencido.satisface(unConsumoLlamada))
+	}
+	
+	test "PUNTO 3: No se puede utilizar en un consumo dado si no cubre el consumo" {
+		// Recordar que este pack no puede cubrir los consumos de Internet.
+		assert.notThat(packLlamadasGratis.satisface(unConsumoInternet))
+	}
+}
+
+describe "PACK: Internet Ilimitado los Fin de Semana" {
+	test "Es posible saber si esta en fecha" {
+		assert.that(packInternetIlimitadoFinde.estaEnFecha())
+		assert.notThat(packInternetIlimitadoFindeVencido.estaEnFecha())
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo llamada" {
+		assert.notThat(packInternetIlimitadoFinde.puedeCubrirElTipo(unConsumoLlamada))
+	}
+	
+	test "Es posible saber si cubre el tipo de consumo internet" {
+		assert.that(packInternetIlimitadoFinde.puedeCubrirElTipo(unConsumoInternet))
+	}
+	
+	test "Es posible usarlo solamente los fin de semana" {
+		assert.notThat(packInternetIlimitadoFinde.esDiaSemanaValido(monday))
+		assert.notThat(packInternetIlimitadoFinde.esDiaSemanaValido(tuesday))
+		assert.notThat(packInternetIlimitadoFinde.esDiaSemanaValido(wednesday))
+		assert.notThat(packInternetIlimitadoFinde.esDiaSemanaValido(thursday))
+		assert.notThat(packInternetIlimitadoFinde.esDiaSemanaValido(friday))
+		assert.that(packInternetIlimitadoFinde.esDiaSemanaValido(saturday))
+		assert.that(packInternetIlimitadoFinde.esDiaSemanaValido(sunday))
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Vigencia de los packs.
+// ----------------------------------------------------------------
+describe "Vencimiento" {
+	test "Es posible saber si un vencimiento esta en fecha" {
+		assert.that(fechaNoVencida.estaEnFecha())
+		assert.notThat(fechaVencida.estaEnFecha())
+	}
+}

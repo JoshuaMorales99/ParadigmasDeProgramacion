@@ -38,7 +38,7 @@ class Llamada inherits Consumo {
 // Molde para los consumos de internet.
 class Internet inherits Consumo {
 	// Cantidad de MB consumidos.
-	const cantMB
+	const property cantMB
 	
 	// Saber si es un consumo de tipo Internet.
 	override method esDeInternet() = true
