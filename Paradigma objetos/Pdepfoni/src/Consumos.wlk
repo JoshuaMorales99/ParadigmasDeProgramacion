@@ -19,7 +19,7 @@ class Consumo {
 // Molde para los consumos de llamadas.
 class Llamada inherits Consumo {
 	// Cantidad de segundos consumidos.
-	const cantSegundos
+	const property cantSegundos
 	
 	// Obtener los segundos restantes luego de los primeros 30 segundos de llamada.
 	method segundosRestantes() = 0.max(cantSegundos - 30)
@@ -39,6 +39,9 @@ class Llamada inherits Consumo {
 class Internet inherits Consumo {
 	// Cantidad de MB consumidos.
 	const property cantMB
+	
+	// Obtener la cantidad de segundos consumidos.
+	method cantSegundos() = 0
 	
 	// Saber si es un consumo de tipo Internet.
 	override method esDeInternet() = true
