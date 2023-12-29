@@ -57,6 +57,44 @@ describe "Lineas telefonicas" {
 	test "PUNTO 2.b: Es posible obtener el costo total de los consumos realizados en los ultimos 30 dias" {
 		assert.equals(2, unaLineaTelefonica.ultimosCostosTotales())
 	}
+	
+	test "PUNTO 5: Si ningun pack de la linea satisface completamente el consumo dado, no es posible hacer dicho consumo" {
+		// Fecha vencida.
+		const vencido = new Vencimiento(fecha = new Date().minusMonths(3))
+		// Fecha no vencida.
+		const noVencido = new Vencimiento(fecha = new Date().plusMonths(3))
+		
+		// Packs vencidos.
+		const pack_1 = new InternetLibre(cantidad = 10, tipoVencimiento = vencido)
+		const pack_2 = new Credito(cantidad = 50, tipoVencimiento = vencido)
+		const pack_3 = new InternetLibre(cantidad = 200, tipoVencimiento = vencido)
+		// Packs no vencidos.
+		const pack_4 = new InternetLibre(cantidad = 5, tipoVencimiento = noVencido)
+		const pack_5 = new InternetLibre(cantidad = 15, tipoVencimiento = noVencido)
+		
+		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
+		
+		assert.notThat(telefono.puedeRealizar(new Internet(cantMB = 20)))
+	}
+	
+	test "PUNTO 5: Si algun pack de la linea satisface completamente el consumo dado, es posible hacer dicho consumo" {
+		// Fecha vencida.
+		const vencido = new Vencimiento(fecha = new Date().minusMonths(3))
+		// Fecha no vencida.
+		const noVencido = new Vencimiento(fecha = new Date().plusMonths(3))
+		
+		// Packs vencidos.
+		const pack_1 = new InternetLibre(cantidad = 10, tipoVencimiento = vencido)
+		const pack_2 = new Credito(cantidad = 50, tipoVencimiento = vencido)
+		const pack_3 = new InternetLibre(cantidad = 200, tipoVencimiento = vencido)
+		// Packs no vencidos.
+		const pack_4 = new InternetLibre(cantidad = 5, tipoVencimiento = noVencido)
+		const pack_5 = new InternetLibre(cantidad = 25, tipoVencimiento = noVencido)
+		
+		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
+		
+		assert.that(telefono.puedeRealizar(new Internet(cantMB = 20)))
+	}
 }
 
 // ----------------------------------------------------------------
