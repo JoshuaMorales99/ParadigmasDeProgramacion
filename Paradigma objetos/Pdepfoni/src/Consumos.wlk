@@ -50,3 +50,27 @@ class Internet inherits Consumo {
 	method costo() = cantMB * pdepfoni.precioMB()
 	
 }
+
+// ----------------------------------------------------------------
+// 🔸 PUNTO 10.b: Teorico.
+// ----------------------------------------------------------------
+/* Describir y justificar qué es lo mínimo necesario que hay que hacer para agregar un nuevo consumo.
+
+Para agregar un nuevo consumo, se debe respetar el polimorfismo (misma interfaz, distintos comportamientos) que tienen estos.
+	* Para packs que heredan de Consumo:
+	* Metodos obligatorios a agregar:
+	* 	- costo()
+	* 	- cantSegundos()
+	* 	- cantMB()
+	* Metodos que se pueden sobrescribir:
+	* 	- Todos los metodos de la clase abstracta.
+
+	* Para packs que no heredan de ninguno de los anteriores mencionados:
+	* 	- entreFechas(fechaMin, fechaMax)
+	* 	- esDeLlamada()
+	* 	- esDeInternet()
+	* 	- cantMB()
+	* 	- cantSegundos()
+	* 	- costo()
+
+*/

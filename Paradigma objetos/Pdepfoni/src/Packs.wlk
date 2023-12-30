@@ -141,3 +141,39 @@ class Vencimiento {
 	// Saber si esta en fecha.
 	method estaEnFecha() = new Date() <= fecha
 }
+
+// ----------------------------------------------------------------
+// 🔸 PUNTO 10.a: Teorico.
+// ----------------------------------------------------------------
+/* Describir y justificar qué es lo mínimo necesario que hay que hacer para agregar un nuevo pack.
+
+Para agregar un nuevo pack, se debe respetar el polimorfismo (misma interfaz, distintos comportamientos) que tienen estos.
+	* Para packs que heredan de PackConsumibles:
+	* Metodos obligatorios a agregar:
+	* 	- puedeCubrirElTipo(consumo)
+	* 	- cantAConsumir(consumo)
+	* Metodos que se pueden sobrescribir:
+	* 	- Todos los metodos de la clase abstracta.
+
+	* Para packs que heredan de PackIlimitados:
+	* Metodos obligatorios a agregar:
+	* 	- puedeCubrirElTipo(consumo)
+	* 	- esDiaSemanaValido(diaSemana)
+	* Metodos que se pueden sobrescribir:
+	* 	- Todos los metodos de la clase abstracta.
+
+	* Para packs que heredan de Pack:
+	* Metodos obligatorios a agregar:
+	* 	- puedeCubrirElTipo(consumo)
+	* 	- estaTotalmenteGastado()
+	* 	- cubre(consumo)
+	* 	- gastar()
+	* Metodos que se pueden sobrescribir:
+	* 	- Todos los metodos de la clase abstracta.
+
+	* Para packs que no heredan de ninguna de las anteriores:
+	* Metodos obligatorios a agregar:
+	* 	- estaEnFecha()
+	* 	- satisface(consumo)
+
+*/
