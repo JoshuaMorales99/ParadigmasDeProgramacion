@@ -53,11 +53,6 @@ class LineaTelefonica {
 		deuda = deuda + cantidad
 	}
 	
-	// PUNTO 8: Cambiar el tipo de Linea.
-	method tipoLinea(nuevoTipo) {
-		tipoLinea = nuevoTipo
-	}
-	
 	// PUNTO 2.a: Obtener el costo promedio de todos los consumos realizados entre dos fechas dadas.
 	method costoPromedioEntre(fechaMin, fechaMax) = self.costoTotalEntre(fechaMin, fechaMax) / self.cantConsumos()
 	// PUNTO 2.b: Obtener el costo total de los consumos realizados en los ultimos 30 dias.
@@ -75,6 +70,11 @@ class LineaTelefonica {
 	// PUNTO 7.a: Realizar una limpieza de los packs vencidos y/o gastados.
 	method limpiarPacks() {
 		packs.removeAllSuchThat{pack => pack.sePuedeEliminar()}
+	}
+	
+	// PUNTO 8: Cambiar el tipo de Linea.
+	method tipoLinea(nuevoTipo) {
+		tipoLinea = nuevoTipo
 	}
 }
 
