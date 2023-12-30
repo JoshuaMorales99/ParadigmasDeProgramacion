@@ -102,14 +102,17 @@ describe "Lineas telefonicas" {
 	
 	test "Es posible obtener el ultimo pack agregado a la linea que satisface un consumo dado" {
 		const otroPackCredito = new Credito(cantidad = 1000000, tipoVencimiento = fechaNoVencida)
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [packCredito, llamadasGratis, otroPackCredito])
+		const telefono = new LineaTelefonica(telefono = 1566666666)
 		
+		telefono.agregarPack(otroPackCredito)
+		telefono.agregarPack(llamadasGratis)
+		telefono.agregarPack(packCredito)
 		assert.equals(llamadasGratis, telefono.ultimoPackQueSatisface(new Llamada(cantSegundos = 100000)))
 	}
 	
 	test "Es posible consumir el ultimo pack agregado que satisface un consumo dado." {
 		const otroPackCredito = new Credito(cantidad = 1000000, tipoVencimiento = fechaNoVencida)
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [packCredito, llamadasGratis, otroPackCredito])
+		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [otroPackCredito, llamadasGratis, packCredito])
 		
 		telefono.consumirPack(new Llamada(cantSegundos = 100000))
 		assert.equals(100, packCredito.cantidad())
@@ -121,7 +124,7 @@ describe "Lineas telefonicas" {
 	}
 	
 	test "PUNTO 6: Al realizar un consumo que se puede hacer en la linea, se consume el ultimo pack agregado que satisface el consumo dado y se agrega al historial de consumos realizados" {
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [packCredito, packLlamadaLibre, llamadasGratis])
+		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [llamadasGratis, packLlamadaLibre, packCredito])
 		
 		telefono.realizar(unConsumoLlamada)
 		assert.equals(100 - 1, packCredito.cantidad())

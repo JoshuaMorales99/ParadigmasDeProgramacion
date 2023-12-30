@@ -17,7 +17,7 @@ class LineaTelefonica {
 	// Obtener el costo total de los consumos realizados entre dos fechas dadas.
 	method costoTotalEntre(fechaMin, fechaMax) = self.consumosEntre(fechaMin, fechaMax).sum{consumo => consumo.costo()}
 	// Obtener el ultimo pack agregado a la linea que satisface un consumo dado.
-	method ultimoPackQueSatisface(consumo) = packs.find{pack => pack.satisface(consumo)}
+	method ultimoPackQueSatisface(consumo) = packs.reverse().find{pack => pack.satisface(consumo)}
 	
 	// Consumir el ultimo pack agregado que satisface un consumo dado.
 	method consumirPack(consumo) {
