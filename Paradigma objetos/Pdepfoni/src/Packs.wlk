@@ -34,11 +34,13 @@ class PackConsumible inherits Pack {
 	method cantAConsumir(consumo)
 	// Obtener la cantidad restante (Para test)
 	method cantidad() = cantidad
+	// Obtener la cantidad limite posible a consumir.
+	method limiteAConsumir() = cantidad
 	
 	// Saber si se cubre el consumo dado (Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo)
 	override method cubre(consumo) = super(consumo) and self.puedeCubrirLaCantidad(consumo)
 	// Saber si se puede cubrir la cantidad del consumo dado.
-	method puedeCubrirLaCantidad(consumo) = self.cantAConsumir(consumo) <= cantidad
+	method puedeCubrirLaCantidad(consumo) = self.cantAConsumir(consumo) <= self.limiteAConsumir()
 	// Saber si esta totalmente gastado.
 	override method estaTotalmenteGastado() = cantidad == 0
 	
@@ -86,6 +88,17 @@ class InternetLibre inherits PackConsumible {
 	
 	// Saber si se puede cubrir el tipo de consumo dado (Cubre solamente Internet)
 	override method puedeCubrirElTipo(consumo) = consumo.esDeInternet()
+}
+
+// PUNTO 7.b: Molde para el pack de una cantidad de MB libres ++ para navegar por internet.
+class InternetLibrePlusPlus inherits InternetLibre {
+	// Obtener la cantidad limite posible a consumir (Si esta gastado, se  puede consumir hasta 0.1 MB. En caso contrario, la cantidad disponible a consumir)
+	override method limiteAConsumir() = if(self.estaTotalmenteGastado()) 0.1 else super()
+	
+	// Gastar pack (Si no esta gastado, disminuir la cantidad a consumir. En caso contrario, no hace nada)
+	override method gastar(consumo) {
+		if(not self.estaTotalmenteGastado()) super(consumo)
+	}
 }
 
 // Molde para el pack de una cantidad de segundos libres de llamadas.
