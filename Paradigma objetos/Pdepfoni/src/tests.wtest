@@ -13,7 +13,7 @@ const otroConsumoInternet = new Internet(cantMB = 1000)
 const unMiniConsumoInternet = new Internet(cantMB = 0.1)
 
 // LINEAS TELEFONICAS.
-const unaLineaTelefonica = new LineaTelefonica(telefono = 1234567890, consumos = [unConsumoLlamada, otroConsumoLlamada, unConsumoInternet])
+const unaLineaTelefonica = new LineaTelefonica(telefono = 1234567890, tipoLinea = comun, consumos = [unConsumoLlamada, otroConsumoLlamada, unConsumoInternet])
 
 // VENCIMIENTOS.
 const fechaVencida = new Vencimiento(fecha = new Date().minusDays(25))
@@ -76,7 +76,7 @@ describe "Lineas telefonicas" {
 		const pack_4 = new InternetLibre(cantidad = 5, tipoVencimiento = noVencido)
 		const pack_5 = new InternetLibre(cantidad = 15, tipoVencimiento = noVencido)
 		
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
 		
 		assert.notThat(telefono.puedeRealizar(new Internet(cantMB = 20)))
 	}
@@ -95,18 +95,14 @@ describe "Lineas telefonicas" {
 		const pack_4 = new InternetLibre(cantidad = 5, tipoVencimiento = noVencido)
 		const pack_5 = new InternetLibre(cantidad = 25, tipoVencimiento = noVencido)
 		
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [pack_1, pack_2, pack_3, pack_4, pack_5])
 		
 		assert.that(telefono.puedeRealizar(new Internet(cantMB = 20)))
 	}
 	
-	test "Es posible lanzar una excepcion si no se puede realizar un consumo en la linea" {
-		assert.throwsExceptionWithMessage("No se puede realizar el consumo dado", {unaLineaTelefonica.verificarConsumo(otroConsumoInternet)})
-	}
-	
 	test "Es posible obtener el ultimo pack agregado a la linea que satisface un consumo dado" {
 		const otroPackCredito = new Credito(cantidad = 1000000, tipoVencimiento = fechaNoVencida)
-		const telefono = new LineaTelefonica(telefono = 1566666666)
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun)
 		
 		telefono.agregarPack(otroPackCredito)
 		telefono.agregarPack(llamadasGratis)
@@ -116,19 +112,33 @@ describe "Lineas telefonicas" {
 	
 	test "Es posible consumir el ultimo pack agregado que satisface un consumo dado." {
 		const otroPackCredito = new Credito(cantidad = 1000000, tipoVencimiento = fechaNoVencida)
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [otroPackCredito, llamadasGratis, packCredito])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [otroPackCredito, llamadasGratis, packCredito])
 		
 		telefono.consumirPack(new Llamada(cantSegundos = 100000))
 		assert.equals(100, packCredito.cantidad())
 		assert.equals(1000000, otroPackCredito.cantidad())
 	}
 	
-	test "PUNTO 6: Al intentar realizar un consumo que no se puede hacer en la linea, se lanza una excepcion" {
-		assert.throwsExceptionWithMessage("No se puede realizar el consumo dado", {unaLineaTelefonica.realizar(otroConsumoInternet)})
+	test "PUNTO 6: Al intentar realizar un consumo que no se puede hacer en la linea comun, se lanza una excepcion" {
+		assert.throwsExceptionWithMessage("Los packs de la línea no cubren el consumo", {unaLineaTelefonica.realizar(otroConsumoInternet)})
+	}
+	
+	test "PUNTO 6: Al intentar realizar un consumo que no se puede hacer en la linea black, se suma el costo del consumo al registro de deuda" {
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = black)
+		
+		telefono.realizar(otroConsumoInternet)
+		assert.equals(1000 * 0.10, telefono.deuda())
+	}
+	
+	test "PUNTO 6: Al intentar realizar un consumo que no se puede hacer en la linea platinum, no lanza excepcion y no suma deuda" {
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = platinum)
+		
+		telefono.realizar(otroConsumoInternet)
+		assert.equals(0, telefono.deuda())
 	}
 	
 	test "PUNTO 6: Al realizar un consumo que se puede hacer en la linea, se consume el ultimo pack agregado que satisface el consumo dado y se agrega al historial de consumos realizados" {
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [llamadasGratis, packLlamadaLibre, packCredito])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [llamadasGratis, packLlamadaLibre, packCredito])
 		
 		telefono.realizar(unConsumoLlamada)
 		assert.equals(100 - 1, packCredito.cantidad())
@@ -137,24 +147,24 @@ describe "Lineas telefonicas" {
 	}
 	
 	test "PUNTO 7.a: Es posible realizar una limpieza de los packs vencidos y/o gastados" {
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [llamadasGratis, packCreditoVencido, packLlamadaLibre, packCredito, packLlamadaLibreVencido])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [llamadasGratis, packCreditoVencido, packLlamadaLibre, packCredito, packLlamadaLibreVencido])
 		
 		telefono.limpiarPacks()
 		assert.equals([llamadasGratis, packLlamadaLibre, packCredito], telefono.packs())
 	}
 	
 	test "PUNTO 7.b: Es posible realizar un consumo de 0.1 MB (o menos) si se cuenta con el pack de Internet libre ++ ya gastado" {
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [packInternetLibrePlusPlusGastado])
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [packInternetLibrePlusPlusGastado])
 		
 		telefono.realizar(unMiniConsumoInternet)
 		assert.equals(0, packInternetLibrePlusPlusGastado.cantidad())
 		assert.equals([unMiniConsumoInternet], telefono.consumos())
 	}
 	
-	test "PUNTO 7.b: Al intentar realizar un consumo mayor a 0.1 MB en una linea con el pack de Internet libre ++ ya gastado, se lanza una excepcion" {
-		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [packInternetLibrePlusPlusGastado])
+	test "PUNTO 7.b: Al intentar realizar un consumo mayor a 0.1 MB en una linea comun con el pack de Internet libre ++ ya gastado, se lanza una excepcion" {
+		const telefono = new LineaTelefonica(telefono = 1566666666, tipoLinea = comun, packs = [packInternetLibrePlusPlusGastado])
 		
-		assert.throwsExceptionWithMessage("No se puede realizar el consumo dado", {telefono.realizar(unConsumoInternet)})
+		assert.throwsExceptionWithMessage("Los packs de la línea no cubren el consumo", {telefono.realizar(unConsumoInternet)})
 	}
 }
 
