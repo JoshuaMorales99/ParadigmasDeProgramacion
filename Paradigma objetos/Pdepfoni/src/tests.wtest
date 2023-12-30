@@ -22,13 +22,13 @@ const fechaNoVencida = new Vencimiento(fecha = new Date().plusDays(25))
 // - Consumible.
 const packCredito = new Credito(cantidad = 100, tipoVencimiento = fechaNoVencida)
 const packCreditoVencido = new Credito(cantidad = 100, tipoVencimiento = fechaVencida)
-const packCreditoInsuficiente = new Credito(cantidad = 0, tipoVencimiento = fechaNoVencida)
+const packCreditoGastado = new Credito(cantidad = 0, tipoVencimiento = fechaNoVencida)
 const packInternetLibre = new InternetLibre(cantidad = 100, tipoVencimiento = fechaNoVencida)
 const packInternetLibreVencido = new InternetLibre(cantidad = 100, tipoVencimiento = fechaVencida)
-const packInternetLibreInsuficiente = new InternetLibre(cantidad = 0, tipoVencimiento = fechaNoVencida)
+const packInternetLibreGastado = new InternetLibre(cantidad = 0, tipoVencimiento = fechaNoVencida)
 const packLlamadaLibre = new LlamadaLibre(cantidad = 100, tipoVencimiento = fechaNoVencida)
 const packLlamadaLibreVencido = new LlamadaLibre(cantidad = 100, tipoVencimiento = fechaVencida)
-const packLlamadaLibreInsuficiente = new LlamadaLibre(cantidad = 0, tipoVencimiento = fechaNoVencida)
+const packLlamadaLibreGastado = new LlamadaLibre(cantidad = 0, tipoVencimiento = fechaNoVencida)
 
 // - Ilimitado.
 const packInternetIlimitadoFinde = new InternetIlimitado(diasSemanas = [saturday, sunday])
@@ -131,6 +131,13 @@ describe "Lineas telefonicas" {
 		assert.equals(100, packLlamadaLibre.cantidad())
 		assert.equals([unConsumoLlamada], telefono.consumos())
 	}
+	
+	test "Punto 7.a: Es posible realizar una limpieza de los packs vencidos y/o gastados" {
+		const telefono = new LineaTelefonica(telefono = 1566666666, packs = [llamadasGratis, packCreditoVencido, packLlamadaLibre, packCredito, packLlamadaLibreVencido])
+		
+		telefono.limpiarPacks()
+		assert.equals([llamadasGratis, packLlamadaLibre, packCredito], telefono.packs())
+	}
 }
 
 // ----------------------------------------------------------------
@@ -201,8 +208,8 @@ describe "PACK: Credito" {
 	}
 	
 	test "No se puede cubrir un consumo si no se puede cubrir la cantidad del consumo" {
-		assert.notThat(packCreditoInsuficiente.cubre(unConsumoLlamada))
-		assert.notThat(packCreditoInsuficiente.cubre(unConsumoInternet))
+		assert.notThat(packCreditoGastado.cubre(unConsumoLlamada))
+		assert.notThat(packCreditoGastado.cubre(unConsumoInternet))
 	}
 	
 	test "PUNTO 3: Se puede utilizar en un consumo dado si: Esta en fecha y cubre el consumo" {
@@ -217,13 +224,24 @@ describe "PACK: Credito" {
 	}
 	
 	test "PUNTO 3: No se puede utilizar en un consumo dado si no cubre el consumo" {
-		assert.notThat(packCreditoInsuficiente.satisface(unConsumoLlamada))
-		assert.notThat(packCreditoInsuficiente.satisface(unConsumoInternet))
+		assert.notThat(packCreditoGastado.satisface(unConsumoLlamada))
+		assert.notThat(packCreditoGastado.satisface(unConsumoInternet))
 	}
 	
 	test "Es posible gastar el pack (Disminuir la cantidad a consumir)" {
 		packCredito.gastar(unConsumoLlamada)
 		assert.equals(100 - 1, packCredito.cantidad())
+	}
+	
+	test "Es posible saber si esta totalmente gastado" {
+		assert.notThat(packCredito.estaTotalmenteGastado())
+		assert.that(packCreditoGastado.estaTotalmenteGastado())
+	}
+	
+	test "Es posible saber si se puede eliminar (Esta vencido o gastado)" {
+		assert.notThat(packCredito.sePuedeEliminar())
+		assert.that(packCreditoVencido.sePuedeEliminar())
+		assert.that(packCreditoGastado.sePuedeEliminar())
 	}
 }
 
@@ -283,6 +301,17 @@ describe "PACK: Internet Libre" {
 		packInternetLibre.gastar(unConsumoInternet)
 		assert.equals(100 - 10, packInternetLibre.cantidad())
 	}
+	
+	test "Es posible saber si esta totalmente gastado" {
+		assert.notThat(packInternetLibre.estaTotalmenteGastado())
+		assert.that(packInternetLibreGastado.estaTotalmenteGastado())
+	}
+	
+	test "Es posible saber si se puede eliminar (Esta vencido o gastado)" {
+		assert.notThat(packInternetLibre.sePuedeEliminar())
+		assert.that(packInternetLibreVencido.sePuedeEliminar())
+		assert.that(packInternetLibreGastado.sePuedeEliminar())
+	}
 }
 
 describe "PUNTO 4: PACK: Llamadas Libre" {
@@ -340,6 +369,17 @@ describe "PUNTO 4: PACK: Llamadas Libre" {
 	test "Es posible gastar el pack (Disminuir la cantidad a consumir)" {
 		packLlamadaLibre.gastar(unConsumoLlamada)
 		assert.equals(100 - 10, packLlamadaLibre.cantidad())
+	}
+	
+	test "Es posible saber si esta totalmente gastado" {
+		assert.notThat(packLlamadaLibre.estaTotalmenteGastado())
+		assert.that(packLlamadaLibreGastado.estaTotalmenteGastado())
+	}
+	
+	test "Es posible saber si se puede eliminar (Esta vencido o gastado)" {
+		assert.notThat(packLlamadaLibre.sePuedeEliminar())
+		assert.that(packLlamadaLibreVencido.sePuedeEliminar())
+		assert.that(packLlamadaLibreGastado.sePuedeEliminar())
 	}
 }
 

@@ -12,6 +12,10 @@ class Pack {
 	method puedeCubrirElTipo(consumo)
 	// Saber si esta en fecha (No vencido)
 	method estaEnFecha() = tipoVencimiento.estaEnFecha()
+	// Saber si esta totalmente gastado.
+	method estaTotalmenteGastado()
+	// Saber si se puede eliminar (Esta vencido o totalmente gastado)
+	method sePuedeEliminar() = not self.estaEnFecha() or self.estaTotalmenteGastado()
 	
 	// PUNTO 3: Saber si se puede utilizar en un consumo dado (Esta en fecha y cubre el consumo dado)
 	method satisface(consumo) = self.estaEnFecha() and self.cubre(consumo)
@@ -35,6 +39,8 @@ class PackConsumible inherits Pack {
 	override method cubre(consumo) = super(consumo) and self.puedeCubrirLaCantidad(consumo)
 	// Saber si se puede cubrir la cantidad del consumo dado.
 	method puedeCubrirLaCantidad(consumo) = self.cantAConsumir(consumo) <= cantidad
+	// Saber si esta totalmente gastado.
+	override method estaTotalmenteGastado() = cantidad == 0
 	
 	// Gastar pack (Disminuir la cantidad a consumir)
 	method gastar(consumo) {
@@ -51,6 +57,8 @@ class PackIlimitado inherits Pack(tipoVencimiento = ilimitado) {
 	override method cubre(consumo) = super(consumo) and self.esDiaSemanaValido(new Date().dayOfWeek())
 	// Saber si se puede usar en el dia actual.
 	method esDiaSemanaValido(diaSemana) = diasSemanas.contains(diaSemana)
+	// Saber si esta totalmente gastado.
+	override method estaTotalmenteGastado() = false
 	
 	// Gastar pack de la linea.
 	method gastar(consumo) {

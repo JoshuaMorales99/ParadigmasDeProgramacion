@@ -5,8 +5,8 @@
 class LineaTelefonica {
 	// Numero de telefono.
 	const property telefono
-	// Historial de packs activos.
-	const packs = []
+	// Historial de packs activos (Property para test)
+	const property packs = []
 	// Historial de consumos realizados (Property para test)
 	const property consumos = []
 	
@@ -51,6 +51,11 @@ class LineaTelefonica {
 		self.consumirPack(consumo)
 		// Agregar el consumo al historial.
 		self.agregarConsumo(consumo)
+	}
+	
+	// PUNTO 7.a: Realizar una limpieza de los packs vencidos y/o gastados.
+	method limpiarPacks() {
+		packs.removeAllSuchThat{pack => pack.sePuedeEliminar()}
 	}
 	
 	// Verificar que se pueda realizar un consumo dado.
