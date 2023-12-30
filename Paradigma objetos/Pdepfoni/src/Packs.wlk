@@ -28,11 +28,18 @@ class PackConsumible inherits Pack {
 	
 	// Obtener la cantidad a consumir dependiendo de un consumo.
 	method cantAConsumir(consumo)
+	// Obtener la cantidad restante (Para test)
+	method cantidad() = cantidad
 	
 	// Saber si se cubre el consumo dado (Se puede cubrir el tipo del consumo y se puede cubrir la cantidad del consumo)
 	override method cubre(consumo) = super(consumo) and self.puedeCubrirLaCantidad(consumo)
 	// Saber si se puede cubrir la cantidad del consumo dado.
 	method puedeCubrirLaCantidad(consumo) = self.cantAConsumir(consumo) <= cantidad
+	
+	// Gastar pack (Disminuir la cantidad a consumir)
+	method gastar(consumo) {
+		cantidad = cantidad - self.cantAConsumir(consumo)
+	}
 }
 
 // Clase abstracta para los distintos packs ilimitados.
@@ -44,6 +51,11 @@ class PackIlimitado inherits Pack(tipoVencimiento = ilimitado) {
 	override method cubre(consumo) = super(consumo) and self.esDiaSemanaValido(new Date().dayOfWeek())
 	// Saber si se puede usar en el dia actual.
 	method esDiaSemanaValido(diaSemana) = diasSemanas.contains(diaSemana)
+	
+	// Gastar pack de la linea.
+	method gastar(consumo) {
+		// Al ser Ilimitado no se puede gastar.
+	}
 }
 
 // ----------------------------------------------------------------
