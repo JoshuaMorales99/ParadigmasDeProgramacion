@@ -1,0 +1,95 @@
+import Personajes.*
+import Lugares.*
+
+/* =========================================================
+ PERSONAJES.
+===========================================================*/
+describe "Homero" {
+	test "Compra donas por docena" {
+		homero.comprarDonas()
+		assert.equals(12, homero.cantDonas())
+	}
+	
+	test "Si tiene donas, come una" {
+		homero.comprarDonas()
+		homero.comerDonas()
+		assert.equals(11, homero.cantDonas())
+	}
+	
+	test "Si no tiene donas, no come" {
+		homero.comerDonas()
+		assert.equals(0, homero.cantDonas())
+	}
+	
+	test "Si tiene pocas donas (< 2), esta distrido" {
+		assert.that(homero.estaDistraido())
+	}
+	
+	test "Si tiene muchas donas (>= 2), no esta distraido" {
+		homero.comprarDonas()
+		assert.notThat(homero.estaDistraido())
+	}
+}
+
+describe "Lenny" {
+	test "Toma cervezas" {
+		lenny.tomarCerveza()
+		assert.equals(1, lenny.cervezasTomadas())
+	}
+	
+	test "Si tomo mas de 3, esta distrido" {
+		lenny.tomarCerveza()
+		lenny.tomarCerveza()
+		lenny.tomarCerveza()
+		lenny.tomarCerveza()
+		assert.that(lenny.estaDistraido())
+	}
+	
+	test "Si tomo menos de 3, no esta distrido" {
+		assert.notThat(lenny.estaDistraido())
+	}
+}
+
+describe "Mr. Burns" {
+	test "Saber si es pobre" {
+		assert.notThat(mrBurns.esPobre())
+	}
+	
+	test "Se puede despojar de sus riquezas" {
+		mrBurns.despojarRiquezas()
+		assert.that(mrBurns.esPobre())
+	}
+}
+
+/*===========================================================
+ LUGARES.
+===========================================================*/
+describe "Planta Nuclear" {
+	test "Esta en peligro si la cantBarrasUranio > 10000 y el encargado esta distraido" {
+		// Sabemos que Homero esta distraido pues tiene 0 donas al principio
+		plantaNuclear.recibirCargamento(15000)
+		assert.that(plantaNuclear.estaEnPeligro())
+	}
+	
+	test "Esta en peligro si mr. Burns se quedo pobre" {
+		mrBurns.despojarRiquezas()
+		assert.that(plantaNuclear.estaEnPeligro())
+	}
+	
+	test "Esta en peligro si la cantBarrasUranio > 10000, el encargado esta distraido y mr. Burns se quedo pobre" {
+		// Sabemos que Homero esta distraido pues tiene 0 donas al principio
+		plantaNuclear.recibirCargamento(15000)
+		mrBurns.despojarRiquezas()
+		assert.that(plantaNuclear.estaEnPeligro())
+	}
+	
+	test "No esta en peligro si la cantBarrasUranio < 10000 y mr. Burns no esta pobre" {
+		assert.notThat(plantaNuclear.estaEnPeligro())
+	}
+	
+	test "No esta en peligro si el encargado no esta distraido y mr. Burns no esta pobre" {
+		homero.comprarDonas()
+		plantaNuclear.recibirCargamento(15000)
+		assert.notThat(plantaNuclear.estaEnPeligro())
+	}
+}
