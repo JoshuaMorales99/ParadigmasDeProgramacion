@@ -1,0 +1,82 @@
+import Camiones.*
+import Empresas.*
+import PuestosControl.*
+
+/* =========================================================
+ CAMIONES.
+===========================================================*/
+describe "Verdurin" {
+	test "Es posible saber el peso de la carga (50kg * cantCajones)" {
+		assert.equals(500, verdurin.pesoCarga())
+	}
+	
+	test "Es posible saber su velocidad maxima (80km/h - 1km/h por cada 500kg de carga)" {
+		assert.equals(79, verdurin.velocidadMaxima())
+	}
+}
+
+describe "Scanion5000" {
+	test "Es posible saber el peso de la carga (densidad * capacidadMaxima)" {
+		assert.equals(50000, scanion5000.pesoCarga())
+	}
+}
+
+describe "Cerialitas" {
+	test "Si el nivel de deterioro es < 10, su velocidad maxima es 40km/h" {
+		assert.equals(40, cerealitas.velocidadMaxima())
+	}
+	
+	test "Si el nivel de deterioro es >= 10, su velocidad maxima es 60km/h - su nivel de deterioro" {
+		cerealitas.nivelDeterioro(30)
+		assert.equals(30, cerealitas.velocidadMaxima())
+	}
+	
+	test "La velocidad maxima nunca puede ser negativa (< 0)" {
+		cerealitas.nivelDeterioro(100)
+		assert.equals(0, cerealitas.velocidadMaxima())
+	}
+	
+	test "Es posible establecer el peso de la carga a llevar" {
+		cerealitas.pesoCarga(100)
+		assert.equals(100, cerealitas.pesoCarga())
+	}
+	
+	test "Es posible saber la velocidad excedida" {
+		cerealitas.nivelDeterioro(10)
+		assert.equals(5, cerealitas.velocidadExcedida(45))
+	}
+	
+	test "El valor de la velocidad excedida no puede ser negativa (< 0)" {
+		assert.equals(0, cerealitas.velocidadExcedida(45))
+	}
+}
+
+/* =========================================================
+ EMPRESA PDEP CARGAS.
+===========================================================*/
+describe "PdePCargas" {
+	test "Es posible sumar deudas al total de deudas pendiente" {
+		pdepCargas.generarDeuda(100)
+		assert.equals(100, pdepCargas.deudaTotal())
+	}
+}
+
+/* =========================================================
+ PUESTOS DE CONTROL.
+===========================================================*/
+describe "Rutatlantica" {
+	test "El importe se calcula como $7.000 por camión + $100 por cada 1000 kg de carga que lleva el camion" {
+		assert.equals(12000, rutatlantica.generarImporte(scanion5000))
+	}
+	
+	test "Es posible cobrar los cargos de pasar a la empresa" {
+		rutatlantica.cobrarCargos(12000)
+		assert.equals(12000, pdepCargas.deudaTotal())
+	}
+	
+	test "Cuando pasa un camión, se le cobra $7.000 por camion + $100 por cada 1000 kg de carga que lleva el camion"{
+		rutatlantica.dejarPasar(scanion5000)
+		assert.equals(12000, pdepCargas.deudaTotal()) 
+	}
+}
+
