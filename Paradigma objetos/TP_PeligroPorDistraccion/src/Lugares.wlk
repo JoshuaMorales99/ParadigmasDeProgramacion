@@ -1,22 +1,26 @@
 import Personajes.*
 
 /*========================================
- LUGARES.
+ 🔸 LUGARES.
 =========================================*/
+
 object plantaNuclear {
-	// Tiene un encargado de la sala de control.
+	// Encargado de la sala de control.
 	var encargado = homero
-	// Tiene barras de uranio (Al principio no hay)
+	// Cantidad de barras de uranio (Al principio no hay)
 	var cantBarrasUranio = 0
 	
-	// Saber si la planta esta en peligro (cantBarrasUranio > 10000 y encargado distraido)
-	method estaEnPeligro() = cantBarrasUranio > 10000 && encargado.estaDistraido() || mrBurns.esPobre()
+	// Saber si hay muchas barras de uranio (> 10000)
+	method hayMuchoUranio() = cantBarrasUranio > 10000
+	// PUNTO 2.a: Saber si esta en peligro (Hay muchas barras de uranio y el encargado distraido, o Mr. Burns es pobre)
+	method estaEnPeligro() = self.hayMuchoUranio() and encargado.estaDistraido() or mrBurns.esPobre()
 	
-	// Entregar cargamento de cierta cantidad de barras de uranio.
+	// PUNTO 2.b: Recibir el cargamento de cierta cantidad de barras de uranio.
 	method recibirCargamento(cantidad) {
-		cantBarrasUranio += cantidad
+		cantBarrasUranio = cantBarrasUranio + cantidad
 	}
-	// Reemplazar al encargado de la sala de control.
+	
+	// PUNTO 4: Reemplazar al encargado de la sala de control.
 	method encargado(nuevoEncargado) {
 		encargado = nuevoEncargado
 	}
