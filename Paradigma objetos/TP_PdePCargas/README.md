@@ -12,6 +12,7 @@ Para sus operaciones habituales PdeP Cargas cuenta con los siguientes vehiculos 
 - 🚀 **Scanion 5000**: camion de ultima generacion que transporta combustibles liquidos. Como es tan potente, siempre esta cargado a su maxima capacidad (5.000 litros). El peso de la carga depende de la densidad del liquido transportado (1) Su velocidad maxima siempre es de 140 km/h.
 - 🌽 **Cerealitas**: un camion cerealero muy muy viejo. Tiene un nivel de deterioro el cual inicialmente es 0 y que aumenta al hacer viajes (no puede modificarse externamente). Su velocidad maxima depende de su deterioro, si este es menor a 10 la velocidad es 40 km/h. Sino, es de 60 km/h menos su nivel de deterioro. Para cada viaje que realiza se determina la cantidad de carga que va a llevar.
 
+### Puestos de control:
 Los camiones de PdeP Cargas van a tener que pasar por puestos de control para llegar a su destino. Los puestos pueden aplicar cargos a PdeP Cargas al dejar pasar a sus vehiculos (¡y este gasto es el que quiere controlar la empresa!). El monto dependera del camion que pase por ese puesto.
 Por ahora, nos pidieron modelar un solo puesto, ya que es el mas utilizado en este momento:
 
