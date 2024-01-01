@@ -1,0 +1,149 @@
+import Cuidador.*
+import Quilombero.*
+import Casa.*
+
+/*================================================================
+ CUIDADOR.
+================================================================*/
+describe "Tom" {
+	test "Es posible saber su velocidad" {
+		tom.energia(50)
+		assert.equals(10, tom.velocidad())
+	}
+	
+	test "Sabe limpiar el lugar que cuida, al hacerlo pierde 40 de energia y limpia 100" {
+		casa.ensuciar(200)
+		tom.energia(50)
+		tom.limpiar()
+		assert.equals(10, tom.energia())
+		assert.equals(100, casa.nivelSuciedad())
+	}
+	
+	test "Si no es mas rapido que el quilombero, no lo puede atrapar" {
+		assert.notThat(tom.puedeAtrapar(jerry))
+	}
+	
+	test "Si es mas rapido que el quilombero, lo puede atrapar" {
+		tom.energia(100)
+		assert.that(tom.puedeAtrapar(jerry))
+	}
+	
+	test "Sabe dormir (Incrementa su energia en 50)" {
+		tom.energia(80)
+		tom.dormir()
+		assert.equals(130, tom.energia())
+	}
+	
+	test "Es posible interrumpir su suenio (Pierde 20 de energia)" {
+		tom.energia(50)
+		tom.interrumpirSuenio()
+		assert.equals(30, tom.energia())
+	}
+	
+	test "Su energia nunca puede ser negativa" {
+		tom.energia(20)
+		tom.gastarEnergia(100)
+		assert.equals(0, tom.energia())
+	}
+}
+
+describe "Robocat" {
+	test "Sabe limpiar el lugar que cuida, al hacerlo hace una limpieza completa" {
+		casa.ensuciar(200)
+		robocat.limpiar()
+		assert.equals(0, casa.nivelSuciedad())
+	}
+}
+
+/*================================================================
+ QUILOMBERO.
+================================================================*/
+describe "Jerry" {
+	test "Es posible saber su velocidad" {
+		jerry.peso(5)
+		assert.equals(5, jerry.velocidad())
+	}
+	
+	test "Su velocidad nunca puede ser negativa" {
+		jerry.peso(100)
+		assert.equals(0, jerry.velocidad())
+	}
+	
+	test "Sabe hacer quilombo (Ensucia la casa en 110 y roba comida aumentando su peso en 1)" {
+		jerry.hacerQuilombo()
+		assert.equals(1, jerry.peso())
+		assert.equals(110, casa.nivelSuciedad())
+	}
+}
+
+describe "Tuffy" {
+	test "Sabe hacer quilombo (Hace ruido)" {
+		tom.energia(100)
+		tuffy.hacerQuilombo()
+		assert.equals(80, tom.energia())
+	}
+}
+
+/*================================================================
+ CASA.
+================================================================*/
+describe "Casa" {
+	test "Es posible saber si hay un quilombero" {
+		assert.notThat(casa.hayQuilombero())
+	}
+	
+	test "Es posible sacar a un quilombero si el cuidador puede atraparlo" {
+		casa.cuidador(robocat)
+		casa.quilombero(jerry)
+		casa.intentarSacarQuilombero()
+		assert.equals(null, casa.quilombero())
+	}
+	
+	test "No es posible sacar a un quilombero si el cuidador no puede atraparlo" {
+		casa.cuidador(tom)
+		casa.quilombero(jerry)
+		assert.equals(jerry, casa.quilombero())
+	}
+	
+	test "Es posible ensuciar dado un cierto valor" {
+		casa.ensuciar(10)
+		assert.equals(10, casa.nivelSuciedad())
+	}
+	
+	test "Es posible realizar una limpieza completa" {
+		casa.ensuciar(10)
+		casa.limpiezaCompleta()
+		assert.equals(0, casa.nivelSuciedad())
+	}
+	
+	test "El nivel de suciedad nunca va a ser negativo" {
+		casa.ensuciar(10)
+		casa.limpiarSuciedad(100)
+		assert.equals(0, casa.nivelSuciedad())
+	}
+	
+	test "Es posible pasar el dia sacando al quilombero" {
+		casa.quilombero(jerry)
+		casa.ensuciar(150)
+		tom.energia(100)
+		casa.pasarDia()
+		assert.equals(50, casa.nivelSuciedad())
+		assert.equals(null, casa.quilombero())
+	}
+	
+	test "Es posible pasar el dia sin sacar al quilombero" {
+		casa.quilombero(jerry)
+		casa.ensuciar(150)
+		casa.pasarDia()
+		assert.equals(50, casa.nivelSuciedad())
+		assert.equals(jerry, casa.quilombero())
+	}
+	
+	test "Es posible pasar la noche" {
+		casa.quilombero(jerry)
+		casa.pasarNoche()
+		assert.equals(50, tom.energia())
+		assert.equals(1, jerry.peso())
+		assert.equals(110, casa.nivelSuciedad())
+	}
+}
