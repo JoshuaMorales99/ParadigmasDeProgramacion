@@ -12,7 +12,6 @@ Se pide la codificacion de la solucion en Wollok para:
 2. Cuando pasa la noche en la casa el cuidador duerme y el quilombero hace quilombo.
 
 ### Cuidadores y Quilomberos.
-Por ahora se conocen los siguientes cuidadores y quilomberos, pero podrian haber mas:
 3. **Tom**: Tiene una cierta cantidad de energía variable. Al limpiar la casa reduce la suciedad en 100 y pierde 40 de energía. Su velocidad es 5 + (la energía de tom / 10). Puede atrapar a un quilombero si es más rápido que él. Al dormir incrementa su energía en 50.
 4. **Jerry**: Tiene un cierto peso variable. Cuando hace quilombo ensucia la casa en 110 y también se roba comida, por lo que aumenta en 1 su peso. Su velocidad es 10 - el peso de jerry.
 5. **Tuffy**: Su velocidad es siempre 10 y al hacer quilombo hace mucho ruido en la casa, por lo que interrumpe el sueño del cuidador de la casa. Cuando Tom tiene su sueño interrumpido pierde 20 de energia.
