@@ -1,5 +1,4 @@
 # **WOLLOK**.
-___
 ## ¿Qué es Wollok?
 Wollok es un lenguaje de programación y entorno de desarrollo integrado (IDE) para ser utilizado en el dictado de materias iniciales de Programación Orientada a Objetos (POO). Es ideal ya que permite ir agregando los detalles y conceptos de forma incremental y programando desde el primer día. <br>
 Un POO es un conjunto de objetos que se conocen entre sí a través de referencias y que se envían mensajes en un ambiente.
