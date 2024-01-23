@@ -1,0 +1,68 @@
+import Lugares.*
+import Personajes.*
+import Vehiculos.*
+
+/*================================================================
+🔸 Lugares.
+================================================================*/
+describe "Paris" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Buenos Aires" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Bagdad" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Las Vegas" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Jurassic Park" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+
+/*================================================================
+ 🔸 Personajes.
+================================================================*/
+describe "Luke" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+
+/*================================================================
+🔸 Vehiculos.
+================================================================*/
+describe "Alambique Veloz" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Rocomobil" {
+	test "test" {
+		assert.that(false)
+	}
+}
+
+describe "Superheterodino" {
+	test "test" {
+		assert.that(false)
+	}
+}
