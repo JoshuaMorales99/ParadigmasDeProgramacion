@@ -1,34 +1,37 @@
 import Casa.*
 
 /*================================================================
- QUILOMBERO.
+🔸 Quilomberos.
 =================================================================*/
 object jerry {
-	// Tiene un cierto peso.
+	// Peso.
 	var peso = 0
 	
-	// Saber su velocidad (10 - su peso)
+	// Obtener su velocidad (10 - su peso)
 	method velocidad() = 0.max(10 - peso)
+	// Obtener su peso (Para test)
+	method peso() = peso
 	
 	// Hacer quilombo.
 	method hacerQuilombo() {
-		// Ensuciar casa.
+		// Ensuciar casa con 110 puntos de suciedad.
 		casa.ensuciar(110)
-		// Robar comida (Aumenta su peso en 1)
-		self.aumentarPeso(1)
+		// Robar comida
+		self.robarComida()
 	}
-	// Aumentar en cierta cantidad el peso.
-	method aumentarPeso(valor) {
-		peso += valor
+	// Robar comida (Aumenta su peso en 1)
+	method robarComida() {
+		peso = peso + 1
 	}
 	
-	// Para test ===========================================
-	method peso(nuevoPeso) {peso = nuevoPeso}
-	method peso() = peso
+	// Establecer su peso (Para test)
+	method peso(nuevoPeso) {
+		peso = nuevoPeso
+	}
 }
 
 object tuffy {
-	// Saber su velocidad (Siempre es 10)
+	// Obtener su velocidad (Siempre es 10)
 	method velocidad() = 10
 	
 	// Hacer quilombo.
@@ -37,3 +40,63 @@ object tuffy {
 		casa.hacerRuido()
 	}
 }
+
+object cerebro {
+	// Nivel de inteligencia (Comienza con 10 puntos)
+	var inteligencia = 10
+	
+	// Obtener su velocidad (Igual a su inteligencia)
+	method velocidad() = inteligencia
+	// Obtener su nivel de inteligencia (Para test)
+	method inteligencia() = inteligencia
+	
+	// Hacer quilombo.
+	method hacerQuilombo() {
+		// Idear un plan malvado.
+		self.idearPlan()
+		// Ensuciar la casa en 100 puntos.
+		casa.ensuciar(100)
+	}
+	
+	// Idear plan malvado (Aumenta el doble de su inteligencia)
+	method idearPlan() {
+		inteligencia = inteligencia * 2
+	}
+}
+
+/*================================================================
+🔸 PUNTO 8: Interfaz.
+==================================================================
+Excluyendo los metodos que son solamente para los test, las interfaces
+serian las siguientes:
+
+	+-------------------------------+
+	| (O) jerry						|
+	+-------------------------------+
+	|	peso						|
+	+-------------------------------+
+	|	velocidad()					|
+	|	hacerQuilombo()				|
+	|	robarComida()				|
+	+-------------------------------+
+	
+	+-------------------------------+
+	| (O) tuffy						|
+	+-------------------------------+
+	|								|
+	+-------------------------------+
+	|	velocidad()					|
+	|	hacerQuilombo()				|
+	+-------------------------------+
+	
+	+-------------------------------+
+	| (O) cerebro					|
+	+-------------------------------+
+	|	inteligencia				|
+	+-------------------------------+
+	|	velocidad()					|
+	|	hacerQuilombo()				|
+	|	idearPlan()					|
+	+-------------------------------+
+
+================================================================*/
