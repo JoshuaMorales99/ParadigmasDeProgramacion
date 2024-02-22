@@ -2,28 +2,35 @@
 🔸 Personajes.
 ================================================================*/
 object luke {
-	// Cuando viaja, se trae un recuerdo tipico del lugar visitado.
-	var property recuerdo = ""
+	// Recuerdo del ultimo visitado.
+	var recuerdo = ""
 	// Cantidad de lugares visitados.
 	var cantLugaresVisitados = 0
 	
+	// Obtener el recuerdo que se trajo del ultimo viaje.
+	method recuerdo() = recuerdo
 	// Obtener la cantidad de lugares visitados.
 	method cantLugaresVisitados() = cantLugaresVisitados
 	
 	// Incrementar la cantidad de lugares visitados.
 	method incrementarLugaresVisitados() {
-		cantLugaresVisitados += 1
+		cantLugaresVisitados = cantLugaresVisitados + 1
 	}
 	
-	// Ir a un lugar si el vehiculo cumple con las restricciones.
+	// Guardar el recuerdo de un lugar dado.
+	method guardarRecuerdoDe(lugar) {
+		recuerdo = lugar.recuerdo()
+	}
+	
+	// Ir a un lugar si puede visitarlo con un vehiculo dado. TODO test
 	method irA(destino, vehiculo) {
 		if(destino.puedeVisitar(vehiculo)) {
-			// El vehiculo utilizado para el viaje, sufre consecuencias.
+			// Viajar.
 			vehiculo.viajar()
 			// Incrementamos los lugares visitados.
 			self.incrementarLugaresVisitados()
-			// Obtener el recuerdo del lugar.
-			recuerdo = destino.recuerdo()
+			// Guardar el recuerdo del lugar.
+			self.guardarRecuerdoDe(destino)
 		}
 	}
 }

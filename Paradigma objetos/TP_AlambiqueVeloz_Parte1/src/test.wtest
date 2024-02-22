@@ -6,32 +6,56 @@ import Vehiculos.*
 🔸 Lugares.
 ================================================================*/
 describe "Paris" {
-	test "test" {
-		assert.that(false)
+	test "Es posible obtener un llavero como recuerdo" {
+		assert.equals("Llavero de la Torre Eiffel", paris.recuerdo())
 	}
 }
 
 describe "Buenos Aires" {
-	test "test" {
-		assert.that(false)
+	test "Es posible saber si el mate incluye yerba" {
+		assert.that(buenosAires.incluirYerba())
+		
+		buenosAires.presidente("Ares")
+		assert.notThat(buenosAires.incluirYerba())
+	}
+	
+	test "Es posible obtener un mate con yerba como recuerdo" {
+		assert.equals("Mate con yerba", buenosAires.recuerdo())
+	}
+	
+	test "Es posible obtener un mate sin yerba como recuerdo" {
+		buenosAires.presidente("Ares")
+		assert.equals("Mate sin yerba", buenosAires.recuerdo())
 	}
 }
 
 describe "Bagdad" {
-	test "test" {
-		assert.that(false)
+	test "Es posible obtener una bomba nuclear como recuerdo" {
+		assert.equals("Bomba nuclear", bagdad.recuerdo())
 	}
 }
 
 describe "Las Vegas" {
-	test "test" {
-		assert.that(false)
+	test "Es posible obtener un recuerdo del pais homenajeado" {
+		assert.equals("Llavero de la Torre Eiffel", lasVegas.recuerdo())
 	}
 }
 
 describe "Jurassic Park" {
-	test "test" {
-		assert.that(false)
+	test "Es posible saber si hay muchos dinosaurios (Cantidad de dinosaurios mayor a 10)" {
+		assert.notThat(jurassicPark.hayMuchosDinosaurios())
+		
+		jurassicPark.agregarDinosaurios(20)
+		assert.that(jurassicPark.hayMuchosDinosaurios())
+	}
+	
+	test "Es posible obtener una foto recuerdo como recuerdo" {
+		assert.equals("Foto recuerdo", jurassicPark.recuerdo())
+	}
+	
+	test "Es posible obtener una pluma de velociraptor como recuerdo" {
+		jurassicPark.agregarDinosaurios(20)
+		assert.equals("Pluma de velociraptor", jurassicPark.recuerdo())
 	}
 }
 
@@ -40,8 +64,9 @@ describe "Jurassic Park" {
  🔸 Personajes.
 ================================================================*/
 describe "Luke" {
-	test "test" {
-		assert.that(false)
+	test "Es posible guardar el recuerdo de un lugar" {
+		luke.guardarRecuerdoDe(paris)
+		assert.equals("Llavero de la Torre Eiffel", luke.recuerdo())
 	}
 }
 
