@@ -163,34 +163,34 @@ describe "La parrilla del nuevo Miguelito" {
 // -------------------------------------------------------------
 describe "PROVOLETA" {
 	test "Es posible saber si es apto para celiacos (No esta empanado)" {
-		// Si no esta empanado, es apto para celiacos.
+		// Si no esta empanado, entonces es apto para celiacos.
 		assert.that(otraProvoleta.aptoCeliacos())
 		
-		// Si esta empanado, no es apto para celiacos.
+		// Si esta empanado, entonces no es apto para celiacos.
 		assert.notThat(unaProvoleta.aptoCeliacos())
 	}
 	
 	test "Es posible obtener su valoracion (Depende de si es especial o no)" {
-		// Si es especial, obtiene 120 puntos de valoracion.
+		// Si es especial, entonces obtiene 120 puntos de valoracion.
 		assert.equals(120, unaProvoleta.valoracion())
 		
-		// Si no es especial, obtienen 80 puntos de valoracion.
+		// Si no es especial, entonces obtienen 80 puntos de valoracion.
 		assert.equals(80, otraProvoleta.valoracion())
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 250 gramos)" {
-		// Si pesa mas de 250 gramos, es especial.
+		// Si pesa mas de 250 gramos, entonces es especial.
 		assert.that(unaProvoleta.esEspecial())
 		
-		// Si pesa menos de 250 gramos, no es especial.
+		// Si pesa menos de 250 gramos, entonces no es especial.
 		assert.notThat(otraProvoleta.esEspecial())
 	}
 	
 	test "Es posible obtener el monto adicional por ser apto para celiacos (Igual a 1200)" {
-		// Si es apto para celiacos, su monto adicional es de 1200.
+		// Si es apto para celiacos, entonces su monto adicional es de 1200.
 		assert.equals(1200, otraProvoleta.adicional())
 		
-		// Si no es apto para celiacos, no tiene monto adicional.
+		// Si no es apto para celiacos, entonces no tiene monto adicional.
 		assert.equals(0, unaProvoleta.adicional())
 	}
 	
@@ -201,10 +201,10 @@ describe "PROVOLETA" {
 
 describe "HAMBURGUESA DE CARNE" {
 	test "Es posible saber si es apta para celiacos (El pan utilizado en su elaboracion tambien lo es)" {
-		// Si el pan utilizado en su elaboracion es apto para celiacos, la hamburguesa tambien lo es.
+		// Si el pan utilizado en su elaboracion es apto para celiacos, entonces la hamburguesa tambien lo es.
 		assert.that(otraHamburguesaCarne.aptoCeliacos())
 		
-		// Si el pan utilizado en su elaboracion no es apto para celiacos, la hamburguesa tampoco lo es.
+		// Si el pan utilizado en su elaboracion no es apto para celiacos, entonces la hamburguesa tampoco lo es.
 		assert.notThat(unaHamburguesaCarne.aptoCeliacos())
 	}
 	
@@ -217,10 +217,10 @@ describe "HAMBURGUESA DE CARNE" {
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 250 gramos)" {
-		// Si pesa mas de 250 gramos, es especial.
+		// Si pesa mas de 250 gramos, entonces es especial.
 		assert.that(unaHamburguesaCarne.esEspecial())
 		
-		// Si no pesa mas de 250 gramos, no es especial.
+		// Si no pesa mas de 250 gramos, entonces no es especial.
 		assert.notThat(otraHamburguesaCarne.esEspecial())
 	}
 	
@@ -234,10 +234,10 @@ describe "HAMBURGUESA DOBLE" {
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 500 gramos)" {
-		// Si pesa mas de 500 gramos, es especial.
+		// Si pesa mas de 500 gramos, entonces es especial.
 		assert.that(unaHamburguesaDoble.esEspecial())
 		
-		// Si no pesa mas de 500 gramos, no es especial.
+		// Si no pesa mas de 500 gramos, entonces no es especial.
 		assert.notThat(otraHamburguesaDoble.esEspecial())
 	}
 	
@@ -257,16 +257,16 @@ describe "CORTE DE CARNE" {
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 250 gramos y su punto de coccion es a punto)" {
-		// Si pesa mas de 250 gramos y su punto de coccion es a punto, es especial.
+		// Si pesa mas de 250 gramos y su punto de coccion es a punto, entonces es especial.
 		assert.that(unCorteCarne.esEspecial())
 		
-		// Si pesa menos de 250 gramos y su punto de coccion es a punto, no es especial.
+		// Si pesa menos de 250 gramos y su punto de coccion es a punto, entonces no es especial.
 		assert.notThat(new CorteCarne(peso = 10, puntoCoccion = aPunto).esEspecial())
 		
-		// Si pesa mas de 250 gramos y su punto de coccion no es a punto, no es especial.
+		// Si pesa mas de 250 gramos y su punto de coccion no es a punto, entonces no es especial.
 		assert.notThat(new CorteCarne(peso = 300, puntoCoccion = jugoso).esEspecial())
 		
-		// Si pesa menos de 250 gramos y su punto de coccion no es a punto, no es especial.
+		// Si pesa menos de 250 gramos y su punto de coccion no es a punto, entonces no es especial.
 		assert.notThat(otroCorteCarne.esEspecial())
 	}
 	
@@ -277,11 +277,11 @@ describe "CORTE DE CARNE" {
 /** PUNTO 4a - Tests de la Parrillada. */
 describe "PARRILLADA" {
 	test "Es posible saber si es apta para celiacos (Todas las comidas que la componen lo son)" {
-		// Si todas las comidas que la componen son aptas para celiacos, la parrillada tambien lo es.
+		// Si todas las comidas que la componen son aptas para celiacos, entonces la parrillada tambien lo es.
 		parrillada.agregarAParrillada([otraProvoleta, otraHamburguesaCarne, otraHamburguesaDoble, unCorteCarne])
 		assert.that(parrillada.aptoCeliacos())
 		
-		// Si alguna comida que la compone no es apta para celiacos, la parrillada tampoco lo es.
+		// Si alguna comida que la compone no es apta para celiacos, entonces la parrillada tampoco lo es.
 		parrillada.agregarAParrillada([unaHamburguesaDoble, otroCorteCarne])
 		assert.notThat(parrillada.aptoCeliacos())
 	}
