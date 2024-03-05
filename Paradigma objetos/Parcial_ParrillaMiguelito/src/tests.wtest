@@ -39,20 +39,20 @@ const unMenuCeliaco = #{otraProvoleta, otraHamburguesaCarne, otraHamburguesaDobl
 const unMenuNoCeliaco = #{unaProvoleta, unaHamburguesaCarne, unaHamburguesaDoble}
 
 // -------------------------------------------------------------
-// 🔸 La Parrilla del nuevo Miguelito. TODO
+// 🔸 La Parrilla del nuevo Miguelito.
 // -------------------------------------------------------------
 describe "La parrilla del nuevo Miguelito" {
-	test "Es posible obtener los platillos validos (que puede comprar) para un comensal dado" {
+	test "Es posible obtener los platillos validos que un comensal dado puede comprar" {
+		// Si el menu no posee platillos validos que un comensal dado puede comprar, entonces se obtiene un set vacio.
+		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
+		assert.equals(#{}, parrillaMiguelito.platillosValidosPara(unComensalCeliaco))
+		
+		// Si el menu posee platillos validos que un comensal dado puede comprar, entonces se obtienen dichos platillos.
 		parrillaMiguelito.agregarAMenu(unMenu)
 		assert.equals(unMenuCeliaco, parrillaMiguelito.platillosValidosPara(unComensalCeliaco))
 	}
 	
-	test "Si no hay platillos validos (que no puede comprar) para un comensal dado, se devuelve un set vacio" {
-		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
-		assert.equals(#{}, parrillaMiguelito.platillosValidosPara(unComensalCeliaco))
-	}
-	
-	test "Cuando no hay platillos validos (que no puede comprar) para un comensal dado, se puede lanzar una excepcion" {
+	test "Cuando no hay platillos validos que un comensal dado puede comprar, se puede lanzar la excepcion correspondiente" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.verificarMenu(unComensalCeliaco)})
 	}
@@ -81,7 +81,7 @@ describe "La parrilla del nuevo Miguelito" {
 	}
 	
 	/** PARTE 4b - Test de un gustito en la parrilla. */
-	test "Cuando se le ofrece un menu a un comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
+	test "Cuando se le ofrece un menu a un comensal y este no puede comprar ningun platillo, se lanza la excepcion correspondiente" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalCeliaco)})
 	}
@@ -100,7 +100,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(300, parrillaMiguelito.cantTotalPromocion(100))
 	}
 	
-	test "Cuando no hay suficientes ingresos para realizar la promocion, se puede lanzar una excepcion" {
+	test "Cuando no hay suficientes ingresos para realizar la promocion, se puede lanzar la excepcion correspondiente" {
 		assert.throwsExceptionWithMessage("No hay suficientes ingresos para realizar la promocion", {parrillaMiguelito.verificarIngresos(300)})
 	}
 	
@@ -132,7 +132,7 @@ describe "La parrilla del nuevo Miguelito" {
 		assert.equals(101000, unComensalTodoTerreno.dinero())
 	}
 	
-	test "Cuando se quiere realizar una promocion, pero no hay suficientes ingresos para realizarla, se lanza una excepcion"{
+	test "Cuando se quiere realizar una promocion, pero no hay suficientes ingresos para realizarla, se lanza la excepcion correspondiente"{
 		parrillaMiguelito.agregarAlHistorial(unComensalCeliaco)
 		parrillaMiguelito.agregarAlHistorial(unComensalPaladarFino)
 		parrillaMiguelito.agregarAlHistorial(unComensalTodoTerreno)
@@ -151,7 +151,7 @@ describe "La parrilla del nuevo Miguelito" {
 	}
 	
 	/** PARTE 4c - Test de cambio de habito. */
-	test "Es posible realizar un cambio de habito a un comensal. Cuando se le ofrece un menu al comensal y este no puede comprar ningun platillo, se lanza una excepcion" {
+	test "Es posible realizar un cambio de habito a un comensal. Cuando se le ofrece un menu al comensal y este no puede comprar ningun platillo, se lanza la excepcion correspondiente" {
 		parrillaMiguelito.agregarAMenu(unMenuNoCeliaco)
 		unComensalTodoTerreno.problemasGastricos()
 		assert.throwsExceptionWithMessage("No existe plato valido en el menu que pueda comprar el comensal dado", {parrillaMiguelito.ofrecerMenuA(unComensalTodoTerreno)})
