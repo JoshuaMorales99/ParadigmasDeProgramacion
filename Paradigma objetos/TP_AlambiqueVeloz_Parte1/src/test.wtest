@@ -155,15 +155,34 @@ describe "Alambique Veloz" {
 		assert.equals(100 - 40, alambiqueVeloz.combustible())
 	}
 	
-	test "Es posible viajar (Consume 10 de combustible)" {
+	test "Es posible viajar (Al viajar, consume 10 de combustible)" {
 		alambiqueVeloz.viajar()
 		assert.equals(100 - 10, alambiqueVeloz.combustible())
 	}
 }
 
 describe "Rocomobil" {
-	test "test" {
-		assert.that(false)
+	test "Es posible saber si puede desplazarse (Siempre puede desplazarse)" {
+		assert.that(rocomovil.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si es rapido (Si posee mas de 5 mejoras)" {
+		// No es rapido si no posee mas de 5 mejoras.
+		assert.notThat(rocomovil.rapido())
+		
+		// Es rapido si posee mas de 5 mojoras.
+		rocomovil.hacerMejoras(10)
+		assert.that(rocomovil.rapido())
+	}
+	
+	test "Es posible realizar una cantidad dada de mejoras" {
+		rocomovil.hacerMejoras(10)
+		assert.equals(10, rocomovil.mejorasHechas())
+	}
+	
+	test "Es posible viajar (Al viajar, recibe una mejora)" {
+		rocomovil.viajar()
+		assert.equals(1, rocomovil.mejorasHechas())
 	}
 }
 

@@ -25,8 +25,9 @@ object alambiqueVeloz {
 		self.combustible(combustible - consumo)
 	}
 	
-	// Al viajar, el vehiculo sufre consecuencias (Consume 10 de combustible por default)
+	// Viajar.
 	method viajar() {
+		// Consume 10 de combustible.
 		self.consumirCombustible(10)
 	}
 	
@@ -43,23 +44,24 @@ object rocomovil {
 	// Numero de mejoras del vehiculo.
 	var mejorasHechas = 0
 	
-	// Saber si el vehiculo es rapido (Es rapido si tiene mas de 5 mejoras)
-	method rapido() = mejorasHechas > 5
-	// Reconstruir el vehiculo.
-	method mejorasHechas() = 0
-	// Saber si se puede desplazar
+	// Saber si se puede desplazar (Siempre puede desplazarse por dafault)
 	method puedeDesplazarse() = true
+	// Saber si el vehiculo es rapido (Tiene mas de 5 mejoras)
+	method rapido() = mejorasHechas > 5
 	
-	// Incrementar el numero de mejoras.
-	method hacerMejora(nroMejoras){
-		mejorasHechas += nroMejoras
+	// Realizar una cantidad dada de mejoras al vehiculo.
+	method hacerMejoras(nroMejoras){
+		mejorasHechas = mejorasHechas + nroMejoras
 	}
 	
-	// Al viajar, el vehiculo sufre consecuencias.
+	// Viajar.
 	method viajar() {
 		// Cada que llega a un lugar, recibe una mejora.
-		self.hacerMejora(1)
+		self.hacerMejoras(1)
 	}
+	
+	// Obtener la cantidad de mejoras hechas (Para test)
+	method mejorasHechas() = mejorasHechas
 }
 
 object superheterodino {
@@ -94,7 +96,7 @@ object superheterodino {
 		piezasPerdidas += nroPerdidas
 	}
 	
-	// Al viajar, el vehiculo sufre consecuencias.
+	// Viajar.
 	method viajar() {
 		// En el camino, el vehiculo pierde una pieza.
 		self.perderPiezas(1)
