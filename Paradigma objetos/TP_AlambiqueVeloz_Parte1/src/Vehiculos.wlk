@@ -4,33 +4,38 @@
 object alambiqueVeloz {
 	// Cantidad de combustible en tanque.
 	var combustible = 100
-	// Capacidad del tanque de combustible.
-	const maximoTanque = 100 // 100 es la capacidad maxima por default.
+	
+	// Obtener la capacidad maxima del tanque de combustible (100 es la capacidad maxima por default)
+	method maximoTanque() = 100
 	
 	// Saber si el vehiculo tiene tanque lleno.
-	method tanqueLleno() = combustible == maximoTanque
-	// Saber si el vehiculo es rapido.
-	method rapido() = true // Siempre es rapido por default.
+	method tanqueLleno() = combustible == self.maximoTanque()
 	// Saber si se puede desplazar (El vehículo debe tener el tanque lleno)
 	method puedeDesplazarse() = self.tanqueLleno()
+	// Saber si el vehiculo es rapido (Siempre es rapido por default)
+	method rapido() = true
 	
-	// Modificar combustible respetando limitaciones.
+	// Modificar combustible respetando limitaciones (No puede ser menor a cero y mayor a la capacidad maxima del tanque)
 	method combustible(nuevoCombustible) {
-		combustible = nuevoCombustible.max(0).min(maximoTanque)
+		combustible = nuevoCombustible.max(0).min(self.maximoTanque())
 	}
 	
 	// Consumir combustible del tanque del vehiculo.
 	method consumirCombustible(consumo) {
 		self.combustible(combustible - consumo)
 	}
-	// Cargar combustible del tanque del vehiculo.
-	method cargarCombustible(carga) { // Propuesta por el alumno.
-		self.combustible(combustible + carga)
+	
+	// Al viajar, el vehiculo sufre consecuencias (Consume 10 de combustible por default)
+	method viajar() {
+		self.consumirCombustible(10)
 	}
 	
-	// Al viajar, el vehiculo sufre consecuencias.
-	method viajar() {
-		self.consumirCombustible(10) // 10 como combustible a consumir por default.
+	// Obtener la cantidad de combustible en el tanque (Para test)
+	method combustible() = combustible
+	
+	// Cargar combustible del tanque del vehiculo (Para test)
+	method cargarCombustible(carga) {
+		self.combustible(combustible + carga)
 	}
 }
 

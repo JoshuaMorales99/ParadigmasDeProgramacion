@@ -118,8 +118,46 @@ describe "Luke" {
 🔸 Vehiculos.
 ================================================================*/
 describe "Alambique Veloz" {
-	test "test" {
-		assert.that(false)
+	test "Es posible saber si posee el tanque lleno" {
+		// Si tiene 100 de combustible, tiene tanque lleno.
+		assert.that(alambiqueVeloz.tanqueLleno())
+		
+		// Si tiene menos de 100 de combustible, no tiene tanque lleno.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(alambiqueVeloz.tanqueLleno())
+	}
+	
+	test "Es posible saber si puede desplazarse (Tiene tanque lleno)" {
+		// Si tiene tanque lleno, puede desplazarse.
+		assert.that(alambiqueVeloz.puedeDesplazarse())
+		
+		// Si no tiene tanque lleno, no puede desplazarse.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(alambiqueVeloz.tanqueLleno())
+	}
+	
+	test "Es posible saber si es rapido (Siempre lo es)" {
+		assert.that(alambiqueVeloz.rapido())
+	}
+	
+	test "Es posible establecer una nueva cantidad de combustible en su tanque" {
+		// No puede ser menor a cero.
+		alambiqueVeloz.combustible(-10)
+		assert.equals(0, alambiqueVeloz.combustible())
+		
+		// No puede ser mayor a la capacidad maxima de su tanque.
+		alambiqueVeloz.combustible(1000)
+		assert.equals(alambiqueVeloz.maximoTanque(), alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible consumir una cantidad de combustible dado" {
+		alambiqueVeloz.consumirCombustible(40)
+		assert.equals(100 - 40, alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible viajar (Consume 10 de combustible)" {
+		alambiqueVeloz.viajar()
+		assert.equals(100 - 10, alambiqueVeloz.combustible())
 	}
 }
 
