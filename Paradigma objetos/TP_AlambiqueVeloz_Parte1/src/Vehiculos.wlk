@@ -67,40 +67,25 @@ object rocomovil {
 object superheterodino {
 	// Piezas perdidas por el camino.
 	var piezasPerdidas = 0
-	// Como el vehiculo pierde piezas por el camino, trae incluido kits de reparacion.
-	var kitsReparacion = 5
 	
-	// Saber si el vehiculo es rapido (No perdio mas de 10 piezas)
-	method rapido() = piezasPerdidas <= 10
-	// Saber si le queda disponible una cantidad de kits de reparacion.
-	method tieneKits(cantidad) = kitsReparacion > cantidad
-	// Saber si le falta una cantidad determinada de piezas.
-	method faltanPiezas(cantidad) = piezasPerdidas > cantidad
-	// Saber si se puede desplazar (El vehículo debe tener menos de 10 piezas perdidas)
-	method puedeDesplazarse() = piezasPerdidas < 10
+	// Saber si esta en buen estado (Perdio menos de 10 piezas por el camino)
+	method buenEstado() = piezasPerdidas < 10
+	// Saber si se puede desplazar (Esta en buen estado)
+	method puedeDesplazarse() = self.buenEstado()
+	// Saber si el vehiculo es rapido (Esta en buen estado)
+	method rapido() = self.buenEstado()
 	
-	// Reparar vehiculo una cantidad determinada de veces.
-	method reparar(cantidad) {
-		/* Solamente se puede reparar si se cumplen las siguientes condiciones:
-		 * 	- Faltan como minimo esa cantidad de piezas.
-		 * 	- Posee como minimo esa cantidad de kits de reparacion.
-		*/
-		if(self.tieneKits(cantidad) && self.faltanPiezas(cantidad)){
-			kitsReparacion -= cantidad
-			piezasPerdidas -= cantidad
-		}
-	}
-	
-	// Perder piezas del vehiculo.
-	method perderPiezas(nroPerdidas) {
-		piezasPerdidas += nroPerdidas
+	// Perder una cantidad dada de piezas del vehiculo.
+	method perderPiezas(cantPerdida) {
+		piezasPerdidas = piezasPerdidas + cantPerdida
 	}
 	
 	// Viajar.
 	method viajar() {
 		// En el camino, el vehiculo pierde una pieza.
 		self.perderPiezas(1)
-		// Al llegar a destino, es reparado con un kit de reparacion.
-		self.reparar(1)
 	}
+	
+	// Saber la cantidad de piezas perdidas por el camino (Para test)
+	method piezasPerdidas() = piezasPerdidas
 }

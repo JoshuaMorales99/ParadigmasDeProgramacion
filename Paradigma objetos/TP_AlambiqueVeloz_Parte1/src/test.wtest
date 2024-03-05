@@ -167,10 +167,10 @@ describe "Rocomobil" {
 	}
 	
 	test "Es posible saber si es rapido (Si posee mas de 5 mejoras)" {
-		// No es rapido si no posee mas de 5 mejoras.
+		// Si no tiene mas de 5 mejoras, no es rapido.
 		assert.notThat(rocomovil.rapido())
 		
-		// Es rapido si posee mas de 5 mojoras.
+		// Si tiene mas de 5 mejoras, es rapido.
 		rocomovil.hacerMejoras(10)
 		assert.that(rocomovil.rapido())
 	}
@@ -187,7 +187,40 @@ describe "Rocomobil" {
 }
 
 describe "Superheterodino" {
-	test "test" {
-		assert.that(false)
+	test "Es posible saber si esta en buen estado (Perdio menos de 10 piezas)" {
+		// Si no perdio mas de 10 piezas, esta en buen estado.
+		assert.that(superheterodino.buenEstado())
+		
+		// Si perdio 10 o mas piezas, no puede desplazarse.
+		superheterodino.perderPiezas(10)
+		assert.notThat(superheterodino.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si puede desplazarse (Esta en buen estado)" {
+		// Si esta en buen estado, puede desplazarse.
+		assert.that(superheterodino.puedeDesplazarse())
+		
+		// Si no esta en buen estado, no puede desplazarse.
+		superheterodino.perderPiezas(10)
+		assert.notThat(superheterodino.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si es rápido (Esta en buen estado)" {
+		// Si esta en buen estado, es rapido.
+		assert.that(superheterodino.rapido())
+		
+		// Si no esta en buen estado, no es rapido.
+		superheterodino.perderPiezas(10)
+		assert.notThat(superheterodino.rapido())
+	}
+	
+	test "Es posible perder una cantidad de piezas dada" {
+		superheterodino.perderPiezas(10)
+		assert.equals(10, superheterodino.piezasPerdidas())
+	}
+	
+	test "Es posible viajar (Al viajar, pierde una pieza)" {
+		superheterodino.viajar()
+		assert.equals(1, superheterodino.piezasPerdidas())
 	}
 }
