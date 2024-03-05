@@ -322,42 +322,40 @@ describe "PARRILLADA" {
 }
 
 // -------------------------------------------------------------
-// 🔸 Comensales. TODO
+// 🔸 Comensales.
 // -------------------------------------------------------------
 describe "Comensal celiaco" {
-	test "Le agrada la comida si es apta para celiacos" {
+	test "Es posible saber si le agrada la comida dada (Es apta para celiacos)" {
+		// Si la comida es apta para celiacos, entonces le agrada.
 		assert.that(unComensalCeliaco.leAgrada(otraProvoleta))
-	}
-	
-	test "No le agrada la comida si no es apta para celiacos" {
+		
+		// Si la comida no es apta para celiacos, entonces no le agrada.
 		assert.notThat(unComensalCeliaco.leAgrada(unaProvoleta))
 	}
 	
-	test "Puede pagar una comida si le alcanza el dinero" {
+	test "Es posible saber si puede pagar una comida dada" {
+		// Si le alcanza el dinero, puede pagar la comida.
 		assert.that(unComensalCeliaco.puedePagar(unaProvoleta))
-	}
-	
-	test "No puede pagar una comida si no le alcanza el dinero" {
+		
+		// Si no le alcanza el dinero, no puede pagar la comida.
 		assert.notThat(otroComensalCeliaco.puedePagar(unaProvoleta))
 	}
 	
-	test "Puede comprar una comida si le agrada y puede pagarla" {
+	test "Es posible saber si puede comprar una comida dada (Solo si le agrada y puede pagarla)" {
+		// Si le agrada una comidad dada y puede pagarla, entonces puede comprarla.
 		assert.that(unComensalCeliaco.puedeComprar(otraProvoleta))
-	}
-	
-	test "No puede comprar una comida si no le agrada, a pesar de poder pagarla" {
+		
+		// Si no le agrada una comidad dada y puede pagarla, entonces no puede comprarla.
 		assert.notThat(unComensalCeliaco.puedeComprar(unaProvoleta))
-	}
-	
-	test "No puede comprar una comida si no puede pagarla, a pesar de que le agrade" {
+		
+		// Si le agrada una comida dada y no puede pagarla, entonces no puede comprarla.
 		assert.notThat(otroComensalCeliaco.puedeComprar(otraProvoleta))
-	}
-	
-	test "No puede comprar una comida si no le agrada y no puede pagarla" {
+		
+		// Si no le agrada una comida dada y no puede pagarla, entonces no puede comprarla.
 		assert.notThat(otroComensalCeliaco.puedeComprar(unaProvoleta))
 	}
 	
-	test "Elige el platillo del menu con mayor valoracion" {
+	test "Puede elegir el platillo del menu con mayor valoracion" {
 		assert.equals(unaProvoleta, unComensalCeliaco.elegirPlatillo([unaProvoleta, unaHamburguesaCarne, unaHamburguesaDoble, unCorteCarne]))
 	}
 	
@@ -378,19 +376,19 @@ describe "Comensal celiaco" {
 }
 
 describe "Comensal paladar fino" {
-	test "Le agrada la comida si es especial y si su valoracion es mayor a 100" {
+	test "Es posible saber si le agrada la comida dada (Es especial y su valoracion es mayor a 100)" {
+		// Si la comida dada es especial y su valoracion es mayor a 100, entonces le agrada.
 		assert.that(unComensalPaladarFino.leAgrada(unaProvoleta))
-	}
-	
-	test "No le agrada la comida si no es especial y su valoracion es menor a 100" {
+		
+		// Si la comida dada no es especial y su valoracion es menor a 100, entonces no le agrada.
 		assert.notThat(unComensalPaladarFino.leAgrada(otraProvoleta))
 	}
 	
-	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
 
 	test "Es posible lanzarle problemas gastricos" {
 		unComensalPaladarFino.problemasGastricos()
@@ -399,15 +397,15 @@ describe "Comensal paladar fino" {
 }
 
 describe "Comensal todo terreno" {
-	test "Le agrada todo tipo de comida" {
+	test "Es posible saber si le agrada la comida dada (Le agrada todo tipo de comida)" {
 		assert.that(unComensalTodoTerreno.leAgrada(unaProvoleta))
 	}
 	
-	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues derivan los tres tipos de comensales de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
-	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase. Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no pagar una comida dada, pues derivan los tres tipos de comensales de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien si puede o no compar una comida dada, pues derivan los tres tipos de comensales de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien la eleccion del platillo segun la valoracion maxima, pues derivan los tres tipos de comensales de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien el descontar una cantidad de dinero, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
+	// No es necesario evaluar aqui tambien recibir promocion, pues los tres tipos de comensales derivan de la misma clase (COMENSAL). Con hacerlo una sola vez, alcanza.
 
 	test "Es posible desarrollarlo profesionalmente en el hambito degustacion"{
 		unComensalTodoTerreno.desarrollarProfesionalmente()
