@@ -9,12 +9,23 @@ describe "Paris" {
 	test "Es posible obtener un llavero como recuerdo" {
 		assert.equals("Llavero de la Torre Eiffel", paris.recuerdo())
 	}
+	
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Puede desplazarse)" {
+		// Si tiene el tanque lleno, el alambique puede visitarlo.
+		assert.that(paris.puedeVisitar(alambiqueVeloz))
+		
+		// Si no tiene el tanque lleno, el alambique no puede visitarlo.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(paris.puedeVisitar(alambiqueVeloz))
+	}
 }
 
 describe "Buenos Aires" {
 	test "Es posible saber si el mate incluye yerba" {
+		// Si el nombre del presidente posee una cantidad de letras impares, incluye yerba.
 		assert.that(buenosAires.incluirYerba())
 		
+		// Si el nombre del presidente no posee una cantidad de letras impares, no incluye yerba.
 		buenosAires.presidente("Ares")
 		assert.notThat(buenosAires.incluirYerba())
 	}
@@ -27,11 +38,23 @@ describe "Buenos Aires" {
 		buenosAires.presidente("Ares")
 		assert.equals("Mate sin yerba", buenosAires.recuerdo())
 	}
+	
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Es rapido)" {
+		// Si es rapido, el vehiculo puede visitarlo.
+		assert.that(buenosAires.puedeVisitar(alambiqueVeloz))
+		
+		// Si no es rapido, el vehiculo no puede visitarlo.
+		assert.notThat(buenosAires.puedeVisitar(rocomovil))
+	}
 }
 
 describe "Bagdad" {
 	test "Es posible obtener una bomba nuclear como recuerdo" {
 		assert.equals("Bomba nuclear", bagdad.recuerdo())
+	}
+	
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (No hay restricciones)" {
+		assert.that(bagdad.puedeVisitar(alambiqueVeloz))
 	}
 }
 
@@ -39,12 +62,23 @@ describe "Las Vegas" {
 	test "Es posible obtener un recuerdo del pais homenajeado" {
 		assert.equals("Llavero de la Torre Eiffel", lasVegas.recuerdo())
 	}
+	
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Misma restriccion del pais homenajeado)" {
+		// Si tiene el tanque lleno, el vehiculo puede visitarlo (Restriccion del pais homenajeado).
+		assert.that(lasVegas.puedeVisitar(alambiqueVeloz))
+		
+		// Si no tiene el tanque lleno, el vehiculo no puede visitarlo (Resticcion del pais homenaeado).
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(lasVegas.puedeVisitar(alambiqueVeloz))
+	}
 }
 
 describe "Jurassic Park" {
 	test "Es posible saber si hay muchos dinosaurios (Cantidad de dinosaurios mayor a 10)" {
+		// Si no hay mas de 10 dinosaurios, no hay muchos.
 		assert.notThat(jurassicPark.hayMuchosDinosaurios())
 		
+		// Si hay mas de 10 dinosaurios, hay muchos.
 		jurassicPark.agregarDinosaurios(20)
 		assert.that(jurassicPark.hayMuchosDinosaurios())
 	}
@@ -56,6 +90,15 @@ describe "Jurassic Park" {
 	test "Es posible obtener una pluma de velociraptor como recuerdo" {
 		jurassicPark.agregarDinosaurios(20)
 		assert.equals("Pluma de velociraptor", jurassicPark.recuerdo())
+	}
+	
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Cantidad par de dinosaurios)" {
+		// Si hay una cantidad par de dinosaurios, el vehiculo puede visitarlo.
+		assert.that(jurassicPark.puedeVisitar(alambiqueVeloz))
+		
+		// Si no hay una cantidad par de dinosaurios, el vehiculo no puede visitarlo.
+		jurassicPark.agregarDinosaurios(1)
+		assert.notThat(jurassicPark.puedeVisitar(alambiqueVeloz))
 	}
 }
 
