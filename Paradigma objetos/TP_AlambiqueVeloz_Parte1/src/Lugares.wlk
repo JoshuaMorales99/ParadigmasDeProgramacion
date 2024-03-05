@@ -35,6 +35,11 @@ object bagdad {
 	
 	// Saber si el vehiculo dado puede visitar el lugar (No hay restricciones)
 	method puedeVisitar(vehiculo) = true
+	
+	// Establecer el recuerdo del lugar.
+	method recuerdo(nuevoRecuerdo) {
+		recuerdo = nuevoRecuerdo
+	}
 }
 
 object lasVegas {

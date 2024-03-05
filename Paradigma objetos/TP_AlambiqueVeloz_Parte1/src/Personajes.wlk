@@ -7,11 +7,6 @@ object luke {
 	// Cantidad de lugares visitados.
 	var cantLugaresVisitados = 0
 	
-	// Obtener el recuerdo que se trajo del ultimo viaje.
-	method recuerdo() = recuerdo
-	// Obtener la cantidad de lugares visitados.
-	method cantLugaresVisitados() = cantLugaresVisitados
-	
 	// Incrementar la cantidad de lugares visitados.
 	method incrementarLugaresVisitados() {
 		cantLugaresVisitados = cantLugaresVisitados + 1
@@ -22,7 +17,7 @@ object luke {
 		recuerdo = lugar.recuerdo()
 	}
 	
-	// Ir a un lugar si puede visitarlo con un vehiculo dado. TODO test
+	// Ir a un lugar si puede visitarlo con un vehiculo dado.
 	method irA(destino, vehiculo) {
 		if(destino.puedeVisitar(vehiculo)) {
 			// Viajar.
@@ -33,4 +28,9 @@ object luke {
 			self.guardarRecuerdoDe(destino)
 		}
 	}
+	
+	// Obtener el recuerdo que se trajo del ultimo viaje (Para test)
+	method recuerdo() = recuerdo
+	// Obtener la cantidad de lugares visitados (Para test)
+	method cantLugaresVisitados() = cantLugaresVisitados
 }

@@ -111,6 +111,21 @@ describe "Luke" {
 		luke.guardarRecuerdoDe(paris)
 		assert.equals("Llavero de la Torre Eiffel", luke.recuerdo())
 	}
+	
+	test "Es posible ir a un lugar si puede visitarlo con un vehiculo dado" {
+		// Si puede visitarlo, viaja al lugar, incrementa la cantidad de lugares visitados y guarda el recuerdo del lugar visitado.
+		luke.irA(paris, alambiqueVeloz)
+		assert.equals(100 - 10, alambiqueVeloz.combustible())
+		assert.equals(1, luke.cantLugaresVisitados())
+		assert.equals("Llavero de la Torre Eiffel", luke.recuerdo())
+		
+		// Si no puede visitarlo, no viaja al lugar, no incrementa la cant de lugares visitados y no guarda el recuerdo del lugar visitado.
+		jurassicPark.agregarDinosaurios(1)
+		luke.irA(jurassicPark, alambiqueVeloz)
+		assert.equals(100 - 10, alambiqueVeloz.combustible())
+		assert.equals(1, luke.cantLugaresVisitados())
+		assert.equals("Llavero de la Torre Eiffel", luke.recuerdo())
+	}
 }
 
 
