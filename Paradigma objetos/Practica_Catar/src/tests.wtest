@@ -12,6 +12,7 @@ const unPlatoPrincipal = new Principal(cantAzucar = 25, esBonito = true, cociner
 const otroPlatoPrincipal = new Principal(cantAzucar = 25, esBonito = false, cocinero = unChef)
 const unPlatoPostre = new Postre(cantColores = 5, cocinero = unPastelero)
 const otroPlatoPostre = new Postre(cantColores = 1, cocinero = unPastelero)
+
 // Cocineros.
 const unPastelero = new Cocinero(especialidad = new Pastelero(dulzorDeseado = 50))
 const otroPastelero = new Cocinero(especialidad = new Pastelero(dulzorDeseado = 200))
@@ -19,6 +20,7 @@ const unChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 500))
 const otroChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 50))
 const unSousChef = new Cocinero(especialidad = new SousChef(caloriasMaxima = 500))
 const otroSousChef = new Cocinero(especialidad = new Chef(caloriasMaxima = 50))
+
 // Torneo.
 const unTorneo = new Torneo()
 

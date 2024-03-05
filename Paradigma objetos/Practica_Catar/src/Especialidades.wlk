@@ -7,7 +7,7 @@ class Pastelero {
 	// Nivel de dulzor deseado.
 	const dulzorDeseado
 	
-	// Otorgar calificacion dado un plato (5 * Cantidad de azúcar / dulzor deseado. No puede ser mayor a 10)
+	// Obtener la calificacion de un plato dado (5 * Cantidad de azúcar / dulzor deseado. No puede ser mayor a 10)
 	method calificar(platillo) = 10.min(5 * platillo.cantAzucar() / dulzorDeseado)
 	
 	// Preparar un platillo (Cantidad de colores va a ser el nivel de dulzor deseado dividido 50)
