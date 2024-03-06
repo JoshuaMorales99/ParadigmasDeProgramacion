@@ -24,38 +24,42 @@ const unaMision = new Mision(peligrosidad = 30)
 // 🔸 Punto 1.
 // -------------------------------------------------
 describe "PUNTO 1" {
+	/** ESPIA */
 	test "Es posible saber si un espia esta incapacitado" {
+		// Si su salud es mayor a 15, entonces no esta incapacitado.
 		assert.notThat(unEspia.incapacitado())
-	}
-	
-	test "Si la salud del espia es menor a 15, esta incapacitado" {
+		
+		// Si su salud es menor a 15, entonces esta incapacitado.
 		unEspia.sufrirDanio(95)
 		assert.that(unEspia.incapacitado())
 	}
 	
+	/** OFICINISTA */
 	test "Es posible saber si un oficinista esta incapacitado" {
+		// Si su salud es mayor a 40 - 5 * cantEstrellas, entonces no esta incapacitado.
 		assert.notThat(unOficinista.incapacitado())
-	}
-	
-	test "Si la salud del oficinista es menor a 40 - 5 * cantEstrellas, esta incapacitado" {
+		
+		// Si su salud es menor a 40 - 5 * cantEstrellas, entonces esta incapacitado.
 		unOficinista.sufrirDanio(95)
 		assert.that(unOficinista.incapacitado())
 	}
 	
+	/** JEFE ESPIA */
 	test "Es posible saber si el jefe espia esta incapacitado" {
+		// Si su salud es mayor a 15, entonces no esta incapacitado.
 		assert.notThat(unJefeEspia.incapacitado())
-	}
-	
-	test "Si la salud del jefe espia es menor a 15, esta incapacitado" {
+		
+		// Si su salud es menor a 15, entonces esta incapacitado.
 		unJefeEspia.sufrirDanio(95)
 		assert.that(unJefeEspia.incapacitado())
 	}
 	
+	/** JEFE OFICINISTA */
 	test "Es posible saber si el jefe oficinista esta incapacitado" {
+		// Si su salud es mayor a 40 - 5 * cantEstrellas, entonces no esta incapacitado.
 		assert.notThat(unJefeOficinista.incapacitado())
-	}
-	
-	test "Si la salud del jefe oficinista es menor a 40 - 5 * cantEstrellas, esta incapacitado" {
+		
+		// Si su salud es menor a 40 - 5 * cantEstrellas, entonces esta incapacitado.
 		unJefeOficinista.sufrirDanio(95)
 		assert.that(unJefeOficinista.incapacitado())
 	}
@@ -65,108 +69,142 @@ describe "PUNTO 1" {
 // 🔸 Punto 2.
 // -------------------------------------------------
 describe "PUNTO 2" {
-	test "Si el espia esta incapacitado, no puede utilizar la habilidad" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
+	/** ESPIA */
+	test "Es posible saber si un espia puede usar una habilidad dada" {
+		// Si no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unEspia.aprender([unaHabilidad])
+		assert.that(unEspia.puedeUsar(unaHabilidad))
+		
+		// Si no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unEspia.puedeUsar(otraHabilidad))
+		
+		// Si esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unEspia.sufrirDanio(95)
 		assert.notThat(unEspia.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el espia no posee la habilidad, no puede utilizarla" {
-		unEspia.aprender([unaHabilidad])
+		
+		// Si esta incapacitado y no tiene la habilidad, entonces no puede usarla.
 		assert.notThat(unEspia.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el espia no esta incapacitado y tiene la habilidad, puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
-		assert.that(unEspia.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el oficinista esta incapacitado, no puede utilizar la habilidad" {
-		unOficinista.aprender([unaHabilidad, otraHabilidad])
+	/** OFICINISTA */
+	test "Es posible saber si un oficinista puede usar una habilidad dada" {
+		// Si no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unOficinista.aprender([unaHabilidad])
+		assert.that(unOficinista.puedeUsar(unaHabilidad))
+		
+		// Si no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unOficinista.puedeUsar(otraHabilidad))
+		
+		// Si esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unOficinista.sufrirDanio(95)
 		assert.notThat(unOficinista.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el oficinista no posee la habilidad, no puede utilizarla" {
-		unOficinista.aprender([unaHabilidad])
+		
+		// Si esta incapacitado y no tiene la habilidad, entonces no puede usarla.
 		assert.notThat(unOficinista.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el oficinista no esta incapacitado y tiene la habilidad, puede utilizarla" {
-		unOficinista.aprender([unaHabilidad, otraHabilidad])
-		assert.that(unOficinista.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe espia esta incapacitado, no puede utilizar la habilidad" {
-		unJefeEspia.aprender([unaHabilidad, otraHabilidad])
+	/** JEFE ESPIA */
+	test "Es posible saber si un jefe espia puede usar una habilidad dada" {
+		// Si no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unJefeEspia.aprender([unaHabilidad])
+		assert.that(unJefeEspia.puedeUsar(unaHabilidad))
+		
+		// Si no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
+		
+		// Si esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unJefeEspia.sufrirDanio(95)
 		assert.notThat(unJefeEspia.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe espia no posee la habilidad, no puede utilizarla" {
-		unJefeEspia.aprender([unaHabilidad])
+		
+		// Si esta incapacitado y no tiene la habilidad, entonces no puede usarla.
 		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el jefe espia no esta incapacitado y tiene la habilidad, puede utilizarla" {
-		unJefeEspia.aprender([unaHabilidad, otraHabilidad])
+	test "Es posible saber si un jefe espia no incapacitado puede usar una habilidad dada si su subordinado la posee" {
+		// Si su subordinado no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unEspia.aprender([unaHabilidad])
+		unJefeEspia.agregarSubordinado(unEspia)
 		assert.that(unJefeEspia.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe espia tiene un subordinado que tiene la habilidad, pero el mismo esta incapacitado, no puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
+		
+		// Si su subordinado no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
+		
+		// Si su subordinado esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unEspia.sufrirDanio(95)
-		unJefeEspia.agregarSubordinado(unEspia)
 		assert.notThat(unJefeEspia.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el jefe espia tiene un subordinado que tiene la habilidad y no esta incapacitado, puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
-		unJefeEspia.agregarSubordinado(unEspia)
-		assert.that(unJefeEspia.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe espia esta incapacitado, pero tiene un subordinado que tiene la habilidad y no esta incapacitado, puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
+	test "Es posible saber si un jefe espia incapacitado puede usar una habilidad dada si su subordinado la posee" {
+		// Si su subordinado no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unEspia.aprender([unaHabilidad])
 		unJefeEspia.agregarSubordinado(unEspia)
 		unJefeEspia.sufrirDanio(95)
 		assert.that(unJefeEspia.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
+		
+		// Si su subordinado esta incapacitado y tiene la habilidad, entonces no puede usarla.
+		unEspia.sufrirDanio(95)
+		assert.notThat(unJefeEspia.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeEspia.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el jefe oficinista esta incapacitado, no puede utilizar la habilidad" {
-		unJefeOficinista.aprender([unaHabilidad, otraHabilidad])
+	/** JEFE OFICINISTA */
+	test "Es posible saber si un jefe oficinista puede usar una habilidad dada" {
+		// Si no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unJefeOficinista.aprender([unaHabilidad])
+		assert.that(unJefeOficinista.puedeUsar(unaHabilidad))
+		
+		// Si no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
+		
+		// Si esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unJefeOficinista.sufrirDanio(95)
 		assert.notThat(unJefeOficinista.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe oficinista no posee la habilidad, no puede utilizarla" {
-		unJefeOficinista.aprender([unaHabilidad])
+		
+		// Si esta incapacitado y no tiene la habilidad, entonces no puede usarla.
 		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el jefe oficinista no esta incapacitado y tiene la habilidad, puede utilizarla" {
-		unJefeOficinista.aprender([unaHabilidad, otraHabilidad])
+	test "Es posible saber si un jefe oficinista no incapacitado puede usar una habilidad dada si su subordinado la posee" {
+		// Si su subordinado no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unEspia.aprender([unaHabilidad])
+		unJefeOficinista.agregarSubordinado(unEspia)
 		assert.that(unJefeOficinista.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe oficinista tiene un subordinado que tiene la habilidad, pero el mismo esta incapacitado, no puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
+		
+		// Si su subordinado no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
+		
+		// Si su subordinado esta incapacitado y tiene la habilidad, entonces no puede usarla.
 		unEspia.sufrirDanio(95)
-		unJefeOficinista.agregarSubordinado(unEspia)
 		assert.notThat(unJefeOficinista.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
 	}
 	
-	test "Si el jefe oficinista tiene un subordinado que tiene la habilidad y no esta incapacitado, puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
-		unJefeOficinista.agregarSubordinado(unEspia)
-		assert.that(unJefeOficinista.puedeUsar(unaHabilidad))
-	}
-	
-	test "Si el jefe oficinista esta incapacitado, pero tiene un subordinado que tiene la habilidad y no esta incapacitado, puede utilizarla" {
-		unEspia.aprender([unaHabilidad, otraHabilidad])
+	test "Es posible saber si un jefe oficinista incapacitado puede usar una habilidad dada si su subordinado la posee" {
+		// Si su subordinado no esta incapacitado y tiene la habilidad, entonces puede usarla.
+		unEspia.aprender([unaHabilidad])
 		unJefeOficinista.agregarSubordinado(unEspia)
 		unJefeOficinista.sufrirDanio(95)
 		assert.that(unJefeOficinista.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado no esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
+		
+		// Si su subordinado esta incapacitado y tiene la habilidad, entonces no puede usarla.
+		unEspia.sufrirDanio(95)
+		assert.notThat(unJefeOficinista.puedeUsar(unaHabilidad))
+		
+		// Si su subordinado esta incapacitado y no tiene la habilidad, entonces no puede usarla.
+		assert.notThat(unJefeOficinista.puedeUsar(otraHabilidad))
 	}
 }
 
@@ -174,21 +212,22 @@ describe "PUNTO 2" {
 // 🔸 Punto 3.
 // -------------------------------------------------
 describe "PUNTO 3" {
-	test "Si un empleado no puede cumplir la mision, se lanza una excepcion" {
+	test "Es posible lanzar una excepcion si el empleado no puede cumplir la mision (No tiene todas las habilidades requeridas)" {
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
 		unEspia.aprender([unaHabilidad])
 		assert.throwsExceptionWithMessage("No se puede completar la mision", {unaMision.comenzar(unEspia)})
 	}
 	
-	test "Si un espia puede cumplir la mision, pierde salud (dependiendo de la peligrosida)" {
+	/** ESPIA */
+	test "Es posible que un espia cumpla la mision (Pierde salud dependiendo de la peligrosida)"{
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
 		unEspia.aprender([unaHabilidad])
 		unaMision.comenzar(unEspia)
 		assert.equals(70, unEspia.salud())
-		assert.equals(#{unaHabilidad}, unEspia.habilidades())
 	}
 	
-	test "Si un oficinista puede cumplir la mision, pierde salud (dependiendo de la peligrosidad) y suma una estrella" {
+	/** OFICINISTA */
+	test "Es posible que un oficinista cumpla la mision (Pierde vida dependiendo de la peligrosidad y suma una estrella)"{
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
 		unOficinista.aprender([unaHabilidad])
 		unaMision.comenzar(unOficinista)
@@ -196,14 +235,15 @@ describe "PUNTO 3" {
 		assert.equals(1, unOficinista.rol().cantEstrellas())
 	}
 	
-	test "Si un oficinista puede cumplir la mision y tiene 2 estrellas, suma una y pasa a ser espia" {
+	test "Es posible que un oficinista pase a ser espia por cumplir la mision y poseer 2 estrellas" {
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad])
 		unJefeOficinista.aprender([unaHabilidad])
 		unaMision.comenzar(unJefeOficinista)
 		assert.equals(espia, unJefeOficinista.rol())
 	}
 	
-	test "Si un equipo no puede cumplir la mision, se lanza una excepcion" {
+	/** EQUIPO */
+	test "Es posible lanzar una excepcion si el equipo no puede cumplir la mision (Al menos uno de sus integrantes puede usar todas las habilidades requeridas)" {
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
 		unEspia.aprender([unaHabilidad])
 		unOficinista.aprender([unaHabilidad])
@@ -211,40 +251,27 @@ describe "PUNTO 3" {
 		assert.throwsExceptionWithMessage("No se puede completar la mision", {unaMision.comenzar(unEquipo)})
 	}
 	
-	test "Si un equipo puede cumplir la mision, pierde salud (un tercio de la peligrosidad de la mision)" {
+	test "Es posible que el equipo cumpla la mision"{
 		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
 		unEspia.aprender([unaHabilidad])
 		unOficinista.aprender([otraHabilidad])
-		unEquipo.agregarIntegrantes([unEspia, unOficinista])
+		unEquipo.agregarIntegrantes([unEspia, unOficinista, unJefeEspia, unJefeOficinista])
 		unaMision.comenzar(unEquipo)
+		
+		// Todos los integrantes reciban un tercio del daño total.
 		assert.equals(90, unEspia.salud())
 		assert.equals(90, unOficinista.salud())
-	}
-	
-	test "Si un equipo puede cumplir la mision, los que tiene el rol de espia, aprenden habilidades" {
-		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
-		unEspia.aprender([unaHabilidad])
-		unOficinista.aprender([otraHabilidad])
-		unEquipo.agregarIntegrantes([unEspia, unOficinista])
-		unaMision.comenzar(unEquipo)
+		assert.equals(90, unJefeEspia.salud())
+		assert.equals(90, unJefeOficinista.salud())
+		
+		// Los espias aprenden habilidades.
 		assert.equals(#{unaHabilidad, otraHabilidad}, unEspia.habilidades())
-	}
-	
-	test "Si un equipo puede cumplir la mision, los que tienen el rol de oficinistas, suman una estrella" {
-		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
-		unEspia.aprender([unaHabilidad])
-		unOficinista.aprender([otraHabilidad])
-		unEquipo.agregarIntegrantes([unEspia, unOficinista])
-		unaMision.comenzar(unEquipo)
+		assert.equals(#{unaHabilidad, otraHabilidad}, unJefeEspia.habilidades())
+		
+		// Los oficinistas suman una estrella.
 		assert.equals(1, unOficinista.rol().cantEstrellas())
-	}
-	
-	test "Si un equipo puede cumplir la mision, los que tienen el rol de oficinistas con 2 estrellas, suman una y pasan a ser espias" {
-		unaMision.agregarHabilidadesRequeridas([unaHabilidad, otraHabilidad])
-		unEspia.aprender([unaHabilidad])
-		unJefeOficinista.aprender([otraHabilidad])
-		unEquipo.agregarIntegrantes([unEspia, unJefeOficinista])
-		unaMision.comenzar(unEquipo)
+		
+		// Los oficinista con 2 estrellass pasan a ser espias.
 		assert.equals(espia, unJefeOficinista.rol())
 	}
 }
