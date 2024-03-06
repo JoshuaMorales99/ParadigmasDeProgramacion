@@ -50,6 +50,7 @@ const temor = new Emocion()
 // -----------------------------------------------------------------------
 // Molde para las emociones compuestas.
 class EmocionCombinada {
+	// Emociones simples que conforman a la emocion compuesta.
 	const emociones = []
 	
 	// Saber si se trata de una emocion alegre.
