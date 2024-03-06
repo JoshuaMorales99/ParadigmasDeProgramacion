@@ -5,7 +5,6 @@
 class Emocion {
 	// Saber si se trata de una emocion alegre.
 	method esAlegre() = false
-	
 	// Saber si se niega un recuerdo dado.
 	method niega(unRecuerdo) = false
 	
@@ -18,17 +17,13 @@ class Emocion {
 object alegria inherits Emocion {
 	// Saber si se trata de una emocion alegre.
 	override method esAlegre() = true
-
 	// Saber si se niega un recuerdo dado.
 	override method niega(unRecuerdo) = not unRecuerdo.emocion().esAlegre()
 	
 	// Aplicar las consecuencias de un recuerdo dado a una persona determinada.
 	override method aplicarConcecuencias(unaChica, unRecuerdo) {
-		// Si la felicidad de la chica es mayor a 500.
-		if(unaChica.felicidad() > 500) {
-			// Convetir el recuerdo en un pensamiento central.
-			unaChica.agregarPensamientoCentral(unRecuerdo)
-		}
+		// Si la felicidad de la chica es mayor a 500, convetir el recuerdo en un pensamiento central.
+		if(unaChica.felicidad() > 500) unaChica.agregarPensamientoCentral(unRecuerdo)
 	}
 }
 
@@ -59,7 +54,6 @@ class EmocionCombinada {
 	
 	// Saber si se trata de una emocion alegre.
 	method esAlegre() = emociones.any{emocion => emocion.esAlegre()}
-	
 	// Saber si se niega un recuerdo dado.
 	method niega(unRecuerdo) = emociones.all{emocion => emocion.niega(unRecuerdo)}
 	
