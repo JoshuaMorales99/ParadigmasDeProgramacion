@@ -2,7 +2,7 @@
 // 🔸 Roles.
 // -------------------------------------------------
 object espia {
-	// Nivel de salud critica.
+	// Obtener el nivel de salud critica.
 	method saludCritica() = 15
 	
 	// Recibir recompenza por completar una mision dada.
@@ -12,15 +12,16 @@ object espia {
 	}
 }
 
+// Molde para los roles de oficinista.
 class Oficinista {
 	// Cantidad de estrellas.
 	var cantEstrellas
 	
-	// Nivel de salud critica.
+	// Obtener el nivel de salud critica.
 	method saludCritica() = 40 - 5 * cantEstrellas
 	
-	// Consultar la cantidad de estrellas que posee (Para Test)
-	method cantEstrellas() = cantEstrellas
+	// Saber si posee suficiente experiencia (Tiene 3 estrellas)
+	method suficienteExperiencia() = cantEstrellas == 3
 	
 	// Ganar una estrella.
 	method ganarEstrellas(cantidad) {
@@ -31,7 +32,10 @@ class Oficinista {
 	method recibirRecompenza(mision, empleado){
 		// Ganar estrella.
 		self.ganarEstrellas(1)
-		// Si junta tres estrellas, comienza a trabajar como espia.
-		if(cantEstrellas == 3) empleado.rol(espia)
+		// Si tiene la suficiente experiencia, comienza a trabajar como espia.
+		if(self.suficienteExperiencia()) empleado.rol(espia)
 	}
+	
+	// Saber la cantidad de estrellas que posee (Para Test)
+	method cantEstrellas() = cantEstrellas
 }

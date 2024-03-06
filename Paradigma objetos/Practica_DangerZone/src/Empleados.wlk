@@ -5,19 +5,18 @@
 class Empleado {
 	// Nivel de salud del empleado.
 	var salud
-	// Rol del empleado dentro de la agencia. (Setter necesario para Oficinista, Getter para Test)
-	var property rol
-	
+	// Rol del empleado dentro de la agencia.
+	var rol
 	// Habilidades para resolver misiones (Property para Test)
 	const property habilidades = #{}
+	
+	// Obtener la salud restante.
+	method salud() = salud
 	
 	// Saber si posee una habilidad dada.
 	method posee(unaHabilidad) = habilidades.contains(unaHabilidad)
 	// Saber si tiene vida (Salud es mayor a 0)
 	method tieneSalud() = salud > 0
-	
-	// Consultar salud restante.
-	method salud() = salud
 	
 	// Sufrir una dada cantidad de danio.
 	method sufrirDanio(cantidad) {
@@ -29,6 +28,11 @@ class Empleado {
 		habilidades.addAll(unasHabilidades)
 	}
 	
+	// Establecer nuevo rol.
+	method rol(nuevoRol) {
+		rol = nuevoRol
+	}
+	
 	// PUNTO 1 - Saber si esta incapacitado (Cuando su salud esta por debajo de su salud critica)
 	method incapacitado() = salud < rol.saludCritica()
 	
@@ -37,12 +41,12 @@ class Empleado {
 	
 	// PUNTO 3 - Cumplir una mision dada.
 	method cumplir(mision) {
-		// Si tiene vida.
-		if(self.tieneSalud()) {
-			// Recibe una recompensa dependiendo del rol dentro de la agencia.
-			rol.recibirRecompenza(mision, self)
-		}
+		// Si tiene vida, recibe una recompensa dependiendo del rol dentro de la agencia.
+		if(self.tieneSalud()) rol.recibirRecompenza(mision, self)
 	}
+	
+	// Saber el rol actual (Para test)
+	method rol() = rol
 }
 
 // -------------------------------------------------
@@ -70,7 +74,7 @@ class Jefe inherits Empleado {
 // -------------------------------------------------
 // Molde para los equipos formados para una mision.
 class Equipo {
-	// Equipo conformado para llevar a cabo una mision.
+	// Integrantes del equipo.
 	const integrantes = #{}
 	
 	// Saber si algun integrante del equipo puede usar una habilidad dada.
