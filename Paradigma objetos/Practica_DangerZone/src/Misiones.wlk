@@ -1,6 +1,7 @@
 // -------------------------------------------------
 // 🔸 Misiones.
 // -------------------------------------------------
+// Molde para las misiones a realizar.
 class Mision {
 	// Nivel de peligrosidad de la mision.
 	const peligrosidad
@@ -8,8 +9,6 @@ class Mision {
 	const habilidadesRequeridas = []
 	
 	// Saber si una entidad puede completar la mision.
-		// - Si es un solo empleado, puede completar la mision si sabe usar todas las habilidades requeridas.
-		// - Si es un equipo, puede completar la mision si al menos uno de sus integrantes puede usar todas las habilidades requeridas.
 	method puedeCompletar(entidad) = habilidadesRequeridas.all{habilidadRequerida => entidad.puedeUsar(habilidadRequerida)}
 	
 	// Verificar si la entidad cumple con las habilidades requeridas.
