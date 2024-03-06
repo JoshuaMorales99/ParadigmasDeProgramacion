@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------
 // 🔸 Procesos mentales.
 // -----------------------------------------------------------------------
-
 object asentamiento {
 	// Desencadenar proceso mental.
 	method desencadenarEn(unaChica) {
@@ -10,6 +9,7 @@ object asentamiento {
 	}
 }
 
+// Molde para los diferentes tipos de asentamiento selectivo.
 class AsentamientoSelectivo {
 	const palabra
 	
@@ -31,11 +31,8 @@ object profundizacion {
 object controlHormonal {
 	// Desencadenar proceso mental.
 	method desencadenarEn(unaChica) {
-		// Si hay un desequilibrio hormonal.
-		if(unaChica.hayDesequilibrioHormonal()) {
-			// Generar un desequilibrio hormonal.
-			unaChica.desequilibrioHormonal()
-		}
+		// Si hay un desequilibrio hormonal, generarlo.
+		if(unaChica.hayDesequilibrioHormonal()) unaChica.desequilibrioHormonal()
 	}
 }
 
