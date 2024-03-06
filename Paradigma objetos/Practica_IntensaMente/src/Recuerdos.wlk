@@ -5,9 +5,11 @@ import Emociones.*
 // -----------------------------------------------------------------------
 // Molde para los recuerdos.
 class Recuerdo {
-	// Datos del recuerdo.
+	// Descripcion del recuerdo.
 	const descripcion = ""
+	// Fecha en el que se produce el recuerdo.
 	const property fecha = new Date()
+	// Emocion dominante en el momento del recuerdo.
 	const property emocion
 	
 	// Saber si el recuerdo es dificil de explicar (Posee mas de 10 palabras en su descripcion)
