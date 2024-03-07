@@ -11,8 +11,6 @@ object parrillaMiguelito {
 	
 	// Obtener del menu los platillos validos que puede comprar un comensal dado.
 	method platillosValidosPara(comensal) = menu.filter{platillo => comensal.puedeComprar(platillo)}
-	// GETTER: Obtener los ingresos de la parrilla (Para tests)
-	method ingresos() = ingresos
 	// Obtener la cantidad total de dinero a entregar a cada comensal registrado en el historial.
 	method cantTotalPromocion(cantidad) = self.cantComensalesRegistrados() * cantidad
 	// Obtener la cantidad de comensales registrados en el historial.
@@ -67,16 +65,12 @@ object parrillaMiguelito {
 	
 	// Verificar que haya algun platillo que pueda comprar el comensal dado.
 	method verificarMenu(comensal) {
-		if(self.platillosValidosPara(comensal).isEmpty()){
-			throw new Exception(message = "No existe plato valido en el menu que pueda comprar el comensal dado")
-		}
+		if(self.platillosValidosPara(comensal).isEmpty()) throw new Exception(message = "No existe plato valido en el menu que pueda comprar el comensal dado")
 	}
 	
 	// Verificar que haya suficientes ingresos para realizar la promocion.
 	method verificarIngresos(totalAEntregar) {
-		if(totalAEntregar > ingresos) {
-			throw new Exception(message = "No hay suficientes ingresos para realizar la promocion")
-		}
+		if(totalAEntregar > ingresos) throw new Exception(message = "No hay suficientes ingresos para realizar la promocion")
 	}
 	
 	// Agregar comidas dadas al menu.
@@ -88,4 +82,7 @@ object parrillaMiguelito {
 	method agregarAlHistorial(comensal) {
 		historialComensales.add(comensal)
 	}
+	
+	// Obtener los ingresos de la parrilla (Para tests)
+	method ingresos() = ingresos
 }
