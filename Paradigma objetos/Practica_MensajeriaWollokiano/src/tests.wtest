@@ -6,7 +6,7 @@ import Chats.*
 // 🔸 Mi universo.
 // --------------------------------------------------
 // Tipos de contenido en mensajes.
-const unTexto = new Texto(mensaje = "Hola que tal. Me llamo Pepito")
+const unTexto = new Texto(mensaje = "Hola que tal estas? Todo bien")
 const unAudio = new Audio(duracion = 60)
 const unaImagenOriginal = new Imagen(alto = 120, ancho = 180, modoCompresion = original)
 const unaImagenVariable = new Imagen(alto = 120, ancho = 180, modoCompresion = new Variable(porcentaje = 50))
@@ -40,12 +40,12 @@ const unChatPremiumAhorro = new ChatPremium(duenio = unDuenio, otraRestriccion =
 // 🔸 Tipo de contenidos en mensajes.
 // --------------------------------------------------
 describe "Tipos de contenidos en mensajes" {
-	// TEXTO.
+	/** TEXTO */
 	test "Es posible obtener la cantidad de caracteres en el contenido de Texto" {
 		assert.equals(29, unTexto.cantCaracteres())
 	}
 	
-	test "Es posible obtener el peso del contenido de Texto" {
+	test "Es posible obtener el peso del contenido de Texto (1 KB por caracter)" {
 		assert.equals(29, unTexto.peso())
 	}
 	
@@ -54,8 +54,8 @@ describe "Tipos de contenidos en mensajes" {
 		assert.notThat(unTexto.contiene("Chau. Buena suerte"))
 	}
 	
-	// AUDIO.
-	test "Es posible obtener el peso del contenido de Audio" {
+	/** AUDIO */ 
+	test "Es posible obtener el peso del contenido de Audio (1.2 KB por segundo)" {
 		assert.equals(72, unAudio.peso())
 	}
 	
@@ -63,7 +63,7 @@ describe "Tipos de contenidos en mensajes" {
 		assert.notThat(unAudio.contiene("Chau. Buena suerte"))
 	}
 	
-	// IMAGEN.
+	/** IMAGEN */
 	test "Es posible obtener la cantidad de pixeles totales del contenido de Imagen" {
 		assert.equals(21600, unaImagenOriginal.cantTotalPixeles())
 	}
@@ -88,7 +88,7 @@ describe "Tipos de contenidos en mensajes" {
 		assert.notThat(unaImagenOriginal.contiene("Chau. Buena suerte"))
 	}
 		
-	// GIF.
+	/** GIF */
 	test "Es posible obtener el peso del contenido de Gif con compresion original" {
 		assert.equals(432000, unGifOriginal.peso())
 	}
@@ -105,7 +105,7 @@ describe "Tipos de contenidos en mensajes" {
 		assert.equals(200000, unGifMaxima.peso())
 	}
 	
-	// CONTACTO.
+	/** CONTACTO */
 	test "Es posible obtener el peso del contenido de Contacto" {
 		assert.equals(3, unContacto.peso())
 	}
@@ -120,23 +120,20 @@ describe "Tipos de contenidos en mensajes" {
 // 🔸 Mensajes.
 // --------------------------------------------------
 describe "Mensajes" {
-	test "Es posible obtener el peso del contenido del tipo Texto" {
+	test "Es posible obtener el peso del contenido del mensaje" {
+		// Tipo texto.
 		assert.equals(29, unMensajeTexto.pesoContenido())
-	}
-	
-	test "Es posible obtener el peso del contenido del tipo Audio" {
+		
+		// Tipo audio.
 		assert.equals(72, unMensajeAudio.pesoContenido())
-	}
-	
-	test "Es posible obtener el peso del contenido del tipo Imagen" {
+		
+		// Tipo imagen.
 		assert.equals(43200, unMensajeImagen.pesoContenido())
-	}
-	
-	test "Es posible obtener el peso del contenido del tipo Gif" {
+		
+		// Tipo GIF.
 		assert.equals(432000, unMensajeGif.pesoContenido())
-	}
-	
-	test "Es posible obtener el peso del contenido del tipo Contacto" {
+		
+		// Tipo contacto.
 		assert.equals(3, unMensajeContacto.pesoContenido())
 	}
 	
@@ -159,56 +156,52 @@ describe "Mensajes" {
 // 🔸 Chats.
 // --------------------------------------------------
 describe "Chats clasicos" {
-	test "Es posible saber si un usuario es participante del chat clasico" {
+	test "Es posible saber si un usuario es participante" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		assert.that(unChatClasico.esParticipante(unUsuario))
 		assert.notThat(unChatClasico.esParticipante(otroUsuario))
 	}
 	
-	test "Es posible saber si todos los participantes del chat clasico poseen espacio en memoria" {
+	test "Es posible lanzar una excepcion al verificar que un usuario no es participante" {
+		unChatClasico.agregarParticipante(unDuenio)
+		unChatClasico.agregarParticipante(unUsuario)
+		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatClasico.verificarParticipantes(otroUsuario)})
+	}
+	
+	test "Es posible saber si todos los participantes poseen espacio en memoria" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		assert.that(unChatClasico.espacioSuficiente(100))
 		assert.notThat(unChatClasico.espacioSuficiente(2000))
 	}
 	
-	test "Al verificar que un usuario no es participante de un chat clasico, lanza una excepcion" {
-		unChatClasico.agregarParticipante(unDuenio)
-		unChatClasico.agregarParticipante(unUsuario)
-		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatClasico.verificarParticipantes(otroUsuario)})
-	}
-	
-	test "Al verificar que algun participante del chat clasico no posee memoria suficiente, lanza una excepcion" {
+	test "Es posible lanzar una excepcion al verificar que algun participante no posee memoria suficiente" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChatClasico.verificarMemorias(2000)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje, se almacena en el chat clasico" {
+	test "PUNTO 2: Es posible enviar un mensaje al chat" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
 		assert.equals([unMensajeTexto], unChatClasico.mensajes())
+		assert.equals(957.3, unDuenio.cantMemoria())
+		assert.equals(957.3, unUsuario.cantMemoria())
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat clasico, todos sus participantes reducen la cantidad de espacio en memoria" {
-		unChatClasico.agregarParticipante(unUsuario)
-		unChatClasico.enviar(unMensajeTexto)
-		assert.equals(1000 - 42.7, unUsuario.cantMemoria())
-	}
-	
-	test "PUNTO 2: Al enviar un mensaje y no ser participante del chat clasico, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el usuario intenta enviar un mensaje al chat donde no es participante" {
 		unChatClasico.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatClasico.enviar(unMensajeGif)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde algun participante del chat clasico no posea memoria suficiente, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si, al enviar un mensaje, algun participante del chat no posee memoria suficiente" {
 		unChatClasico.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChatClasico.enviar(unMensajeImagen)})
 	}
 	
-	test "Es posible obtener la cantidad de mensajes almacenados en el chat clasico" {
+	test "Es posible obtener la cantidad de mensajes almacenados" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
@@ -220,26 +213,31 @@ describe "Chats clasicos" {
 		unChatClasico.enviar(unMensajeTexto)
 		unChatClasico.enviar(unMensajeAudio)
 		unChatClasico.enviar(unMensajeContacto)
-		assert.equals(42.7 + 98.6 + 8.9, unChatClasico.peso())
+		assert.equals(150.2, unChatClasico.peso())
 	}
 	
-	test "Es posible saber si posee algun mensaje que contiene un texto dado por el nombre del emisor" {
+	test "Es posible saber si hay algun mensaje que contenga un texto dado" {
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
-		
-		assert.that(unChatClasico.contiene("Pepito"))
-		assert.notThat(unChatClasico.contiene("Usuario"))
-	}
-	
-	test "Es posible saber si posee algun mensaje que contiene un texto dado por el tipo de contenido del mensaje" {
-		unChatClasico.agregarParticipante(unUsuario)
-		unChatClasico.enviar(unMensajeTexto)
-		
 		assert.that(unChatClasico.contiene("que tal"))
 		assert.notThat(unChatClasico.contiene("Chau. Buena suerte"))
 	}
 	
-	test "Es posible obtener el mensaje mas pesado del chat" {
+	test "Es posible saber si hay algun mensaje que contenga el nombre del emisor dado" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeTexto)
+		assert.that(unChatClasico.contiene("Pepito"))
+		assert.notThat(unChatClasico.contiene("Usuario"))
+	}
+	
+	test "Es posible saber si hay algun mensaje que contenga al nombre del contacto dado" {
+		unChatClasico.agregarParticipante(unUsuario)
+		unChatClasico.enviar(unMensajeContacto)
+		assert.that(unChatClasico.contiene("Usuario"))
+		assert.notThat(unChatClasico.contiene("Pepita"))
+	}
+	
+	test "Es posible obtener el mensaje mas pesado" {
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
 		unChatClasico.enviar(unMensajeAudio)
@@ -247,14 +245,14 @@ describe "Chats clasicos" {
 		assert.equals(unMensajeAudio, unChatClasico.mensajeMasPesado())
 	}
 	
-	test "Es posible enviar a cada participante del chat una notificacion" {
+	test "Es posible enviar a cada participante una notificacion" {
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviarNotificacion()
 		unChatClasico.enviarNotificacion()
 		assert.equals(2, unUsuario.notificaciones().size())
 	}
 	
-	test "PUNTO 5.a - Al enviar un mensaje, se notifica a cada participante del chat" {
+	test "PUNTO 5.a - Al enviar un mensaje, se notifica a cada participante" {
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeTexto)
 		unChatClasico.enviar(unMensajeAudio)
@@ -263,53 +261,45 @@ describe "Chats clasicos" {
 	}
 }
 
-describe "Chats premium" {
-	// DIFUSION.
-	test "Al verificar que no se cumple la restriccion adicional del chat premium de difusion, lanza una excepcion" {
+describe "Chats premium de difusion" {
+	test "Es posible lanzar una excepcion al verificar que no se cumple la restriccion adicional" {
 		unChatPremiumDifusion.agregarParticipante(unDuenio)
 		unChatPremiumDifusion.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {unChatPremiumDifusion.verificarRestriccionAdicional(unMensajeTexto)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium de difusion, el mensaje se almacena en dicho chat" {
+	test "PUNTO 2: Es posible enviar un mensaje al chat" {
 		const otroMensajeTexto = new Mensaje(emisor = unDuenio, tipoContenido = unTexto)
 		
 		unChatPremiumDifusion.agregarParticipante(unDuenio)
 		unChatPremiumDifusion.agregarParticipante(unUsuario)
 		unChatPremiumDifusion.enviar(otroMensajeTexto)
 		assert.equals([otroMensajeTexto], unChatPremiumDifusion.mensajes())
+		assert.equals(957.3, unDuenio.cantMemoria())
+		assert.equals(957.3, unUsuario.cantMemoria())
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium de difusion, todos sus participantes reducen la cantidad de espacio en memoria" {
-		const otroMensajeTexto = new Mensaje(emisor = unDuenio, tipoContenido = unTexto)
-		
-		unChatPremiumDifusion.agregarParticipante(unDuenio)
-		unChatPremiumDifusion.agregarParticipante(unUsuario)
-		unChatPremiumDifusion.enviar(otroMensajeTexto)
-		assert.equals(1000 - 42.7, unDuenio.cantMemoria())
-		assert.equals(1000 - 42.7, unUsuario.cantMemoria())
-	}
-	
-	test "PUNTO 2: Al enviar un mensaje y no ser participante del chat premium de difusion, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el usuario intenta enviar un mensaje al chat donde no es participante" {
 		unChatPremiumDifusion.agregarParticipante(unDuenio)
 		unChatPremiumDifusion.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatPremiumDifusion.enviar(unMensajeGif)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde algun participante del chat premium de difusion no posea memoria suficiente, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si, al enviar un mensaje, algun participante del chat no posee memoria suficiente" {
 		unChatPremiumDifusion.agregarParticipante(unDuenio)
 		unChatPremiumDifusion.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChatPremiumDifusion.enviar(unMensajeImagen)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde no se cumpla la restriccion del chat premium de difusion, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el mensaje a enviar no cumple la restriccion del chat" {
 		unChatPremiumDifusion.agregarParticipante(unDuenio)
 		unChatPremiumDifusion.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {unChatPremiumDifusion.enviar(unMensajeTexto)})
 	}
-	
-	// RESTRINGIDO.
-	test "Al verificar que no se cumple la restriccion adicional del chat premium restringido, lanza una excepcion" {
+}
+
+describe "Chats premium restringido" {
+	test "Es posible lanzar una excepcion al verificar que no se cumple la restriccion adicional" {
 		const otroChatPremiumRestringido = new ChatPremium(duenio = unDuenio, otraRestriccion = new Restringido(limite = 0))
 		
 		otroChatPremiumRestringido.agregarParticipante(unDuenio)
@@ -317,76 +307,65 @@ describe "Chats premium" {
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {otroChatPremiumRestringido.verificarRestriccionAdicional(unMensajeTexto)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium restringido, el mensaje se almacena en dicho chat" {
+	test "PUNTO 2: Es posible enviar un mensaje al chat" {
 		unChatPremiumRestringido.agregarParticipante(unDuenio)
 		unChatPremiumRestringido.agregarParticipante(unUsuario)
 		unChatPremiumRestringido.enviar(unMensajeTexto)
 		assert.equals([unMensajeTexto], unChatPremiumRestringido.mensajes())
+		assert.equals(957.3, unDuenio.cantMemoria())
+		assert.equals(957.3, unUsuario.cantMemoria())
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium restringido, todos sus participantes reducen la cantidad de espacio en memoria" {
-		unChatPremiumRestringido.agregarParticipante(unDuenio)
-		unChatPremiumRestringido.agregarParticipante(unUsuario)
-		unChatPremiumRestringido.enviar(unMensajeTexto)
-		assert.equals(1000 - 42.7, unDuenio.cantMemoria())
-		assert.equals(1000 - 42.7, unUsuario.cantMemoria())
-	}
-	
-	test "PUNTO 2: Al enviar un mensaje y no ser participante del chat premium restringido, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el usuario intenta enviar un mensaje al chat donde no es participante" {
 		unChatPremiumRestringido.agregarParticipante(unDuenio)
 		unChatPremiumRestringido.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatPremiumRestringido.enviar(unMensajeGif)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde algun participante del chat premium restringido no posea memoria suficiente, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si, al enviar un mensaje, algun participante del chat no posee memoria suficiente" {
 		unChatPremiumRestringido.agregarParticipante(unDuenio)
 		unChatPremiumRestringido.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChatPremiumRestringido.enviar(unMensajeImagen)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde no se cumpla la restriccion del chat premium restringido, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el mensaje a enviar no cumple la restriccion del chat" {
 		const otroChatPremiumRestringido = new ChatPremium(duenio = unDuenio, otraRestriccion = new Restringido(limite = 0))
 		
 		otroChatPremiumRestringido.agregarParticipante(unDuenio)
 		otroChatPremiumRestringido.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {otroChatPremiumRestringido.enviar(unMensajeTexto)})
 	}
-	
-	// AHORRO.
-	test "Al verificar que no se cumple la restriccion adicional del chat premium de ahorro, lanza una excepcion" {
+}
+
+describe "Chats premium ahorro" {
+	test "Es posible lanzar una excepcion al verificar que no se cumple la restriccion adicional" {
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("No cumple con la restriccion del chat premium", {unChatPremiumAhorro.verificarRestriccionAdicional(unMensajeImagen)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium de ahorro, el mensaje se almacena en dicho chat" {
+	test "PUNTO 2: Es posible enviar un mensaje al chat" {
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
 		assert.equals([unMensajeTexto], unChatPremiumAhorro.mensajes())
+		assert.equals(957.3, unDuenio.cantMemoria())
+		assert.equals(957.3, unUsuario.cantMemoria())
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje al chat premium de ahorro, todos sus participantes reducen la cantidad de espacio en memoria" {
-		unChatPremiumAhorro.agregarParticipante(unDuenio)
-		unChatPremiumAhorro.agregarParticipante(unUsuario)
-		unChatPremiumAhorro.enviar(unMensajeTexto)
-		assert.equals(1000 - 42.7, unDuenio.cantMemoria())
-		assert.equals(1000 - 42.7, unUsuario.cantMemoria())
-	}
-	
-	test "PUNTO 2: Al enviar un mensaje y no ser participante del chat premium de ahorro, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el usuario intenta enviar un mensaje al chat donde no es participante" {
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("El usuario emisor no es un participante del chat", {unChatPremiumAhorro.enviar(unMensajeGif)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde algun participante del chat premium de ahorro no posea memoria suficiente, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si, al enviar un mensaje, algun participante del chat no posee memoria suficiente" {
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		assert.throwsExceptionWithMessage("Algun participante no posee espacio suficiente en memoria", {unChatPremiumAhorro.enviar(unMensajeImagen)})
 	}
 	
-	test "PUNTO 2: Al enviar un mensaje donde no se cumpla la restriccion del chat premium de ahorro, se lanza una excepcion" {
+	test "PUNTO 2: Es posible lanzar una excepcion si el mensaje a enviar no cumple la restriccion del chat" {
 		const otroChatPremiumAhorro = new ChatPremium(duenio = unDuenio, otraRestriccion = new Ahorro(pesoMaximo = 50))
 		
 		otroChatPremiumAhorro.agregarParticipante(unDuenio)
@@ -418,26 +397,22 @@ describe "Usuarios" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeContacto)
-		
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
-		
 		assert.equals(#{unChatClasico}, unDuenio.buscarChatsCon("Usuario"))
 		assert.equals(#{unChatPremiumAhorro}, unDuenio.buscarChatsCon("que tal"))
 		assert.equals(#{unChatClasico, unChatPremiumAhorro}, unDuenio.buscarChatsCon("Pepito"))
 	}
 	
-	test "PUNTO 4 - Es posible obtener los mensajes más pesados de cada uno de sus chat" {
+	test "PUNTO 4 - Es posible obtener los mensajes mas pesados de cada uno de sus chat" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeContacto)
-		
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
 		unChatPremiumAhorro.enviar(unMensajeAudio)
-		
 		assert.equals([unMensajeContacto, unMensajeAudio], unDuenio.mensajesMasPesados())
 	}
 	
@@ -445,12 +420,10 @@ describe "Usuarios" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeContacto)
-		
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
 		unChatPremiumAhorro.enviar(unMensajeAudio)
-		
 		assert.equals(2, unUsuario.notificacionesDe(unChatPremiumAhorro).size())
 	}
 	
@@ -458,12 +431,10 @@ describe "Usuarios" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeContacto)
-		
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
 		unChatPremiumAhorro.enviar(unMensajeAudio)
-		
 		assert.equals(3, unUsuario.notificacionesSinLeer().size())
 	}
 	
@@ -471,14 +442,11 @@ describe "Usuarios" {
 		unChatClasico.agregarParticipante(unDuenio)
 		unChatClasico.agregarParticipante(unUsuario)
 		unChatClasico.enviar(unMensajeContacto)
-		
 		unChatPremiumAhorro.agregarParticipante(unDuenio)
 		unChatPremiumAhorro.agregarParticipante(unUsuario)
 		unChatPremiumAhorro.enviar(unMensajeTexto)
 		unChatPremiumAhorro.enviar(unMensajeAudio)
-		
 		unUsuario.leer(unChatPremiumAhorro)
-		
 		assert.equals(1, unUsuario.notificacionesSinLeer().size())
 	}
 }
