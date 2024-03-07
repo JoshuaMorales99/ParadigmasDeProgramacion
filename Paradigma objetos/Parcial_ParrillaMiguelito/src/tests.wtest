@@ -195,7 +195,7 @@ describe "PROVOLETA" {
 	}
 	
 	test "Es posible obtener su precio total que es igual a 300 * su valoracion + adicional" {
-		assert.equals(300 * 120 + 0, unaProvoleta.precio())
+		assert.equals(36000, unaProvoleta.precio())
 	}
 }
 
@@ -209,11 +209,11 @@ describe "HAMBURGUESA DE CARNE" {
 	}
 	
 	test "Es posible obtener su peso que es igual al peso del medallon de carne + peso del pan utilizado en su elaboracion" {
-		assert.equals(300 + industrial.peso(), unaHamburguesaCarne.peso())
+		assert.equals(360, unaHamburguesaCarne.peso())
 	}
 	
 	test "Es posible obtener su valoracion que es igual a su peso / 10" {
-		assert.equals(unaHamburguesaCarne.peso() / 10, unaHamburguesaCarne.valoracion())
+		assert.equals(36, unaHamburguesaCarne.valoracion())
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 250 gramos)" {
@@ -230,7 +230,7 @@ describe "HAMBURGUESA DE CARNE" {
 
 describe "HAMBURGUESA DOBLE" {
 	test "Es posible obtener su peso que es igual a 2 * peso del medallon de carne + peso del pan utilizado en su elaboracion" {
-		assert.equals(2 * 300 + industrial.peso(), unaHamburguesaDoble.peso())
+		assert.equals(660, unaHamburguesaDoble.peso())
 	}
 	
 	test "Es posible saber si es especial (Pesa mas de 500 gramos)" {
