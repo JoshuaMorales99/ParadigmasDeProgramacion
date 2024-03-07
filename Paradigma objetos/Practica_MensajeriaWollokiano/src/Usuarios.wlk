@@ -17,8 +17,6 @@ class Usuario {
 	// Saber si el nombre del usuario contiene un texto dado.
 	method contiene(texto) = nombre.contains(texto)
 	
-	// GETTER: Obtener la cantidad de memoria (Para test)
-	method cantMemoria() = cantMemoria
 	// PUNTO 3 - Obtener los chats que posean algun mensaje con un texto dado.
 	method buscarChatsCon(texto) = chats.filter{chat => chat.contiene(texto)}
 	// PUNTO 4 - Obtener sus mensajes mas pesados (Mensaje más pesado de cada uno de sus chat)
@@ -52,4 +50,7 @@ class Usuario {
 	method leer(chat) {
 		self.notificacionesDe(chat).forEach{notificacion => notificacion.leer()}
 	}
+	
+	// Obtener la cantidad de memoria (Para test)
+	method cantMemoria() = cantMemoria
 }

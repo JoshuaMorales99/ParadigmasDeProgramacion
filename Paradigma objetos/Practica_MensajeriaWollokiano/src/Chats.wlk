@@ -94,7 +94,7 @@ class ChatPremium inherits Chat {
 	// Restricciones (difusion, Restringido o Ahorro)
 	var otraRestriccion
 	
-	// SETTER: Cambiar restriccion.
+	// Establecer una restriccion.
 	method otraRestriccion(restriccion) {
 		otraRestriccion = restriccion
 	}
