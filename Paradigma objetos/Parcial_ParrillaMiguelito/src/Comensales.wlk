@@ -15,11 +15,6 @@ class Comensal {
 	// Saber si puede comprar una comida dada (Si le agrada y tiene dinero suficiente para comprarla)
 	method puedeComprar(comida) = self.leAgrada(comida) and self.puedePagar(comida)
 	
-	// GETTER: Obtener la cantidad de dinero disponible (Para test)
-	method dinero() = dinero
-	// GETTER: Obtener el tipo de comensal que es (Para test)
-	method tipoComensal() = tipoComensal
-	
 	// Elegir un platillo para comprar del menu dado (Obtener el platillo de maxima valoracion)
 	method elegirPlatillo(menu) = menu.max{platillo => platillo.valoracion()}
 	
@@ -47,6 +42,11 @@ class Comensal {
 	method desarrollarProfesionalmente() {
 		tipoComensal = paladarFino
 	}
+	
+	// Obtener la cantidad de dinero disponible (Para test)
+	method dinero() = dinero
+	// Obtener el tipo de comensal que es (Para test)
+	method tipoComensal() = tipoComensal
 }
 
 // -------------------------------------------------------------
