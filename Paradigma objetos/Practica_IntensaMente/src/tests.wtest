@@ -22,31 +22,31 @@ const recuerdoDificil = new Recuerdo(descripcion = "Esto es la descripcion de un
 // 🔸 Vivir.
 // -----------------------------------------------------------------------
 describe "Vivir" {
-	test "PUNTO 1 - Es posible hacer que una persona viva un evento" {
+	test "PUNTO 1 - Es posible hacer que una chica viva un evento" {
 		riley.vivirEvento("Esto es una descripcion de un recuerdo")
 		riley.vivirEvento("Esto es una descripcion de otro recuerdo")
 		assert.equals(2, riley.recuerdosDelDia().size())
 	}
 	
-	test "PUNTO 2 - Es posible asentar un recuerdo de alegria en una persona" {
-		// Si la felicidad de la persona es mayor a 500, entonces se asienta el recuerdo.
+	test "PUNTO 2 - Es posible asentar un recuerdo de alegria en una chica" {
+		// Si la felicidad de la chica es mayor a 500, entonces se asienta el recuerdo.
 		riley.asentar(recuerdoAlegre)
 		assert.equals(1, riley.pensamientosCentrales().size())
 		
-		// Si la felicidad de la persona es menor a 500, entonces no se asienta el recuerdo.
+		// Si la felicidad de la chica es menor a 500, entonces no se asienta el recuerdo.
 		neutralGirl.asentar(recuerdoAlegre)
 		assert.equals(0, neutralGirl.pensamientosCentrales().size())
 	}
 	
-	test "PUNTO 2 - Es posible lanzar una excepcion al tratar de asentar un recuerdo de tristeza en una persona con un nivel resultante de felicidad menor a 1" {
+	test "PUNTO 2 - Es posible lanzar una excepcion al tratar de asentar un recuerdo de tristeza en una chica con un nivel resultante de felicidad menor a 1" {
 		assert.throwsExceptionWithMessage("La felicidad de la chica esta por debajo de 1", {sadGirl.asentar(recuerdoTriste)})
 	}
 	
-	test "PUNTO 2 - Es posible asentar un recuerdo de tristeza en una persona" {
-		// Si el nivel resultante de felicidad de la persona es mayor a 1, entonces se asienta el recuerdo.
+	test "PUNTO 2 - Es posible asentar un recuerdo de tristeza en una chica" {
+		// Si el nivel resultante de felicidad de la chica es mayor a 1, entonces se asienta el recuerdo.
 		riley.asentar(recuerdoTriste)
 		assert.equals(1, riley.pensamientosCentrales().size())
-		assert.equals(1000 - 1000 * 0.1, riley.felicidad())
+		assert.equals(900, riley.felicidad())
 	}
 	
 	test "PUNTO 2 - Es Un recuerdo de disgusto en Riley no hace nada al asentarlo" {
@@ -70,21 +70,21 @@ describe "Vivir" {
 // -----------------------------------------------------------------------
 describe "Descansar" {
 	test "PUNTO 6 - Es posible negar recuerdos cuando la emocion dominante es alegria" {
-		// Si la emocion dominante de la persona es alegria, entonces niega los recuerdos no alegres.
+		// Si la emocion dominante de la chica es alegria, entonces niega los recuerdos no alegres.
 		assert.that(riley.niega(recuerdoTriste))
 		assert.that(riley.niega(recuerdoDisgusto))
 		assert.that(riley.niega(recuerdoFuria))
 		assert.that(riley.niega(recuerdoTemor))
 		
-		// Si la emocion dominante de la persona es alegria, entonces no niega los recuerdos alegres.
+		// Si la emocion dominante de la chica es alegria, entonces no niega los recuerdos alegres.
 		assert.notThat(riley.niega(recuerdoAlegre))
 	}
 	
 	test "PUNTO 6 - Es posible negar recuerdos cuando la emocion dominante es tristeza" {
-		// Si la emocion dominante de la persona es tristeza, entoces niega los recuerdos que son alegres.
+		// Si la emocion dominante de la chica es tristeza, entoces niega los recuerdos que son alegres.
 		assert.that(sadGirl.niega(recuerdoAlegre))
 		
-		// Si la emocion dominante de la persona es tristeza, entonces no niega los recuerdos que no sean alegres.
+		// Si la emocion dominante de la chica es tristeza, entonces no niega los recuerdos que no sean alegres.
 		assert.notThat(sadGirl.niega(recuerdoTriste))
 		assert.notThat(sadGirl.niega(recuerdoDisgusto))
 		assert.notThat(sadGirl.niega(recuerdoFuria))
@@ -132,7 +132,7 @@ describe "Descansar" {
 		riley.agregarLargoPlazo([recuerdoAlegre])
 		riley.agregarProcesoMental(controlHormonal)
 		riley.dormir()
-		assert.equals(1000 - 1000 * 0.15, riley.felicidad())
+		assert.equals(850, riley.felicidad())
 		assert.equals(0, riley.pensamientosCentrales().size())
 	}
 	
@@ -195,7 +195,7 @@ describe "Rememorar" {
 		assert.equals(2, riley.repeticionesEnMemoriaLargoPlazoDe(recuerdoAlegre))
 	}
 	
-	test "PUNTO 10 - Es posible saber si riley tiene un Deja Vu" {
+	test "PUNTO 10 - Es posible saber si una chica tiene un Deja Vu" {
 		riley.agregarLargoPlazo([recuerdoAlegre])
 		riley.rememorar()
 		assert.that(riley.dejaVu())
