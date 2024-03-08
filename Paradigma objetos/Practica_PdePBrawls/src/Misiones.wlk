@@ -3,6 +3,7 @@
 // --------------------------------------------------
 // Clase abstracta para las misiones.
 class Mision {
+	// Tipo de mision (comun, Boost o bonus)
 	const tipoMision
 	
 	// Saber si el/los participantes tienen estrategia.
@@ -20,13 +21,18 @@ class Mision {
 	// Repartir copas.
 	method repartirCopas()
 	
+	// Verificar si se puede comenzar la mision.
+	method verificarInicioDeMision() {
+		if(not self.puedeComenzar()) throw new Exception(message = "La mision no puede comenzar")
+	}
+	
 	// PUNTO 1 - Saber si puede ser superada por el personaje (Tiene estrategia o tienen la destresa suficiente)
 	method puedeSuperar() = self.tieneEstrategia() or self.tieneDestrezaSuficiente()
 	
 	// PUNTO 2 - Realizar mision.
 	method realizarMision() {
-		// Si no se puede comenzar con la mision, se lanza una excepcion.
-		if(not self.puedeComenzar()) throw new Exception(message = "La mision no puede comenzar")
+		// Verificar si se puede comenzar la mision.
+		self.verificarInicioDeMision()
 		// Repartir copas.
 		self.repartirCopas()
 	}
@@ -76,14 +82,14 @@ class MisionGrupal inherits Mision {
 	// Saber si se puede comenzar la mision (Si la suma de las copas del equipo es, por lo menos, igual a 60)
 	override method puedeComenzar() = equipo.sum{personaje => personaje.cantCopas()} >= 60
 	
-	// Agregar personajes al equipo (Para test)
-	method agregarPersonajes(personajes) {
-		equipo.addAll(personajes)
-	}
-	
 	// Repartir las copas al equipo dependiendo si superaron la mision o no.
 	override method repartirCopas() {
 		equipo.forEach{personaje => personaje.sumarCopas(self.cantCopas(self))}
+	}
+	
+	// Agregar personajes al equipo (Para test)
+	method agregarPersonajes(personajes) {
+		equipo.addAll(personajes)
 	}
 }
 
@@ -128,6 +134,7 @@ Los mensajes polimorficos son:
 * sumarORestar()
 * cantCopas(mision)
 * puedeSuperar()
+* verificarInicioDeMision()
 * realizarMision()
 
 comun, Boost (clase cuyo objetos instanciables son polimorficos) y bonus son objetos polimorficos entre si puesto que comparten una misma
