@@ -6,7 +6,7 @@ class Personaje {
 	// Cantidad de copas obtenidas.
 	var cantCopas = 0
 	
-	// GETTER: Obtener la cantidad de copas obtenidas.
+	// Obtener la cantidad de copas obtenidas.
 	method cantCopas() = cantCopas
 	
 	// Sumar una cantidad de copas dada.
@@ -36,7 +36,7 @@ class Gerrera inherits Personaje {
 	// Saber si el personaje tiene estrategia.
 	const property tieneEstrategia
 	
-	// Cancular la destreza del personaje (50% (0.5) mas que su fuerza)
+	// Cancular la destreza del personaje (50% mas que su fuerza)
 	method destreza() = fuerza + fuerza * 0.5
 	
 }
