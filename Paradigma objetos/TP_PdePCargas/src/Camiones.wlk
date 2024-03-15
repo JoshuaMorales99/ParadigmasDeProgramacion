@@ -16,8 +16,6 @@ object verdurin {
 	method pesoCarga() = cantCajones * 50
 	// Obtener la velocidad maxima (80 km/h - 1 km/h por cada 500 kg)
 	method velocidadMaxima() = 80 - self.pesoCarga().div(500)
-	// Obtener el kilometraje actual (Para test)
-	method kilometraje() = kilometraje
 	
 	// Establecer la cantidad de cajones a transportar.
 	method cantCajones(nroCajones) {
@@ -34,12 +32,14 @@ object verdurin {
 		self.sumarKilometros(distancia)
 	}
 	
+	// Obtener el kilometraje actual (Para test)
+	method kilometraje() = kilometraje
 }
 
 object scanion5000 {
 	// Obtener la empresa duenia del camion.
 	method empresa() = pdepCargas
-	// Obtener la capacidad maxima de carga (Siempre carga 5000 l)
+	// Obtener la capacidad maxima de carga (Siempre carga 5000 litros)
 	method capacidadMaxima() = 5000
 	// Obtener la densidad del liquido transportado (Asumo que siempre es 10 indep. del liquido transportado)
 	method densidadLiquido() = 10
@@ -52,7 +52,6 @@ object scanion5000 {
 	method recorrer(distancia, velocidad) {
 		// No le afecta en absoluto.
 	}
-	
 }
 
 object cerealitas {
