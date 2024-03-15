@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------
 // 🔸 Lineas Telefonicas.
 // ----------------------------------------------------------------
-// Molde para las lineas telefonicas (Celulares).
+// Molde para las lineas telefonicas.
 class LineaTelefonica {
 	// Numero de telefono.
 	const property telefono
@@ -11,7 +11,7 @@ class LineaTelefonica {
 	const property consumos = []
 	// Tipo de linea telefonica (comun, black o platinum)
 	var tipoLinea
-	// Deuda.
+	// Deuda adquirida.
 	var deuda = 0
 	
 	// Obtener la cantidad de consumos realizados.
@@ -22,25 +22,18 @@ class LineaTelefonica {
 	method costoTotalEntre(fechaMin, fechaMax) = self.consumosEntre(fechaMin, fechaMax).sum{consumo => consumo.costo()}
 	// Obtener el ultimo pack agregado a la linea que satisface un consumo dado.
 	method ultimoPackQueSatisface(consumo) = packs.reverse().find{pack => pack.satisface(consumo)}
-	// Obtener la deuda (Para test)
-	method deuda() = deuda
 	
 	// Consumir el ultimo pack agregado que satisface un consumo dado.
 	method consumirPack(consumo) {
 		self.ultimoPackQueSatisface(consumo).gastar(consumo)
 	}
 	
-	// Accion al poder realizar un consumo.
-	method puedeRealizarConsumo(consumo) {
+	// Accion al poder realizar el consumo.
+	method puedeConsumir(consumo) {
 		// Consumir el ultimo pack agregado que satisface un consumo dado.
 		self.consumirPack(consumo)
 		// Agregar el consumo al historial.
 		self.agregarConsumo(consumo)
-	}
-	
-	// Agregar un pack a la linea telefonica.
-	method agregarPack(pack) {
-		packs.add(pack)
 	}
 	
 	// Agregar un consumo a la linea telefonica.
@@ -58,13 +51,13 @@ class LineaTelefonica {
 	// PUNTO 2.b: Obtener el costo total de los consumos realizados en los ultimos 30 dias.
 	method ultimosCostosTotales() = self.costoTotalEntre(new Date().minusDays(30) , new Date())
 	
-	// PUNTO 5: Saber si se puede hacer cierto consumo dado (Cuando el consumo se puede satisfacer completamente por un pack)
+	// PUNTO 5: Saber si se puede hacer cierto consumo dado (Se puede satisfacer completamente por un pack)
 	method puedeRealizar(consumo) = packs.any{pack => pack.satisface(consumo)}
 	
 	// PUNTO 6: Realizar consumo.
 	method realizar(consumo) {
 		// Verificar si se pueda realizar un consumo dado.
-		if(self.puedeRealizar(consumo)) self.puedeRealizarConsumo(consumo) else tipoLinea.noPuedeRealizarConsumo(self, consumo)
+		if(self.puedeRealizar(consumo)) self.puedeConsumir(consumo) else tipoLinea.noPuedeConsumir(self, consumo)
 	}
 	
 	// PUNTO 7.a: Realizar una limpieza de los packs vencidos y/o gastados.
@@ -76,6 +69,14 @@ class LineaTelefonica {
 	method tipoLinea(nuevoTipo) {
 		tipoLinea = nuevoTipo
 	}
+
+	// Obtener la deuda (Para test)
+	method deuda() = deuda
+	
+	// Agregar un pack a la linea telefonica (Para test)
+	method agregarPack(pack) {
+		packs.add(pack)
+	}
 }
 
 // ----------------------------------------------------------------
@@ -84,21 +85,21 @@ class LineaTelefonica {
 
 object comun {
 	// Accion al no poder realizar el consumo (Lanzar excepcion)
-	method noPuedeRealizarConsumo(linea, consumo) {
+	method noPuedeConsumir(linea, consumo) {
 		throw new Exception(message = "Los packs de la línea no cubren el consumo")
 	}
 }
 
 object black {
 	// Accion al no poder realizar el consumo (Suma a la deuda el costo del consumo)
-	method noPuedeRealizarConsumo(linea, consumo) {
+	method noPuedeConsumir(linea, consumo) {
 		linea.sumarDeuda(consumo.costo())
 	}
 }
 
 object platinum {
-	// Accion al no poder realizar el consumo (No lanza excepcion y no suma deuda)
-	method noPuedeRealizarConsumo(linea, consumo) {
+	// Accion al no poder realizar el consumo (No hace nada)
+	method noPuedeConsumir(linea, consumo) {
 		
 	}
 }
