@@ -7,79 +7,81 @@ import PuestosControl.*
 ===========================================================*/
 describe "Verdurin" {
 	test "Es posible obtener el peso total de la carga (50kg * cantCajones)" {
-		assert.equals(50 * 10, verdurin.pesoCarga())
+		assert.equals(500, verdurin.pesoCarga())
 	}
 	
 	test "Es posible obtener la velocidad maxima (80km/h - 1km/h por cada 500kg de carga)" {
-		assert.equals(80 - (10 * 50) / 500, verdurin.velocidadMaxima())
+		assert.equals(79, verdurin.velocidadMaxima())
 	}
 	
 	test "Es posible sumarle kilometrajes" {
 		verdurin.sumarKilometros(100)
-		assert.equals(700000 + 100, verdurin.kilometraje())
+		assert.equals(700100, verdurin.kilometraje())
 	}
 	
 	test "Es posible recorrer cierta cantidad de kilometros a cierta velocidad" {
 		verdurin.recorrer(100, 20)
-		assert.equals(700000 + 100, verdurin.kilometraje())
+		assert.equals(700100, verdurin.kilometraje())
 	}
 }
 
 describe "Scanion5000" {
 	test "Es posible obtener el peso de la carga (densidad * capacidadMaxima)" {
-		assert.equals(5000 * 10, scanion5000.pesoCarga())
+		assert.equals(50000, scanion5000.pesoCarga())
 	}
 }
 
 describe "Cerialitas" {
 	test "Es posible saber si esta en buen estado" {
+		// Si su nivel de deterioro es menor a 10, entonces esta en buen estado.
 		assert.that(cerealitas.estaEnBuenEstado())
+		
+		// Si su nivel de deterioro es mayor a 10, entonces esta en mal estado.
 		cerealitas.nivelDeterioro(10)
 		assert.notThat(cerealitas.estaEnBuenEstado())
 	}
 	
-	test "Es posible obtener la velocidad maxima por mal estado del camion" {
+	test "Es posible obtener la velocidad maxima por mal estado" {
+		// Si no se encuentra en el peor estado, entonces es igual a 60 - su nivel de deterioro.
 		cerealitas.nivelDeterioro(10)
-		assert.equals(60 - 10, cerealitas.velocidadPorMalEstado())
-	}
-	
-	test "La velocidad maxima por mal estado del camion no puede ser negativo" {
+		assert.equals(50, cerealitas.velocidadPorMalEstado())
+		
+		// Si se encuentra en el peor estado, entonces es igual a 0 (No puede ser negativo)
 		cerealitas.nivelDeterioro(10000)
 		assert.equals(0, cerealitas.velocidadPorMalEstado())
 	}
 	
-	test "Es posible obtener la velocidad maxima del camion si se encuentra en buen estado" {
+	test "Es posible obtener la velocidad maxima" {
+		// Si se encuentra en buen estado, entonces es igual a 40.
 		assert.equals(40, cerealitas.velocidadMaxima())
-	}
-	
-	test "Es posible obtener la velocidad maxima del camion si no se encuentra en buen estado" {
+		
+		// Si no se encuentra en buen estado, entonces es igual a 60 - su nivel de deterioro.
 		cerealitas.nivelDeterioro(30)
-		assert.equals(60 - 30, cerealitas.velocidadMaxima())
-	}
-	
-	test "La velocidad maxima nunca puede ser negativa si se encuentra en el peor estado" {
+		assert.equals(30, cerealitas.velocidadMaxima())
+		
+		// Si se encuentra en el peor estado, entonces su velocidad maxima es igual a 0 (No puede ser negativa)
 		cerealitas.nivelDeterioro(10000)
 		assert.equals(0, cerealitas.velocidadMaxima())
 	}
 	
 	test "Es posible obtener la velocidad excedida dada la velocidad maxima permitida" {
+		// Si la velocidad maxima permitida es mayor a la velocidad maxima del camion, entonces es igual a 0 (No puede ser negativa)
+		assert.equals(0, cerealitas.velocidadExcedida(45))		
+
+		// Si la velocidad maxima permitida es menor a la velocidad maxima del camion, entonces es igual a velocidad maxima - velocidad maxima permitida.
 		cerealitas.nivelDeterioro(10)
-		assert.equals(50 - 45, cerealitas.velocidadExcedida(45))
+		assert.equals(5, cerealitas.velocidadExcedida(45))		
 	}
 	
-	test "El valor de la velocidad excedida no puede ser negativa" {
-		assert.equals(0, cerealitas.velocidadExcedida(45))
-	}
-	
-	test "Al recorrer una cierta cantidad de km con una velocidad maxima que no excede los 45 km/h, no se deteriora" {
+	test "Es posible recorrer una cierta cantidad de km a una velocidad dada" {
+		// Si se recorre una cierta cantidad de km a una velocidad maxima menor a los 45 km/h, entonces no se deteriora.
 		cerealitas.recorrer(100, 75)
 		assert.equals(0, cerealitas.nivelDeterioro())
-	}
-	
-	test "Al recorrer una cierta cantidad de km con una velocidad maxima que excede los 45 km/h, se deteriora" {
+		
+		// Si se recorre una cierta cantidad de km a una velocidad maxima mayor a los 45 km/h, entonces se deteriora.
 		cerealitas.nivelDeterioro(10)
 		cerealitas.recorrer(100, 75)
-		assert.equals(10 + 50 - 45, cerealitas.nivelDeterioro())
+		assert.equals(15, cerealitas.nivelDeterioro())
 	}
 }
 
@@ -98,25 +100,21 @@ describe "PdePCargas" {
 ===========================================================*/
 describe "Rutatlantica" {
 	test "Es posible obtener el importe adicional por dejar pasar a un camion dado" {
-		assert.equals(100 * (50000 / 1000), rutatlantica.importeAdicional(scanion5000))
+		assert.equals(5000, rutatlantica.importeAdicional(scanion5000))
 	}
 	
 	test "Es posible obtener el importe por dejar pasar a un camion dado" {
-		assert.equals(7000 + 5000, rutatlantica.generarImporte(scanion5000))
+		assert.equals(7000, rutatlantica.generarImporte(verdurin))
 	}
 	
-	test "Es posible cobrarle a la empresa dada los cargos por pasar" {
+	test "Es posible cobrarle a la empresa dada los cargos por dejar pasar su camion" {
 		rutatlantica.cobrarCargosA(pdepCargas, 12000)
 		assert.equals(12000, pdepCargas.deudaTotal())
 	}
 	
-	test "Cuando pasa un camion, se le cobra a la empresa el importe"{
-		rutatlantica.dejarPasar(scanion5000)
-		assert.equals(12000, pdepCargas.deudaTotal()) 
-	}
-	
-	test "Cuando pasa un camion, recorre 400 km a 75 km/h" {
+	test "Es posible dejar pasar a un camion dado (Cobrar cargos a la empresa del camion y el camion recorra 400 km a 75 km/h)"{
 		rutatlantica.dejarPasar(verdurin)
+		assert.equals(7000, pdepCargas.deudaTotal())
 		assert.equals(700400, verdurin.kilometraje())
 	}
 }
