@@ -8,7 +8,7 @@ class Consumo {
 	// Fecha de cuando se realizo el consumo.
 	const fecha = new Date()
 	
-	// Saber si la fecha del consumo esta entre las fechas dadas.
+	// Saber si la fecha del consumo esta entre dos fechas dadas.
 	method entreFechas(fechaMin, fechaMax) = fecha.between(fechaMin, fechaMax)
 	// Saber si es un consumo de tipo Llamada.
 	method esDeLlamada() = false
@@ -16,7 +16,7 @@ class Consumo {
 	method esDeInternet() = false
 }
 
-// Molde para los consumos de llamadas.
+// Molde para los consumos de tipo llamadas.
 class Llamada inherits Consumo {
 	// Cantidad de segundos consumidos.
 	const property cantSegundos
@@ -35,7 +35,7 @@ class Llamada inherits Consumo {
 	method costo() = pdepfoni.precioFijo() + self.costoRestante()
 }
 
-// Molde para los consumos de internet.
+// Molde para los consumos de tipo internet.
 class Internet inherits Consumo {
 	// Cantidad de MB consumidos.
 	const property cantMB
