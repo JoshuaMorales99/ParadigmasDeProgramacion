@@ -4,13 +4,11 @@ import Casa.*
 🔸 Quilomberos.
 =================================================================*/
 object jerry {
-	// Peso.
-	var peso = 0
+	// Peso (Property para test)
+	var property peso = 0
 	
 	// Obtener su velocidad (10 - su peso)
 	method velocidad() = 0.max(10 - peso)
-	// Obtener su peso (Para test)
-	method peso() = peso
 	
 	// Hacer quilombo.
 	method hacerQuilombo() {
@@ -22,11 +20,6 @@ object jerry {
 	// Robar comida (Aumenta su peso en 1)
 	method robarComida() {
 		peso = peso + 1
-	}
-	
-	// Establecer su peso (Para test)
-	method peso(nuevoPeso) {
-		peso = nuevoPeso
 	}
 }
 
@@ -47,8 +40,6 @@ object cerebro {
 	
 	// Obtener su velocidad (Igual a su inteligencia)
 	method velocidad() = inteligencia
-	// Obtener su nivel de inteligencia (Para test)
-	method inteligencia() = inteligencia
 	
 	// Hacer quilombo.
 	method hacerQuilombo() {
@@ -62,6 +53,9 @@ object cerebro {
 	method idearPlan() {
 		inteligencia = inteligencia * 2
 	}
+
+	// Obtener su nivel de inteligencia (Para test)
+	method inteligencia() = inteligencia
 }
 
 /*================================================================
