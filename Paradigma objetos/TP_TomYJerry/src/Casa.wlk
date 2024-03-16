@@ -5,17 +5,12 @@ import Quilombero.*
 🔸 Casa de Tom y Jerry.
 ================================================================*/
 object casa {
-	// Cuidador de la caso (Siempre tiene uno)
+	// Cuidador de la casa (Siempre tiene uno)
 	var cuidador = tom
 	// Quilombero (A veces hay uno)
 	var quilombero
 	// Nivel de suciedad.
 	var nivelSuciedad = 0
-	
-	// Obtener el nivel de suciedad (Para test)
-	method nivelSuciedad() = nivelSuciedad
-	// Obtener al quilombero (Para test)
-	method quilombero() = quilombero
 	
 	// Saber si hay quilombero en el lugar.
 	method hayQuilombero() = quilombero != null
@@ -30,9 +25,8 @@ object casa {
 		quilombero = nuevoQuilombero
 	}
 	
-	// Intentar sacar al quilombero.
+	// Intentar sacar al quilombero (Si hay quilombero y el cuidador puede atraparlo)
 	method intentarSacarQuilombero() {
-		// Solo si lo puede atrapar (Si hay quilombero y el cuidador puede atraparlo)
 		if(self.hayQuilombero() && cuidador.puedeAtrapar(quilombero)) quilombero = null
 	}
 	
@@ -71,6 +65,11 @@ object casa {
 		// El quilombero hace quilombo.
 		quilombero.hacerQuilombo()
 	}
+	
+	// Obtener el nivel de suciedad (Para test)
+	method nivelSuciedad() = nivelSuciedad
+	// Obtener al quilombero (Para test)
+	method quilombero() = quilombero
 }
 
 /*================================================================
