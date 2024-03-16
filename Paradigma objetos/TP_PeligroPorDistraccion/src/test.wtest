@@ -5,35 +5,38 @@ import Lugares.*
  🔸 PERSONAJES.
 ===========================================================*/
 describe "Homero" {	
-	test "PUNTO 1.b: Es posible comprar donas (Lo hace por docena)" {
+	test "PUNTO 1.b: Es posible comprar donas por docena" {
 		homero.comprarDonas()
 		assert.equals(12, homero.cantDonas())
 	}
 	
-	test "PUNTO 1.b: Si tiene donas, se come una" {
+	test "PUNTO 1.b: Es posible comer donas" {		
+		// Si no tiene donas, entonces no come niguna.
+		homero.comerDona()
+		assert.equals(0, homero.cantDonas())
+		
+		// Si tiene donas, entonces se come una.
 		homero.comprarDonas()
-		homero.comerDonas()
+		homero.comerDona()
 		assert.equals(11, homero.cantDonas())
 	}
 	
-	test "PUNTO 1.b: Si no tiene donas, no come" {
-		homero.comerDonas()
-		assert.equals(0, homero.cantDonas())
-	}
-	
 	test "Es posible saber si tiene donas" {
+		// Si no compra donas, entonces no tiene donas.
 		assert.notThat(homero.tieneDonas())
+		
+		// Si compra donas, entonces tiene donas.
 		homero.comprarDonas()
 		assert.that(homero.tieneDonas())
 	}
 	
-	test "PUNTO 2.b: Si tiene pocas donas (< 2), esta distrido" {
+	test "PUNTO 2.b: Es posible saber si esta distraido" {
+		// Si tiene menos de 2 donas, entonces esta distraido.
 		assert.that(homero.estaDistraido())
-	}
-	
-	test "PUNTO 2.b; Si tiene muchas donas (>= 2), no esta distraido" {
+		
+		// Si tiene 2 o mas donas, entonces no esta distraido.
 		homero.comprarDonas()
-		assert.notThat(homero.estaDistraido())
+		assert.notThat(homero.estaDistraido())		
 	}
 }
 
@@ -43,16 +46,16 @@ describe "Lenny" {
 		assert.equals(1, lenny.cervezasTomadas())
 	}
 	
-	test "PUNTO 5: Si tomo mas de 3, esta distrido" {
+	test "PUNTO 5: Es posible saber si esta distrido" {
+		// Si tomo menos de 3 cervezas, entonces no esta distraido
+		assert.notThat(lenny.estaDistraido())
+		
+		// Si tomo mas de 3 cervezas, entonces esta distraido.
 		lenny.tomarCerveza()
 		lenny.tomarCerveza()
 		lenny.tomarCerveza()
 		lenny.tomarCerveza()
 		assert.that(lenny.estaDistraido())
-	}
-	
-	test "PUNTO 5: Si tomo menos de 3, no esta distrido" {
-		assert.notThat(lenny.estaDistraido())
 	}
 }
 
@@ -72,48 +75,37 @@ describe "Mr. Burns" {
 ===========================================================*/
 describe "Planta Nuclear" {
 	test "Es posible saber si hay muchas barras de uranio" {
+		// Si hay menos de 10000 barras de uranio, entonces no hay muchas.
 		assert.notThat(plantaNuclear.hayMuchoUranio())
+		
+		// Si hay mas de 10000 barras de uranio, entonces hay muchas.
 		plantaNuclear.recibirCargamento(15000)
 		assert.that(plantaNuclear.hayMuchoUranio())
 	}
 	
-	test "PUNTO 2.c: Esta en peligro si hay muchas barras de uranio y el encargado esta distraido" {
-		// Recordar que Homero esta distraido pues tiene 0 donas al principio.
+	test "PUNTO 2.c: Es posible saber si esta en peligro (Hay muchas barras de uranio y el encargado distraido)" {
+		// Si no hay muchas barras de uranio y el encargado esta distraido, entonces no esta en peligro.
+		assert.notThat(plantaNuclear.estaEnPeligro())
+		
+		// Si no hay muchas barras de uranio y el encargado no esta distraido, entonces no esta en peligro.
+		homero.comprarDonas()
+		assert.notThat(plantaNuclear.estaEnPeligro())
+		
+		// Si hay muchas barras de uranio y el encargado no esta distraido, entonces no esta en peligro.
 		plantaNuclear.recibirCargamento(15000)
+		assert.notThat(plantaNuclear.estaEnPeligro())
+		
+		// Si hay muchas barras de uranio y el encargado esta distraido, entonces no esta en peligro.
+		11.times{i => homero.comerDona()}
 		assert.that(plantaNuclear.estaEnPeligro())
 	}
 	
-	test "PUNTO 2.c: No esta en peligro si el encargado no esta distraido, aunque haya muchas barras de uranio" {
-		homero.comprarDonas()
-		plantaNuclear.recibirCargamento(15000)
+	test "PUNTO 6.d: Es posible saber si esta en peligro (Mr. Burns se quedo pobre)" {
+		// Si Mr. Burns no es pobre, entonces no esta en peligro.
 		assert.notThat(plantaNuclear.estaEnPeligro())
-	}
-	
-	test "PUNTO 2.c: No esta en peligro si no hay muchas barras de uranio, aunque el encargado este distraido" {
-		// Recordar que Homero esta distraido pues tiene 0 donas al principio.
-		assert.notThat(plantaNuclear.estaEnPeligro())
-	}
-	
-	test "PUNTO 6.d: Esta en peligro si hay muchas barras de uranio, el encargado esta distraido y Mr. Burns se quedo pobre" {
-		// Recordar que Homero esta distraido pues tiene 0 donas al principio.
-		plantaNuclear.recibirCargamento(15000)
+		
+		// Si Mr. Burns es pobre, entonces esta en peligro.
 		mrBurns.despojarRiquezas()
 		assert.that(plantaNuclear.estaEnPeligro())
-	}
-	
-	test "PUNTO 6.d: Esta directamente en peligro si Mr. Burns se quedo pobre" {
-		mrBurns.despojarRiquezas()
-		assert.that(plantaNuclear.estaEnPeligro())
-	}
-	
-	test "PUNTO 6.d: No esta en peligro si no hay muchas muchas barras de uranio y Mr. Burns no esta pobre, aunque el encargado este distraido" {
-		// Recordar que Homero esta distraido pues tiene 0 donas al principio.
-		assert.notThat(plantaNuclear.estaEnPeligro())
-	}
-	
-	test "PUNTO 6.d: No esta en peligro si el encargado no esta distraido y Mr. Burns no esta pobre, aunque haya muchas barras de uranio" {
-		homero.comprarDonas()
-		plantaNuclear.recibirCargamento(15000)
-		assert.notThat(plantaNuclear.estaEnPeligro())
 	}
 }

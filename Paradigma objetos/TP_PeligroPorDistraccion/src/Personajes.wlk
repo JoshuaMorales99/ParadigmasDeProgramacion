@@ -19,7 +19,7 @@ object homero {
 	}
 	
 	// PUNTO 1.a: Comer donas (Si tiene donas, se come una)
-	method comerDonas() {
+	method comerDona() {
 		if(self.tieneDonas()) cantDonas = cantDonas - 1
 	}
 }
