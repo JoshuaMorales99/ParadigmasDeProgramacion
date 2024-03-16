@@ -1,6 +1,100 @@
+import Carrera.*
+import Lugares.*
+import Vehiculos.*
 
-test "testX" {
+/*================================================================
+🔸 Carrera.
+================================================================*/
+describe "Carrera" {
+	test "Un test" {
+		assert.that(true)
+	}
+}
 
-	assert.that(true)
+/*================================================================
+🔸 Lugares.
+================================================================*/
+describe "Paris" {
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Puede desplazarse)" {
+		// Si tiene el tanque lleno, el alambique puede visitarlo.
+		assert.that(paris.puedeVisitar(alambiqueVeloz))
+		
+		// Si no tiene el tanque lleno, el alambique no puede visitarlo.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(paris.puedeVisitar(alambiqueVeloz))
+	}
+}
 
+describe "Buenos Aires" {
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Es rapido)" {
+		// Si es rapido, el vehiculo puede visitarlo.
+		assert.that(buenosAires.puedeVisitar(alambiqueVeloz))
+		
+		// Si no es rapido, el vehiculo no puede visitarlo.
+		// assert.notThat(buenosAires.puedeVisitar(rocomovil)) TODO REVISAR
+	}
+}
+
+describe "Bagdad" {
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (No hay restricciones)" {
+		assert.that(bagdad.puedeVisitar(alambiqueVeloz))
+	}
+}
+
+describe "Las Vegas" {
+	test "Es posible saber si un vehiculo dado puede visitar el lugar (Misma restriccion del pais homenajeado)" {
+		// Si tiene el tanque lleno, el vehiculo puede visitarlo (Restriccion del pais homenajeado).
+		assert.that(lasVegas.puedeVisitar(alambiqueVeloz))
+		
+		// Si no tiene el tanque lleno, el vehiculo no puede visitarlo (Resticcion del pais homenaeado).
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(lasVegas.puedeVisitar(alambiqueVeloz))
+	}
+}
+
+/*================================================================
+🔸 Vehiculos.
+================================================================*/
+describe "Alambique Veloz" {
+	test "Es posible saber si posee el tanque lleno" {
+		// Si tiene 100 de combustible, tiene tanque lleno.
+		assert.that(alambiqueVeloz.tanqueLleno())
+		
+		// Si tiene menos de 100 de combustible, no tiene tanque lleno.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(alambiqueVeloz.tanqueLleno())
+	}
+	
+	test "Es posible saber si puede desplazarse (Tiene tanque lleno)" {
+		// Si tiene tanque lleno, puede desplazarse.
+		assert.that(alambiqueVeloz.puedeDesplazarse())
+		
+		// Si no tiene tanque lleno, no puede desplazarse.
+		alambiqueVeloz.consumirCombustible(40)
+		assert.notThat(alambiqueVeloz.tanqueLleno())
+	}
+	
+	test "Es posible saber si es rapido (Siempre lo es)" {
+		assert.that(alambiqueVeloz.rapido())
+	}
+	
+	test "Es posible establecer una nueva cantidad de combustible en su tanque" {
+		// No puede ser menor a cero.
+		alambiqueVeloz.combustible(-10)
+		assert.equals(0, alambiqueVeloz.combustible())
+		
+		// No puede ser mayor a la capacidad maxima de su tanque.
+		alambiqueVeloz.combustible(1000)
+		assert.equals(alambiqueVeloz.maximoTanque(), alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible consumir una cantidad de combustible dado" {
+		alambiqueVeloz.consumirCombustible(40)
+		assert.equals(60, alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible viajar (Al viajar, consume 10 de combustible)" {
+		alambiqueVeloz.viajar()
+		assert.equals(90, alambiqueVeloz.combustible())
+	}
 }
