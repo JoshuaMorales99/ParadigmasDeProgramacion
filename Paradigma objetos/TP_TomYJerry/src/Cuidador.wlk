@@ -4,13 +4,11 @@ import Casa.*
 🔸 Cuidadores.
 ================================================================*/
 object tom {
-	// Cantidad de energia.
-	var energia = 0
+	// Cantidad de energia (Property para test)
+	var property energia = 0
 	
 	// Obtener su velocidad (5 + energia / 10)
 	method velocidad() = 5 + energia / 10
-	// Obtener su energia (Para test)
-	method energia() = energia
 	
 	// Saber si puede atrapar al quilombero (Su velocidad es superior al del quilombero)
 	method puedeAtrapar(quilombero) = self.velocidad() > quilombero.velocidad()
@@ -42,11 +40,6 @@ object tom {
 	method interrumpirSuenio() {
 		self.gastarEnergia(20)
 	}
-	
-	// Establecer su energia (Para test)
-	method energia(nuevaEnergia) {
-		energia = nuevaEnergia
-	}
 }
 
 object robocat {
@@ -54,9 +47,14 @@ object robocat {
 	method puedeAtrapar(quilombero) = true
 	
 	// Dormir (Simplemente se apaga)
-	method dormir() {}
+	method dormir() {
+		
+	}
+	
 	// Interrumpir suenio (No se puede interrumpir)
-	method interrumpirSuenio() {}
+	method interrumpirSuenio() {
+		
+	}
 	
 	// Limpiar la casa totalemente.
 	method limpiar() {
