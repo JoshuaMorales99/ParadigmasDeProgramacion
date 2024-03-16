@@ -8,8 +8,6 @@ object homero {
 	
 	// Saber si tiene donas.
 	method tieneDonas() = cantDonas > 0
-	// Saber la cantidad de donas que tiene.
-	method cantDonas() = cantDonas
 	// PUNTO 2.a: Saber si esta distraido (Tiene < 2 donas)
 	method estaDistraido() = cantDonas < 2
 	
@@ -22,6 +20,9 @@ object homero {
 	method comerDona() {
 		if(self.tieneDonas()) cantDonas = cantDonas - 1
 	}
+
+	// Saber la cantidad de donas que tiene (Para test)
+	method cantDonas() = cantDonas
 }
 
 object patoBalancin {
@@ -35,13 +36,14 @@ object lenny {
 	
 	// PUNTO 5: Saber si esta distraido (Tomo > 3 cervezas)
 	method estaDistraido() = cervezasTomadas > 3
-	// Saber la cantidad de cervezas tomadas.
-	method cervezasTomadas() = cervezasTomadas
 	
 	// Tomar cervezas.
 	method tomarCerveza() {
 		cervezasTomadas = cervezasTomadas + 1
 	}
+
+	// Saber la cantidad de cervezas tomadas (Para test)
+	method cervezasTomadas() = cervezasTomadas
 }
 
 object mrBurns {
