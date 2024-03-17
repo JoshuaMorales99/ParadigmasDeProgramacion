@@ -156,3 +156,121 @@ describe "Alambique Veloz" {
 		assert.equals(2.5, alambiqueVeloz.tiempo())
 	}
 }
+
+describe "Antigualla Blindada" {
+	test "Es posible saber su velocidad" {
+		assert.equals(47, antiguallaBlindada.velocidad())
+	}
+	
+	test "Es posible saber si puede desplazarse (Cantidad de integrantes par)" {
+		// Si tiene una cantidad impar de integrantes a bordo, entonces no puede desplazarse.
+		assert.notThat(antiguallaBlindada.puedeDesplazarse())
+		
+		// Si tiene una cantidad par de integrantes a bordo, entonces puede desplazarse.
+		antiguallaBlindada.eliminar('Mac')
+		assert.that(antiguallaBlindada.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si es rapido (Velocidad es mayor a 30)" {
+		// Si su velocidad es mayor a 30, entonces es rapido.
+		assert.that(antiguallaBlindada.rapido())
+		
+		// Si su velocidad es menor a 30, entonces no es rapido.
+		antiguallaBlindada.eliminar('Ring-A-Ding')
+		antiguallaBlindada.eliminar('Rug-Bug-Benny')
+		assert.notThat(antiguallaBlindada.rapido())
+	}
+	
+	test "Es posible viajar (Pierde al primer integrante)" {
+		antiguallaBlindada.viajar()
+		assert.equals(['Ring-A-Ding', 'Mac', 'Danny', 'Rug-Bug-Benny', 'Willy', 'Kirby'] , antiguallaBlindada.integrantes())
+	}
+	
+	test "Es posible obtener el tiempo que tarda en llegar a destino (Igual a su velocidad)" {
+		assert.equals(47, antiguallaBlindada.tiempo())
+	}
+}
+
+describe "Super Perrari" {
+	test "Es posible saber si son tramposos" {
+		// Si no colocaron trampas, entonces no son tramposos.
+		assert.notThat(superPerrari.tramposo())
+		
+		// Si colocaron trampas, entonces son tramposos.
+		superPerrari.colocarTrampas(1)
+		assert.that(superPerrari.tramposo())
+	}
+	
+	test "Es posible saber si puede desplazarse (Colocaron menos de 3 trampas)" {
+		// Si colocaron menos de 3 trampas, entonces puede desplazarse.
+		assert.that(superPerrari.puedeDesplazarse())
+		
+		// Si colocaron mas de 3 trampas, entonces no puede desplazarse.
+		superPerrari.colocarTrampas(3)
+		assert.notThat(superPerrari.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si es rapido (No son tramposos)" {
+		// Si no son tramposos, entonces es rapido.
+		assert.that(superPerrari.rapido())
+		
+		// Si son tramposos, entonces no es rapido.
+		superPerrari.colocarTrampas(1)
+		assert.notThat(superPerrari.rapido())
+	}
+	
+	test "Es posible viajar (Colocan 2 trampas)" {
+		superPerrari.viajar()
+		assert.equals(2, superPerrari.trampasColocadas())
+	}
+	
+	test "Es posible obtener el tiempo que tardan en llegar a destino (Trampas colocadas * 20)" {
+		superPerrari.colocarTrampas(3)
+		assert.equals(80, superPerrari.tiempo())
+	}
+}
+
+describe "Auto Super Convertible" {
+	test "Es posible saber si puede imitar a un vehiculo dado" {
+		// Si esta entre los posibles vehiculos para imitar, entonces puede imitarlo.
+		assert.that(autoSuperConvertible.puedeImitar(antiguallaBlindada))
+		
+		// Si no esta entre los posibles vehiculos para imitar, entonces no puede imitarlo.
+		assert.notThat(autoSuperConvertible.puedeImitar(alambiqueVeloz))
+	}
+	
+	test "Es posible imitar un vehiculo" {
+		// Si puede imitar al vehiculo dado, entonces lo imita.
+		autoSuperConvertible.imitar(antiguallaBlindada)
+		assert.equals(antiguallaBlindada, autoSuperConvertible.vehiculoImitado())
+		
+		// Si no puede imitar al vehiculo dado, entonces no lo imita.
+		autoSuperConvertible.imitar(alambiqueVeloz)
+		assert.equals(antiguallaBlindada, autoSuperConvertible.vehiculoImitado())
+	}
+	
+	test "Es posible saber si puede desplazarse (Si vehiculo imitado puede desplazarse)" {
+		// Si el vehiculo imitado puede desplazarse, entonces este tambien puede.
+		assert.that(autoSuperConvertible.puedeDesplazarse())
+		
+		// Si el vehiculo imitado no puede desplazarse, entonces este tampoco puede.
+		autoSuperConvertible.imitar(antiguallaBlindada)
+		assert.notThat(autoSuperConvertible.puedeDesplazarse())
+	}
+	
+	test "Es posible saber si es rapido (Si vehiculo imitando es rapido)" {
+		// Si el vehiculo imitado es rapido, entonces este tambien lo es.
+		assert.that(autoSuperConvertible.rapido())
+		
+		// Si el vehiculo imitado no es rapido, entonces este tampoco lo es.
+		antiguallaBlindada.eliminar('Ring-A-Ding')
+		antiguallaBlindada.eliminar('Rug-Bug-Benny')
+		autoSuperConvertible.imitar(antiguallaBlindada)
+		assert.notThat(autoSuperConvertible.rapido())
+	}
+	
+	test "Es posible obtener el tiempo que tardan en llegar a destino (Doble del vehiculo original)" {
+		autoSuperConvertible.imitar(antiguallaBlindada)
+		assert.equals(94, autoSuperConvertible.tiempo())
+	}
+}

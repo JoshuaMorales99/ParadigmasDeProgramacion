@@ -1,5 +1,8 @@
 import Lugares.*
 
+/*================================================================
+🔸 Carrera.
+================================================================*/
 object carrera {
 	// Vehiculos aceptados.
 	const aceptados = []
@@ -38,6 +41,9 @@ object carrera {
 	method rechazados() = rechazados
 }
 
+/*================================================================
+🔸 Centro de inscripcion.
+================================================================*/
 object centroInscripcion {
 	// Obtener todos los vehiculos anotados (aceptados y rechazados)
 	method vehiculosAnotados() = carrera.aceptados() + carrera.rechazados()
