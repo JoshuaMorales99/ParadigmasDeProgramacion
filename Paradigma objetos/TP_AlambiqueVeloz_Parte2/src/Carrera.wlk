@@ -1,12 +1,15 @@
 import Lugares.*
 
 object carrera {
-	// Corredores aceptados.
+	// Vehiculos aceptados.
 	const aceptados = []
-	// Corredores rechazados.
+	// Vehiculos rechazados.
 	const rechazados = []
 	// Lugar de la carrera.
 	var property lugar = paris
+	
+	// Obtener el ganador de la carrera.
+	method ganador() = aceptados.min{vehiculo => vehiculo.tiempo()}
 	
 	// Agregar competidor aceptado.
 	method agregarAceptado(vehiculo) {
@@ -22,6 +25,11 @@ object carrera {
 	method limpiarInscripciones() {
 		aceptados.clear()
 		rechazados.clear()
+	}
+	
+	// Iniciar carrera (Los vehiculos aceptados viajan hasta el lugar de la carrera)
+	method iniciarCarrera() {
+		aceptados.forEach{vehiculo => vehiculo.viajar()}
 	}
 	
 	// Obtener los corredores aceptados (Para test)

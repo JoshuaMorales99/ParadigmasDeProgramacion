@@ -5,9 +5,17 @@ import Vehiculos.*
 /*================================================================
 🔸 Carrera.
 ================================================================*/
-describe "Carrera" {
-	test "Un test" {
-		assert.that(true)
+describe "Carrera" {	
+	test "Es posible iniciar la carrera" {
+		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
+		carrera.iniciarCarrera()
+		assert.equals(90, alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible obtener al ganador de la carrera" {
+		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
+		carrera.iniciarCarrera()
+		assert.equals(alambiqueVeloz, carrera.ganador())
 	}
 }
 
@@ -141,5 +149,10 @@ describe "Alambique Veloz" {
 	test "Es posible viajar (Al viajar, consume 10 de combustible)" {
 		alambiqueVeloz.viajar()
 		assert.equals(90, alambiqueVeloz.combustible())
+	}
+	
+	test "Es posible obtener el tiempo que tarda en llegar a destino (Capacidad maxima del tanque / cantidad de combustible)" {
+		alambiqueVeloz.consumirCombustible(60)
+		assert.equals(2.5, alambiqueVeloz.tiempo())
 	}
 }
