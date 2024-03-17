@@ -31,9 +31,4 @@ object alambiqueVeloz {
 	
 	// Obtener la cantidad de combustible en el tanque (Para test)
 	method combustible() = combustible
-	
-	// Cargar combustible del tanque del vehiculo (Para test)
-	method cargarCombustible(carga) {
-		self.combustible(combustible + carga)
-	}
 }

@@ -11,6 +11,51 @@ describe "Carrera" {
 	}
 }
 
+describe "Centro de incscripcion" {
+	test "Es posible saber si un vehiculo dado puede competir" {
+		// Si puede visitar el lugar de la carrera, entonces puede competir.
+		assert.that(centroInscripcion.puedeCompetir(alambiqueVeloz))
+		
+		// Si no puede visitar el lugar de la carrera, entonces no puede competir.
+		alambiqueVeloz.consumirCombustible(50)
+		assert.notThat(centroInscripcion.puedeCompetir(alambiqueVeloz))
+	}
+	
+	test "Es posible inscribir un vehiculo dado a la carrera" {
+		// Si puede competir, entonces se lo inscribe en la lista de aceptados.
+		centroInscripcion.inscribir(alambiqueVeloz)
+		assert.equals([alambiqueVeloz], carrera.aceptados())
+		assert.equals([], carrera.rechazados())
+		
+		// Si no puede competir, entonces se lo inscribe en la lista de rechazados.
+		// centroInscripcion.inscribir(alambiqueVeloz) TODO COLOCAR NUEVO VEHICULO.
+		// assert.equals([], carrera.aceptados())
+		// assert.equals([], carrera.rechazados())
+	}
+	
+	test "Es posible obtener todos los vehiculos anotados a la carrera" {
+		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
+		assert.equals([alambiqueVeloz], centroInscripcion.vehiculosAnotados())
+	}
+	
+	test "Es posible reinscribir los vehiculos dados" { // TODO SE PUEDE MEJORAR PERO NECESITO MAS VEHICULOS.
+		alambiqueVeloz.consumirCombustible(50)
+		centroInscripcion.inscribir(alambiqueVeloz)
+		carrera.lugar(bagdad)
+		centroInscripcion.reinscribir([alambiqueVeloz])
+		assert.equals([alambiqueVeloz], carrera.aceptados())
+		assert.equals([], carrera.rechazados())
+	}
+	
+	test "Es posible replanificar la carrera (Cambiar el lugar de la carrera y reinscribir los vehiculos inscriptos en la antigua carrera)" {
+		alambiqueVeloz.consumirCombustible(50)
+		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLODAR 2 VEHICULOS MAS.
+		centroInscripcion.replanificarCarrera(bagdad)
+		assert.equals([alambiqueVeloz], carrera.aceptados())
+		assert.equals([], carrera.rechazados())
+	}
+}
+
 /*================================================================
 🔸 Lugares.
 ================================================================*/
@@ -31,7 +76,7 @@ describe "Buenos Aires" {
 		assert.that(buenosAires.puedeVisitar(alambiqueVeloz))
 		
 		// Si no es rapido, el vehiculo no puede visitarlo.
-		// assert.notThat(buenosAires.puedeVisitar(rocomovil)) TODO REVISAR
+		// assert.notThat(buenosAires.puedeVisitar(rocomovil)) TODO COLOCAR NUEVO VEHICULO.
 	}
 }
 
