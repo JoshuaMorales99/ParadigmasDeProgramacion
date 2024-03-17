@@ -6,14 +6,20 @@ import Vehiculos.*
 🔸 Carrera.
 ================================================================*/
 describe "Carrera" {	
-	test "Es posible iniciar la carrera" {
-		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
+	test "Es posible iniciar la carrera (Viajan al lugar destino)" {
+		centroInscripcion.inscribir(alambiqueVeloz)
+		centroInscripcion.inscribir(antiguallaBlindada)
+		centroInscripcion.inscribir(superPerrari)
 		carrera.iniciarCarrera()
 		assert.equals(90, alambiqueVeloz.combustible())
+		assert.equals(['Clyde', 'Ring-A-Ding', 'Mac', 'Danny', 'Rug-Bug-Benny', 'Willy', 'Kirby'], antiguallaBlindada.integrantes())
+		assert.equals(2, superPerrari.trampasColocadas())
 	}
 	
 	test "Es posible obtener al ganador de la carrera" {
-		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
+		centroInscripcion.inscribir(alambiqueVeloz)
+		centroInscripcion.inscribir(antiguallaBlindada)
+		centroInscripcion.inscribir(superPerrari)
 		carrera.iniciarCarrera()
 		assert.equals(alambiqueVeloz, carrera.ganador())
 	}
@@ -36,31 +42,37 @@ describe "Centro de incscripcion" {
 		assert.equals([], carrera.rechazados())
 		
 		// Si no puede competir, entonces se lo inscribe en la lista de rechazados.
-		// centroInscripcion.inscribir(alambiqueVeloz) TODO COLOCAR NUEVO VEHICULO.
-		// assert.equals([], carrera.aceptados())
-		// assert.equals([], carrera.rechazados())
+		centroInscripcion.inscribir(antiguallaBlindada)
+		assert.equals([alambiqueVeloz], carrera.aceptados())
+		assert.equals([antiguallaBlindada], carrera.rechazados())
 	}
 	
 	test "Es posible obtener todos los vehiculos anotados a la carrera" {
-		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLOCAR 2 VEHICULOS MAS.
-		assert.equals([alambiqueVeloz], centroInscripcion.vehiculosAnotados())
+		centroInscripcion.inscribir(alambiqueVeloz)
+		centroInscripcion.inscribir(antiguallaBlindada)
+		centroInscripcion.inscribir(superPerrari)
+		assert.equals([alambiqueVeloz, superPerrari, antiguallaBlindada], centroInscripcion.vehiculosAnotados())
 	}
 	
-	test "Es posible reinscribir los vehiculos dados" { // TODO SE PUEDE MEJORAR PERO NECESITO MAS VEHICULOS.
-		alambiqueVeloz.consumirCombustible(50)
+	test "Es posible reinscribir los vehiculos dados" {
 		centroInscripcion.inscribir(alambiqueVeloz)
-		carrera.lugar(bagdad)
-		centroInscripcion.reinscribir([alambiqueVeloz])
-		assert.equals([alambiqueVeloz], carrera.aceptados())
-		assert.equals([], carrera.rechazados())
+		centroInscripcion.inscribir(antiguallaBlindada)
+		centroInscripcion.inscribir(superPerrari)
+		superPerrari.colocarTrampas(1)
+		carrera.lugar(buenosAires)
+		centroInscripcion.reinscribir([alambiqueVeloz, antiguallaBlindada, superPerrari])
+		assert.equals([alambiqueVeloz, antiguallaBlindada], carrera.aceptados())
+		assert.equals([superPerrari], carrera.rechazados())
 	}
 	
 	test "Es posible replanificar la carrera (Cambiar el lugar de la carrera y reinscribir los vehiculos inscriptos en la antigua carrera)" {
-		alambiqueVeloz.consumirCombustible(50)
-		centroInscripcion.inscribir(alambiqueVeloz) // TODO COLODAR 2 VEHICULOS MAS.
-		centroInscripcion.replanificarCarrera(bagdad)
-		assert.equals([alambiqueVeloz], carrera.aceptados())
-		assert.equals([], carrera.rechazados())
+		centroInscripcion.inscribir(alambiqueVeloz)
+		centroInscripcion.inscribir(antiguallaBlindada)
+		centroInscripcion.inscribir(superPerrari)
+		superPerrari.colocarTrampas(1)
+		centroInscripcion.replanificarCarrera(buenosAires)
+		assert.equals([alambiqueVeloz, antiguallaBlindada], carrera.aceptados())
+		assert.equals([superPerrari], carrera.rechazados())
 	}
 }
 
@@ -84,7 +96,8 @@ describe "Buenos Aires" {
 		assert.that(buenosAires.puedeVisitar(alambiqueVeloz))
 		
 		// Si no es rapido, el vehiculo no puede visitarlo.
-		// assert.notThat(buenosAires.puedeVisitar(rocomovil)) TODO COLOCAR NUEVO VEHICULO.
+		superPerrari.colocarTrampas(1)
+		assert.notThat(buenosAires.puedeVisitar(superPerrari))
 	}
 }
 
@@ -183,7 +196,7 @@ describe "Antigualla Blindada" {
 	
 	test "Es posible viajar (Pierde al primer integrante)" {
 		antiguallaBlindada.viajar()
-		assert.equals(['Ring-A-Ding', 'Mac', 'Danny', 'Rug-Bug-Benny', 'Willy', 'Kirby'] , antiguallaBlindada.integrantes())
+		assert.equals(['Ring-A-Ding', 'Mac', 'Danny', 'Rug-Bug-Benny', 'Willy', 'Kirby'], antiguallaBlindada.integrantes())
 	}
 	
 	test "Es posible obtener el tiempo que tarda en llegar a destino (Igual a su velocidad)" {
