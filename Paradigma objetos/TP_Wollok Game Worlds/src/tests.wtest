@@ -1,6 +1,76 @@
+import Jugadores.*
 
-test "testX" {
+// ---------------------------------------------------------
+// 🔸 Jugadores.
+// ---------------------------------------------------------
+const unJugadorNoTitular = new JugadorProfesional(antiguedad = 2)
 
-	assert.that(true)
+// ---------------------------------------------------------
+// 🔸 Jugadores.
+// ---------------------------------------------------------
+describe "Jugadores profesionales" {
+	test "Es posible saber si es titular" {
+		// Si tiene mas de 3 anios de antiguedad, entonces es titular.
+		assert.that(caps.esTitular())
+		
+		// Si tiene menos de 3 anios de antiguedad, entonces no es titular.
+		assert.notThat(unJugadorNoTitular.esTitular())
+	}
+	
+	test "Es posible saber si esta totalmente cansado" {
+		// Si su nivel de cansancio es menor a 100, entonces no esta totalmente cansado.
+		assert.notThat(caps.totalmenteCansado())
+		
+		// Si su nivel de cansancio es 100 o mas, entonces esta totalmente cansado.
+		caps.establecerCansancio(100)
+		assert.that(caps.totalmenteCansado())
+	}
+	
+	test "Es posible saber si puede jugar" {
+		// Si es titular y no esta totalmente cansado, entonces puede jugar.
+		assert.that(caps.puedeJugar())
+		
+		// Si es titular y esta totalmente cansado, entonces no puede jugar.
+		caps.establecerCansancio(100)
+		assert.notThat(caps.puedeJugar())
+		
+		// Si no es titular y no esta totalmente cansado, entonces no puede jugar.
+		assert.notThat(unJugadorNoTitular.puedeJugar())
+		
+		// Si no es titular y no esta totalmente cansado, entonces no puede jugar.
+		unJugadorNoTitular.establecerCansancio(100)
+		assert.notThat(unJugadorNoTitular.puedeJugar())
+	}
+	
+	test "Es posible tomar bebidas energizantes (Baja 10 puntos su nivel de cansancio)" {
+		// Si su nivel de cansancio es mayor a 10, entonces es igual a su nivel de cansancio - 10.
+		caps.tomarBebidaEnergizante()
+		assert.equals(40, caps.cansancio())
+		
+		// Si su nivel de cansancio es menor a 10, entonces es igual a 0.
+		caps.establecerCansancio(5)
+		caps.tomarBebidaEnergizante()
+		assert.equals(0, caps.cansancio())
+	}
+}
 
+describe "Faker" {
+	test "Es posible saber si esta tilteado" {
+		assert.notThat(faker.estaTilteado())
+	}
+	
+	test "Es posible saber si esta totalmente cansado" {
+		// Si no esta tilteado, entonces puede jugar.
+		assert.that(faker.puedeJugar())
+		
+		// Si esta tilteado, entonces no puede jugar.
+		faker.tiltear()
+		assert.notThat(faker.puedeJugar())
+	}
+	
+	test "Es posible tomar un tecito (Deja de estar tilteado)" {
+		faker.tiltear()
+		faker.tomarTecito()
+		assert.notThat(faker.estaTilteado())
+	}
 }
