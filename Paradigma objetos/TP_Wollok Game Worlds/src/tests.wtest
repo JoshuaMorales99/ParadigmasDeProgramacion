@@ -1,5 +1,6 @@
 import Jugadores.*
 import Partidas.*
+import Equipos.*
 
 // ---------------------------------------------------------
 // 🔸 Mi universo.
@@ -8,7 +9,14 @@ import Partidas.*
 const unJugadorNoTitular = new Jugador(antiguedad = 2)
 
 // Partidas.
-const unaPartida = new Partida(equipoRojo = faker, equipoAzul = caps)
+const unaPartidaIndividual = new Partida(equipoRojo = faker, equipoAzul = caps)
+const unaPartidaEnEquipo = new Partida(equipoRojo = unEquipoGanador, equipoAzul = unEquipoPerdedor)
+const unaPartidaMixta = new Partida(equipoRojo = faker, equipoAzul = unEquipoNormal)
+
+// Equipo.
+const unEquipoNormal = new Equipo(integrantes = [caps, josedeodo, unJugadorNoTitular])
+const unEquipoGanador = new Equipo(integrantes = [faker, unJugadorNoTitular])
+const unEquipoPerdedor = new Equipo(integrantes = [caps, josedeodo])
 
 // ---------------------------------------------------------
 // 🔸 Jugadores.
@@ -105,17 +113,67 @@ describe "Faker" {
 }
 
 // ---------------------------------------------------------
+// 🔸 Jugadores.
+// ---------------------------------------------------------
+describe "Equipo" {
+	test "Es posible saber los jugadores que estan disponibles (Pueden jugar)" {
+		assert.equals([caps, josedeodo], unEquipoNormal.jugadoresDisponibles())
+	}
+	
+	test "Es posible jugar (Solo jugadores disponibles)" {
+		unEquipoNormal.jugar()
+		assert.equals(70, caps.cansancio())
+		assert.equals(70, josedeodo.cansancio())
+		assert.equals(50, unJugadorNoTitular.cansancio())
+	}
+	
+	test "Es posible obtener el nivel de habilidad (Igual a la suma de las habilidades de todos los integrantes)" {
+		assert.equals(-118, unEquipoNormal.habilidad())
+	}
+}
+
+// ---------------------------------------------------------
 // 🔸 Partidas.
 // ---------------------------------------------------------
-describe "Partida" {
+describe "Partida individual" {
 	test "Es posible comenzar la partida" {
-		unaPartida.comenzarPartida()
+		unaPartidaIndividual.comenzarPartida()
 		assert.equals(30, faker.habilidad())
 		assert.equals(70, caps.cansancio())
 	}
 	
 	test "Es posible obtener al ganador" {
-		unaPartida.comenzarPartida()
-		assert.equals(faker, unaPartida.ganador())
+		unaPartidaIndividual.comenzarPartida()
+		assert.equals(faker, unaPartidaIndividual.ganador())
+	}
+}
+
+describe "Partida equipo" {
+	test "Es posible comenzar la partida" {
+		unaPartidaEnEquipo.comenzarPartida()
+		assert.equals(30, faker.habilidad())
+		assert.equals(50, unJugadorNoTitular.cansancio())
+		assert.equals(70, caps.cansancio())
+		assert.equals(70, josedeodo.cansancio())
+	}
+	
+	test "Es posible obtener al ganador" {
+		unaPartidaEnEquipo.comenzarPartida()
+		assert.equals(unEquipoGanador, unaPartidaEnEquipo.ganador())
+	}
+}
+
+describe "Partida mixta" {
+	test "Es posible comenzar la partida" {
+		unaPartidaMixta.comenzarPartida()
+		assert.equals(30, faker.habilidad())
+		assert.equals(50, unJugadorNoTitular.cansancio())
+		assert.equals(70, caps.cansancio())
+		assert.equals(70, josedeodo.cansancio())
+	}
+	
+	test "Es posible obtener al ganador" {
+		unaPartidaMixta.comenzarPartida()
+		assert.equals(faker, unaPartidaMixta.ganador())
 	}
 }
