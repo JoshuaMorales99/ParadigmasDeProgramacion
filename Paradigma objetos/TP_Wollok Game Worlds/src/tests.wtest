@@ -1,9 +1,14 @@
 import Jugadores.*
+import Partidas.*
 
 // ---------------------------------------------------------
-// 🔸 Jugadores.
+// 🔸 Mi universo.
 // ---------------------------------------------------------
-const unJugadorNoTitular = new JugadorProfesional(antiguedad = 2)
+// Jugadores.
+const unJugadorNoTitular = new Jugador(antiguedad = 2)
+
+// Partidas.
+const unaPartida = new Partida(equipoRojo = faker, equipoAzul = caps)
 
 // ---------------------------------------------------------
 // 🔸 Jugadores.
@@ -52,6 +57,15 @@ describe "Jugadores profesionales" {
 		caps.tomarBebidaEnergizante()
 		assert.equals(0, caps.cansancio())
 	}
+	
+	test "Es posible jugar (Aumenta el nivel de cansancio en 20 puntos)" {
+		caps.jugar()
+		assert.equals(70, caps.cansancio())
+	}
+	
+	test "Es posible obtener el nivel de habilidad (Nivel de antiguedad * 2 - cansancio)" {
+		assert.equals(-34, caps.habilidad())
+	}
 }
 
 describe "Faker" {
@@ -72,5 +86,36 @@ describe "Faker" {
 		faker.tiltear()
 		faker.tomarTecito()
 		assert.notThat(faker.estaTilteado())
+	}
+	
+	test "Es posible jugar (Aumenta la habilidad acumulado en 30 puntos)" {
+		faker.jugar()
+		assert.equals(30, faker.habilidadAcumulada())
+	}
+	
+	test "Es posible obtener su nivel de habilidad" {
+		// Si no esta tilteado, entonces es igual a la habilidad acumulada.
+		faker.jugar()
+		assert.equals(30, faker.habilidad())
+		
+		// Si esta tilteado, entonces es igual a 0.
+		faker.tiltear()
+		assert.equals(0, faker.habilidad())
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Partidas.
+// ---------------------------------------------------------
+describe "Partida" {
+	test "Es posible comenzar la partida" {
+		unaPartida.comenzarPartida()
+		assert.equals(30, faker.habilidad())
+		assert.equals(70, caps.cansancio())
+	}
+	
+	test "Es posible obtener al ganador" {
+		unaPartida.comenzarPartida()
+		assert.equals(faker, unaPartida.ganador())
 	}
 }
