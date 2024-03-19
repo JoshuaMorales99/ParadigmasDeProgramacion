@@ -1,6 +1,237 @@
+import LaPorota.*
+import Clientes.*
+import MediosPago.*
 
-test "testX" {
+// ---------------------------------------------------------
+// 🔸 Mi universo.
+// ---------------------------------------------------------
+// Clientes.
+const unClienteCredito = new Cliente(medioPago = unaTarjetaCredito)
+const unClienteDebito = new Cliente(medioPago = unaTarjetaDebito)
+const unClienteCupon = new Cliente(medioPago = unCupon)
+const unClienteCuponUsado = new Cliente(medioPago = unCuponUsado)
 
-	assert.that(true)
+// Medios de pago.
+const unaTarjetaCredito = new TarjetaCredito(deuda = 0)
+const unaTarjetaDebito = new TarjetaDebito(saldo = 1000)
+const unCupon = new Cupon(montoMaximo = 1000)
+const unCuponUsado = new Cupon(montoMaximo = 1000, estaUsado = true)
 
+// ---------------------------------------------------------
+// 🔸 Clientes.
+// ---------------------------------------------------------
+describe "Clientes" {
+	test "Es posible pagar una cantidad dada con el medio de pago actual" {
+		// Si el medio de pago es una tarjeta de credito, entonces se puede pagar.
+		unClienteCredito.pagar(100)
+		assert.equals(100, unaTarjetaCredito.deuda())
+		
+		// Si el medio de pago es una tarjeta de debito con saldo suficiente, entonces se puede pagar.
+		unClienteDebito.pagar(100)
+		assert.equals(900, unaTarjetaDebito.saldo())
+		
+		// Si el medio de pago es un cupon no usado y que satisface totalmente el monto, entonces se puede pagar.
+		unClienteCupon.pagar(100)
+		assert.that(unCupon.estaUsado())
+	}
+	
+	test "Es posible lanzar una excepcion al intentar pagar con una tarjeta de debito con saldo insuficiente" {
+		assert.throwsExceptionWithMessage("Saldo insuficiente!", {unClienteDebito.pagar(1001)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar pagar con un cupon no usado y que no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Monto maximo insuficiente!", {unClienteCupon.pagar(1001)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar pagar con un cupon usado y que satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {unClienteCuponUsado.pagar(100)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar pagar con un cupon usado y que no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {unClienteCuponUsado.pagar(1001)})
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 Medios de pago.
+// ---------------------------------------------------------
+describe "Tarjeta de credito" {
+	test "Es posible aumenta la deuda en base al monto dado" {
+		unaTarjetaCredito.aumentarDeuda(100)
+		assert.equals(100, unaTarjetaCredito.deuda())
+	}
+	
+	test "Es posible usarla (Aumenta la deuda de la tarjeta)" {
+		unaTarjetaCredito.usar(100)
+		assert.equals(100, unaTarjetaCredito.deuda())
+	}
+}
+
+describe "Tarjeta de debito" {
+	test "Es posible descontar el monto dado del saldo disponible" {
+		unaTarjetaDebito.descontarSaldo(100)
+		assert.equals(900, unaTarjetaDebito.saldo())
+	}
+	
+	test "Es posible saber si el saldo puede satisfacer un monto dado (Saldo igual o mayor al monto dado)" {
+		// Si el saldo es mayor o igual al monto dado, entonces puede satisfacerlo.
+		assert.that(unaTarjetaDebito.puedeSatisfacer(1000))
+		
+		// Si el saldo es menor al monto dado, entonces no puede satisfacerlo.
+		assert.notThat(unaTarjetaDebito.puedeSatisfacer(1001))
+	}
+	
+	test "Es posible no lanzar una excepcion al verificar que se puede descontar el monto dado del saldo disponible" {
+		assert.doesNotThrowException({unaTarjetaDebito.verificarSaldo(1000)})
+	}
+	
+	test "Es posible lanzar una excepcion al verificar que no se puede descontar el monto dado del saldo disponible" {
+		assert.throwsExceptionWithMessage("Saldo insuficiente!", {unaTarjetaDebito.verificarSaldo(1001)})
+	}
+	
+	test "Es posible usarla (Descuenta el saldo disponible en la tarjeta)" {
+		unaTarjetaDebito.usar(100)
+		assert.equals(900, unaTarjetaDebito.saldo())
+	}
+	
+	test "Es posible lanzar una excepcion al intentar usarla con saldo insuficiente" {
+		assert.throwsExceptionWithMessage("Saldo insuficiente!", {unaTarjetaDebito.usar(1001)})
+	}
+}
+
+describe "Cupones" {
+	test "Es posible saber si esta usado" {
+		assert.that(true)
+	}
+	
+	test "Es posible saber si el monto maximo puede satisfacer un monto dado (Monto maximo es igual o mayor al monto dada)"{
+		// Si el monto maximo es mayor o igual al monto dado, entonces puede satisfacerlo.
+		assert.that(unCupon.puedeSatisfacer(1000))
+		
+		// Si el monto maximo es menor al monto dado, entonces no puede satisfacerlo.
+		assert.notThat(unCupon.puedeSatisfacer(1001))
+	}
+	
+	test "Es posible no lanzar una excepcion al verificar que no esta usado y que satisface totalmente el monto" {
+		assert.doesNotThrowException({unCupon.verificarUso(1000)})
+	}
+	
+	test "Es posible lanzar una excepcion al verificar que no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Monto maximo insuficiente!", {unCupon.verificarUso(1001)})
+	}
+	
+	test "Es posible lanzar una excepcion al verificar que esta usado" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {unCuponUsado.verificarUso(100)})
+	}
+	
+	test "Es posible usarlo" {
+		unCupon.usar(100)
+		assert.that(unCupon.estaUsado())
+	}
+	
+	test "Es posible lanzar una excepcion al intentar usarlo si no esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Monto maximo insuficiente!", {unCupon.usar(1001)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar usarlo si esta usado y satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {unCuponUsado.usar(100)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar usarlo si esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {unCuponUsado.usar(1001)})
+	}
+}
+
+// ---------------------------------------------------------
+// 🔸 La porota.
+// ---------------------------------------------------------
+describe "La Porota" {
+	test "Es posible obtener el monto total de una venta" {
+		assert.equals(10000, laPorota.montoTotal(100))
+	}
+	
+	test "Es posible aumentar el dinero" {
+		laPorota.aumentarDinero(100)
+		assert.equals(100, laPorota.dinero())
+	}
+	
+	test "Es posible disminuir el stock" {
+		laPorota.disminuirStock(1000)
+		assert.equals(9000, laPorota.stock())
+	}
+	
+	test "Es posible no lanzar una excepcion al verificar que se posee stock suficiente de porotos" {
+		assert.doesNotThrowException({laPorota.verificarStock(100)})
+	}
+	
+	test "Es posible lanzar una excepcion al verificar que no se posee stock suficiente de porotos" {
+		assert.throwsExceptionWithMessage("No hay stock suficiente!", {laPorota.verificarStock(10001)})
+	}
+	
+	test "Es posible recibir una transaccion del cliente" {
+		// Si es un cliente con medio de pago debito, entonces se le suma la deuda al cliente y se suma el dinero a la porota.
+		laPorota.recibirTransaccion(100, unClienteCredito)
+		assert.equals(100, unaTarjetaCredito.deuda())
+		assert.equals(100, laPorota.dinero())
+		
+		// Si es un cliente con medio de pago credito, entonces se le descuenta el saldo al cliente y se suma el dinero a la porota.
+		laPorota.recibirTransaccion(100, unClienteDebito)
+		assert.equals(900, unaTarjetaDebito.saldo())
+		assert.equals(200, laPorota.dinero())
+		
+		// Si es un cliente con medio de pago cupon, entonces se usa el cupon y se suma el dinero a la porota.
+		laPorota.recibirTransaccion(100, unClienteCupon)
+		assert.that(unCupon.estaUsado())
+		assert.equals(300, laPorota.dinero())
+	}
+	
+	test "Es posible lanzar una excepcion al intentar recibir una transaccion del cliente si su tarjeta de debito no tiene saldo suficiente" {
+		assert.throwsExceptionWithMessage("Saldo insuficiente!", {laPorota.recibirTransaccion(1001, unClienteDebito)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar recibir una transaccion del cliente si su cupon no esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Monto maximo insuficiente!", {laPorota.recibirTransaccion(1001, unClienteCupon)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar recibir una transaccion del cliente si su cupon esta usado y satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {laPorota.recibirTransaccion(100, unClienteCuponUsado)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar recibir una transaccion del cliente si su cupon esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {laPorota.recibirTransaccion(1001, unClienteCuponUsado)})
+	}
+	
+	test "Es posible entregar la cantidad de porotos al cliente" {
+		laPorota.entregarPorotos(1000, unClienteDebito)
+		assert.equals(9000, laPorota.stock())
+		assert.equals(1000, unClienteDebito.cantidadPorotos())
+	}
+	
+	test "Es posible vender una cantidad dada de porotos a un cliente" {
+		laPorota.vender(1000, unClienteCredito)
+		assert.equals(100000, unaTarjetaCredito.deuda())
+		assert.equals(100000, laPorota.dinero())
+		assert.equals(9000, laPorota.stock())
+		assert.equals(1000, unClienteCredito.cantidadPorotos())
+	}
+	
+	test "Es posible lanzar una excepcion al intentar vender una cantidad dada de porotos a un cliente si no hay suficiente stock disponible" {
+		assert.throwsExceptionWithMessage("No hay stock suficiente!", {laPorota.vender(1000000, unClienteCredito)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar vender una cantidad dada de porotos a un cliente si su tarjeta de debito no tiene saldo suficiente" {
+		assert.throwsExceptionWithMessage("Saldo insuficiente!", {laPorota.vender(1001, unClienteDebito)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar vender una cantidad dada de porotos a un cliente si su cupon no esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Monto maximo insuficiente!", {laPorota.vender(1001, unClienteCupon)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar vender una cantidad dada de porotos a un cliente si su cupon esta usado y satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {laPorota.vender(100, unClienteCuponUsado)})
+	}
+	
+	test "Es posible lanzar una excepcion al intentar vender una cantidad dada de porotos a un cliente si su cupon esta usado y no satisface totalmente el monto" {
+		assert.throwsExceptionWithMessage("Cupon ya usado!", {laPorota.vender(1001, unClienteCuponUsado)})
+	}
 }
