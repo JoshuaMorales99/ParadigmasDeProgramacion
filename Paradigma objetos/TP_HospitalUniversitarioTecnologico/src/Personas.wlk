@@ -8,8 +8,10 @@ class Persona {
 	// Temperatura de la persona.
 	var temperatura = 36
 	// Cantidad de celulas.
-	var cantidadDeCelulas = 28000000000
+	var cantidadDeCelulas
 	
+	// Obtener la cantidad de celulas que posee.
+	method cantidadDeCelulas() = cantidadDeCelulas
 	// Obtener la cantidad de celulas agresivas.
 	method cantidadDeCelulasAgresivas()
 	// Obtener la enfermedad que mas celulas afecta.

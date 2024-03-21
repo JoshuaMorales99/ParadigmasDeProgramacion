@@ -1,4 +1,62 @@
-describe "Describe" {
+import Personas.*
+import Enfermedades.*
+
+// ----------------------------------------------------------------
+// 🔸 Mi universo.
+// ----------------------------------------------------------------
+// Enfermedades.
+const malaria = new EnfermedadInfecciosa(cantDeCelulasAmenazadas = 2500)
+const lupus = new EnfermedadAutoinmune(cantDeCelulasAmenazadas = 2000)
+
+// ----------------------------------------------------------------
+// 🔸 Enfermedades.
+// ----------------------------------------------------------------
+describe "Enfermedades infecciosas" {
+	test "Es posible obtener el efecto que le hace una dosis dada" {
+		assert.equals(160, malaria.efecto(180))
+	}
+	
+	test "Es posible atenuarla" {
+		malaria.atenuar(180)
+		assert.equals(100, malaria.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible saber si se puede curar (Cantidad de celulas amenazadas es menor o igual a 0)" {
+		// Si la cantidad de celulas amenazadas es mayor a 0, entonces no puede curarse.
+		malaria.atenuar(180)
+		assert.notThat(malaria.puedeCurarse())
+		
+		// Si la cantidad de celulas amenazadas es menor o igual a 0, entonces puede curarse.
+		malaria.atenuar(27)
+		assert.that(malaria.puedeCurarse())
+	}
+}
+
+describe "Enfermedades autoinmune" {
+	test "Es posible obtener el efecto que le hace una dosis dada" {
+		assert.equals(100, lupus.efecto(100))
+	}
+	
+	test "Es posible atenuarla" {
+		lupus.atenuar(100)
+		assert.equals(500, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible saber si se puede curar (Cantidad de celulas amenazadas es menor o igual a 0)" {
+		// Si la cantidad de celulas amenazadas es mayor a 0, entonces no puede curarse.
+		lupus.atenuar(100)
+		assert.notThat(lupus.puedeCurarse())
+		
+		// Si la cantidad de celulas amenazadas es menor o igual a 0, entonces puede curarse.
+		lupus.atenuar(34)
+		assert.that(lupus.puedeCurarse())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Personas.
+// ----------------------------------------------------------------
+describe "Personas" {
 	test "testX" {
 		assert.that(true)
 	}
