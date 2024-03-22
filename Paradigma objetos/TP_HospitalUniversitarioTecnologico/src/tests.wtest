@@ -1,4 +1,5 @@
 import Personas.*
+import Medicos.*
 import Enfermedades.*
 
 // ----------------------------------------------------------------
@@ -7,6 +8,13 @@ import Enfermedades.*
 // Enfermedades.
 const malaria = new EnfermedadInfecciosa(cantDeCelulasAmenazadas = 2500)
 const lupus = new EnfermedadAutoinmune(cantDeCelulasAmenazadas = 2000)
+
+// Pacientes.
+const logan = new Persona(cantidadDeCelulas = 36000000000)
+
+// Medicos.
+const cameron = new Medico(cantidadDeCelulas = 28000000000, dosis = 100)
+const cuddy = new JefeDeDepartamento(subordinados = #{new Medico(cantidadDeCelulas = 28000000000, dosis = 27)}, cantidadDeCelulas = 28000000000, dosis = 1000)
 
 // ----------------------------------------------------------------
 // 🔸 Enfermedades.
@@ -57,7 +65,177 @@ describe "Enfermedades autoinmune" {
 // 🔸 Personas.
 // ----------------------------------------------------------------
 describe "Personas" {
-	test "testX" {
-		assert.that(true)
+	test "Es posible contraer una enfermedad" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		assert.equals(#{malaria, lupus}, logan.enfermedades())
+	}
+	
+	test "Es posible curarse de una enfermedad" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		logan.curarse(lupus)
+		assert.equals(#{malaria}, logan.enfermedades())
+	}
+	
+	test "Es posible obtener la enfermedad que mas celulas afecta." {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		assert.equals(malaria, logan.laQueMasCelulasAfecta())
+	}
+	
+	test "Es posible aplicar una dosis a una enfermedad" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		
+		// Si no puede curarse, entonces no se cura.
+		logan.aplicarDosis(lupus, 100)
+		assert.equals(#{malaria, lupus}, logan.enfermedades())
+		assert.equals(2500, malaria.cantDeCelulasAmenazadas())
+		assert.equals(500, lupus.cantDeCelulasAmenazadas())
+		
+		// Si puede curarse, entonces se cura.
+		logan.aplicarDosis(lupus, 34)
+		assert.equals(#{malaria}, logan.enfermedades())
+		assert.equals(2500, malaria.cantDeCelulasAmenazadas())
+		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible recibir una dosis de medicamento" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		logan.recibir(134)
+		assert.equals(#{malaria}, logan.enfermedades())
+		assert.equals(790, malaria.cantDeCelulasAmenazadas())
+		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Medicos.
+// ----------------------------------------------------------------
+describe "Medicos" {
+	test "Es posible atender a un paciente dado" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		cameron.atender(logan)
+		assert.equals(#{malaria, lupus}, logan.enfermedades())
+		assert.equals(1300, malaria.cantDeCelulasAmenazadas())
+		assert.equals(500, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible contraer una enfermedad" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		assert.equals(#{malaria, lupus}, cameron.enfermedades())
+	}
+	
+	test "Es posible curarse de una enfermedad" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		cameron.curarse(lupus)
+		assert.equals(#{malaria}, cameron.enfermedades())
+	}
+	
+		
+	test "Es posible obtener la enfermedad que mas celulas afecta." {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		assert.equals(lupus, cameron.laQueMasCelulasAfecta())
+	}
+	
+	test "Es posible aplicar una dosis a una enfermedad" {
+		// Si no puede curarse, entonces no se cura.
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		cameron.aplicarDosis(lupus, 25)
+		assert.equals(#{malaria, lupus}, cameron.enfermedades())
+		assert.equals(100, malaria.cantDeCelulasAmenazadas())
+		assert.equals(125, lupus.cantDeCelulasAmenazadas())
+		
+		// Si puede curarse, entonces se cura.
+		cameron.aplicarDosis(lupus, 9)
+		assert.equals(#{malaria}, cameron.enfermedades())
+		assert.equals(100, malaria.cantDeCelulasAmenazadas())
+		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible recibir una dosis de medicamento" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		cameron.recibir(27)
+		assert.equals(#{lupus}, cameron.enfermedades())
+		assert.equals(-5, malaria.cantDeCelulasAmenazadas())
+		assert.equals(95, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible autoatenderse al contraer una enfermedad" {
+		cameron.contraer(malaria)
+		assert.equals(#{malaria}, cameron.enfermedades())
+		assert.equals(1300, malaria.cantDeCelulasAmenazadas())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Jefes de departamento.
+// ----------------------------------------------------------------
+describe "Jefes de departamento" {
+	test "Es posible atender a un paciente dado" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		cuddy.atender(cameron)
+		assert.equals(#{lupus}, cameron.enfermedades())
+		assert.equals(-5, malaria.cantDeCelulasAmenazadas())
+		assert.equals(95, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible contraer una enfermedad" {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		assert.equals(#{malaria, lupus}, cuddy.enfermedades())
+	}
+	
+	test "Es posible curarse de una enfermedad" {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		cuddy.curarse(lupus)
+		assert.equals(#{malaria}, cuddy.enfermedades())
+	}
+	
+	test "Es posible obtener la enfermedad que mas celulas afecta." {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		assert.equals(malaria, cuddy.laQueMasCelulasAfecta())
+	}
+	
+	test "Es posible aplicar una dosis a una enfermedad" {
+		// Si no puede curarse, entonces no se cura.
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		cuddy.aplicarDosis(lupus, 100)
+		assert.equals(#{malaria, lupus}, cuddy.enfermedades())
+		assert.equals(2290, malaria.cantDeCelulasAmenazadas())
+		assert.equals(95, lupus.cantDeCelulasAmenazadas())
+		
+		// Si puede curarse, entonces se cura.
+		cuddy.aplicarDosis(lupus, 7)
+		assert.equals(#{malaria}, cuddy.enfermedades())
+		assert.equals(2290, malaria.cantDeCelulasAmenazadas())
+		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible recibir una dosis de medicamento" {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		cuddy.recibir(107)
+		assert.equals(#{malaria}, cuddy.enfermedades())
+		assert.equals(985, malaria.cantDeCelulasAmenazadas())
+		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible autoatenderse al contraer una enfermedad" {
+		cuddy.contraer(malaria)
+		assert.equals(#{malaria}, cuddy.enfermedades())
+		assert.equals(2395, malaria.cantDeCelulasAmenazadas())
 	}
 }

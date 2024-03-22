@@ -10,13 +10,13 @@ class EnfermedadDeCelulas {
 	method cantDeCelulasAmenazadas() = cantDeCelulasAmenazadas
 	// Obtener la resistencia de la enfermedad a una dosis.
 	method resistencia(dosis)
-	// Obtener el efecto que le hace una dosis dada.
+	// Obtener el efecto que le hace una dosis dada (Dosis - resistencia de la enfermedad a la dosis)
 	method efecto(dosis) = dosis - self.resistencia(dosis)
 	
 	// Saber si se puede curar (Cantidad de celulas amenazadas es menor o igual a 0)
 	method puedeCurarse() = cantDeCelulasAmenazadas <= 0
 	
-	// Atenuar enfermedad dada una dosis.
+	// Atenuar enfermedad dada una dosis (Cantidad de celulas amenazadas - (efecto del medicamento * 15))
 	method atenuar(dosis) {
 		cantDeCelulasAmenazadas = cantDeCelulasAmenazadas - self.efecto(dosis) * 15
 	}
