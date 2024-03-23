@@ -191,6 +191,30 @@ describe "Personas" {
 		logan.matarCelulas(1000000000)
 		assert.equals(35000000000, logan.cantidadDeCelulas())
 	}
+	
+	test "Es posible vivir un dia (Desencadena los efectos de cada enfermedad)" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		logan.viviUnDia()
+		assert.equals(35999998750, logan.cantidadDeCelulas())
+		assert.equals(37, logan.temperatura())
+		assert.equals(5000, malaria.cantDeCelulasAmenazadas())
+		assert.equals(1, lupus.cantVecesProducidoEfecto())
+	}
+	
+	test "Es posible saber si esta en coma (Tiene menos de 10000000000 o su temperatura es mayor o igual a 40)" {
+		// Si tiene mas de 10000000000 y su temperatura es menor a 40, entonces no esta en coma.
+		assert.notThat(logan.estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es menor a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 36).estaEnComa())
+		
+		// Si tiene mas de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 10000000001, temperatura = 41).estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 41).estaEnComa())
+	}
 }
 
 // ----------------------------------------------------------------
@@ -219,7 +243,6 @@ describe "Medicos" {
 		assert.equals(#{malaria}, cameron.enfermedades())
 	}
 	
-		
 	test "Es posible obtener la enfermedad que mas celulas afecta." {
 		cameron.contraer(malaria)
 		cameron.contraer(lupus)
@@ -276,6 +299,30 @@ describe "Medicos" {
 	test "Es posible matar una cantidad dada de celulas" {
 		cameron.matarCelulas(1000000000)
 		assert.equals(27000000000, cameron.cantidadDeCelulas())
+	}
+	
+	test "Es posible vivir un dia (Desencadena los efectos de cada enfermedad)" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		cameron.viviUnDia()
+		assert.equals(28000000000, cameron.cantidadDeCelulas())
+		assert.equals(37, cameron.temperatura())
+		assert.equals(200, malaria.cantDeCelulasAmenazadas())
+		assert.equals(1, lupus.cantVecesProducidoEfecto())
+	}
+	
+	test "Es posible saber si esta en coma (Tiene menos de 10000000000 o su temperatura es mayor o igual a 40)" {
+		// Si tiene mas de 10000000000 y su temperatura es menor a 40, entonces no esta en coma.
+		assert.notThat(cameron.estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es menor a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 36).estaEnComa())
+		
+		// Si tiene mas de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 10000000001, temperatura = 41).estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 41).estaEnComa())
 	}
 }
 
@@ -361,5 +408,29 @@ describe "Jefes de departamento" {
 	test "Es posible matar una cantidad dada de celulas" {
 		cuddy.matarCelulas(1000000000)
 		assert.equals(27000000000, cuddy.cantidadDeCelulas())
+	}
+	
+	test "Es posible vivir un dia (Desencadena los efectos de cada enfermedad)" {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		cuddy.viviUnDia()
+		assert.equals(27999998855, cuddy.cantidadDeCelulas())
+		assert.equals(37, cuddy.temperatura())
+		assert.equals(4580, malaria.cantDeCelulasAmenazadas())
+		assert.equals(1, lupus.cantVecesProducidoEfecto())
+	}
+	
+	test "Es posible saber si esta en coma (Tiene menos de 10000000000 o su temperatura es mayor o igual a 40)" {
+		// Si tiene mas de 10000000000 y su temperatura es menor a 40, entonces no esta en coma.
+		assert.notThat(cuddy.estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es menor a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 36).estaEnComa())
+		
+		// Si tiene mas de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 10000000001, temperatura = 41).estaEnComa())
+		
+		// Si tiene menos de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
+		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 41).estaEnComa())
 	}
 }

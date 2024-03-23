@@ -19,17 +19,17 @@ class Persona {
 	// Obtener la temperatura de la persona.
 	method temperatura() = temperatura
 	
-	// Saber si esta en coma.
-	// method estaEnComa()
+	// Saber si esta en coma (Tiene menos de 10000000000 o su temperatura es mayor o igual a 40)
+	method estaEnComa() = cantidadDeCelulas < 10000000000 or temperatura >= 40
 	
 	// Contraer una enfermedad dada.
 	method contraer(enfermedad) {
 		enfermedades.add(enfermedad)
 	}
 	
-	// Vivir un dia.
+	// Vivir un dia (Desencadena los efectos de cada enfermedad)
 	method viviUnDia() {
-		
+		enfermedades.forEach({enfermedad => enfermedad.producirEfecto(self)})
 	}
 	
 	// Curarse de una enfermedad dada.
