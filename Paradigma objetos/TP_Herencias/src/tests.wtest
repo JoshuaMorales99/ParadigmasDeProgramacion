@@ -1,0 +1,53 @@
+import Criaturas.*
+
+// ----------------------------------------------------------------
+// 🔸 Mi universo.
+// ----------------------------------------------------------------
+// Criaturas normales.
+const unaCriatura = new Criatura(fuerza = 10)
+
+// Criaturas magicas.
+const criaturaMagica = new Magica(fuerza = 50, alteraciones = 2)
+const criaturaOscuridad = new Oscuridad(fuerza = 50, alteraciones = 10)
+const criaturaLuz = new Luz(alteraciones = 10)
+// ----------------------------------------------------------------
+// 🔸 Criaturas.
+// ----------------------------------------------------------------
+describe "Criaturas" {
+	test "Es posible consultar su fuerza" {
+		assert.equals(10, unaCriatura.fuerza())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Criaturas magicas.
+// ----------------------------------------------------------------
+describe "Criaturas Magicas" {
+	test "Es posible consultar su fuerza" {
+		assert.equals(50, criaturaMagica.fuerza())
+	}
+	
+	test "Es posible consultar el poder magico dado un nivel de poder (fuerza * alteraciones + nivel de poder)" {
+		assert.equals(150, criaturaMagica.poderMagico(50))
+	}
+}
+
+describe "Criaturas Magicas de Oscuridad" {
+	test "Es posible consultar su fuerza" {
+		assert.equals(1000, criaturaOscuridad.fuerza())
+	}
+	
+	test "Es posible consultar el poder magico destructor dado un nivel de poder (fuerza * alteraciones + su poder magico)" {
+		assert.equals(20050, criaturaOscuridad.poderMagico(50))
+	}
+}
+
+describe "Criaturas Magicas de Luz" {
+	test "Es posible consultar su fuerza" {
+		assert.equals(100, criaturaLuz.fuerza())
+	}
+	
+	test "Es posible consultar el poder magico creador dado un nivel de poder (fuerza * alteraciones + nivel de poder)" {
+		assert.equals(1050, criaturaLuz.poderMagico(50))
+	}
+}
