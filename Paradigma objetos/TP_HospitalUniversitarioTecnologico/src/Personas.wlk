@@ -60,6 +60,11 @@ class Persona {
 		temperatura = 0
 	}
 	
+	// Estabilizar temperatura.
+	method estabilizarTemperatura() {
+		temperatura = 36
+	}
+	
 	// Matar una cantidad dada de celulas.
 	method matarCelulas(cantCelulas) {
 		cantidadDeCelulas = cantidadDeCelulas - cantCelulas

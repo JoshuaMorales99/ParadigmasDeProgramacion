@@ -1,6 +1,7 @@
 import Personas.*
 import Medicos.*
 import Enfermedades.*
+import Especialidades.*
 
 // ----------------------------------------------------------------
 // 🔸 Mi universo.
@@ -13,8 +14,8 @@ const lupus = new EnfermedadAutoinmune(cantDeCelulasAmenazadas = 2000)
 const logan = new Persona(cantidadDeCelulas = 36000000000)
 
 // Medicos.
-const cameron = new Medico(cantidadDeCelulas = 28000000000, dosis = 100)
-const cuddy = new JefeDeDepartamento(subordinados = #{new Medico(cantidadDeCelulas = 28000000000, dosis = 27)}, cantidadDeCelulas = 28000000000, dosis = 1000)
+const cameron = new Medico(cantidadDeCelulas = 28000000000, dosis = 100, especialidad = sinEspecialidad)
+const cuddy = new JefeDeDepartamento(subordinados = #{new Medico(cantidadDeCelulas = 28000000000, dosis = 27, especialidad = sinEspecialidad)}, cantidadDeCelulas = 28000000000, dosis = 1000)
 
 // ----------------------------------------------------------------
 // 🔸 Enfermedades.
@@ -182,6 +183,12 @@ describe "Personas" {
 		assert.equals(0, logan.temperatura())
 	}
 	
+	test "Es posible estabilizar su temperatura" {
+		logan.bajarTotalmenteTemperatura()
+		logan.estabilizarTemperatura()
+		assert.equals(36, logan.temperatura())
+	}
+	
 	test "Es posible subirle la temperatura" {
 		logan.subirTemperatura(10)
 		assert.equals(46, logan.temperatura())
@@ -289,6 +296,12 @@ describe "Medicos" {
 	test "Es posible bajarle totalmente la temperatura" {
 		cameron.bajarTotalmenteTemperatura()
 		assert.equals(0, cameron.temperatura())
+	}
+	
+	test "Es posible estabilizar su temperatura" {
+		cameron.bajarTotalmenteTemperatura()
+		cameron.estabilizarTemperatura()
+		assert.equals(36, cameron.temperatura())
 	}
 	
 	test "Es posible subirle la temperatura" {
@@ -400,6 +413,12 @@ describe "Jefes de departamento" {
 		assert.equals(0, cuddy.temperatura())
 	}
 	
+	test "Es posible estabilizar su temperatura" {
+		cuddy.bajarTotalmenteTemperatura()
+		cuddy.estabilizarTemperatura()
+		assert.equals(36, cuddy.temperatura())
+	}
+	
 	test "Es posible subirle la temperatura" {
 		cuddy.subirTemperatura(10)
 		assert.equals(46, cuddy.temperatura())
@@ -432,5 +451,36 @@ describe "Jefes de departamento" {
 		
 		// Si tiene menos de 10000000000 y su temperatura es mayor o igual a 40, entonces esta en coma.
 		assert.that(new Persona(cantidadDeCelulas = 9999999999, temperatura = 41).estaEnComa())
+	}
+}
+
+// ----------------------------------------------------------------
+// 🔸 Especialidades.
+// ----------------------------------------------------------------
+describe "Enfermero" {
+	test "Es posible hacer que un medico brinde 10 unidades de dosis extra a una persona dada" {
+		const unMedicoEnfermero = new Medico(cantidadDeCelulas = 28000000000, dosis = 100, especialidad = enfermero)
+		
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		unMedicoEnfermero.atender(logan)
+		assert.equals(#{malaria, lupus}, logan.enfermedades())
+		assert.equals(1450, malaria.cantDeCelulasAmenazadas())
+		assert.equals(350, lupus.cantDeCelulasAmenazadas())
+	}
+}
+
+describe "Guardia" {
+	test "Es posible hacer que un medico brinde 10 unidades de dosis extra a una persona dada" {
+		const unMedicoGuardia = new Medico(cantidadDeCelulas = 28000000000, dosis = 100, especialidad = guardia)
+		
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		logan.subirTemperatura(10)
+		unMedicoGuardia.atender(logan)
+		assert.equals(#{malaria, lupus}, logan.enfermedades())
+		assert.equals(36, logan.temperatura())
+		assert.equals(1300, malaria.cantDeCelulasAmenazadas())
+		assert.equals(500, lupus.cantDeCelulasAmenazadas())
 	}
 }

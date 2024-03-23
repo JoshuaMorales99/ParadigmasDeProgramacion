@@ -1,4 +1,5 @@
 import Personas.*
+import Especialidades.*
 
 // ----------------------------------------------------------------
 // 🔸 Medicos.
@@ -7,10 +8,15 @@ import Personas.*
 class Medico inherits Persona {
 	// Dosis de medicamento propia.
 	var dosis
+	// Especialidad.
+	var especialidad
 	
 	// Atender a un paciente dado.
 	method atender(paciente) {
+		// Le da una dosis de medicamento al paciente.
 		paciente.recibir(dosis)
+		// Le da un tratamiento extra al paciente.
+		especialidad.tratamientoExtra(paciente)
 	}
 	
 	// Contraer una enfermedad dada.
@@ -20,9 +26,14 @@ class Medico inherits Persona {
 		// Tratar de curarse.
 		self.atender(self)
 	}
+	
+	// Cambiar de especialidad.
+	method especialidad(nuevaEspecialidad) {
+		especialidad = nuevaEspecialidad
+	}
 }
 
-class JefeDeDepartamento inherits Medico {
+class JefeDeDepartamento inherits Medico(especialidad = sinEspecialidad) {
 	// Subordinados a cargo.
 	const subordinados = #{}
 	
@@ -32,5 +43,10 @@ class JefeDeDepartamento inherits Medico {
 	// Atender a un paciente dado.
 	override method atender(paciente) {
 		self.elegirSubordinado().atender(paciente)
+	}
+	
+	// Cambiar de especialidad (No puede cambiar su especialidad)
+	override method especialidad(nuevaEspecialidad) {
+		
 	}
 }
