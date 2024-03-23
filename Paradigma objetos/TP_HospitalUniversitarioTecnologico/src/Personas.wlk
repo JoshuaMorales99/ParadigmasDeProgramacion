@@ -12,10 +12,12 @@ class Persona {
 	
 	// Obtener la cantidad de celulas que posee.
 	method cantidadDeCelulas() = cantidadDeCelulas
-	// Obtener la cantidad de celulas agresivas.
-	// method cantidadDeCelulasAgresivas()
-	// Obtener la enfermedad que mas celulas afecta. TODO test
+	// Obtener la cantidad total de celulas agresivas.
+	method cantidadDeCelulasAgresivas() = enfermedades.sum{enfermedad => enfermedad.cantDeCelulasAmenazadas()}
+	// Obtener la enfermedad que mas celulas afecta.
 	method laQueMasCelulasAfecta() = enfermedades.max{enfermedad => enfermedad.cantDeCelulasAmenazadas()}
+	// Obtener la temperatura de la persona.
+	method temperatura() = temperatura
 	
 	// Saber si esta en coma.
 	// method estaEnComa()
@@ -46,6 +48,21 @@ class Persona {
 	// Recibir una dosis de medicamento.
 	method recibir(dosis) {
 		enfermedades.forEach{enfermedad => self.aplicarDosis(enfermedad, dosis)}
+	}
+	
+	// Subir la temperatura en una cantidad dada.
+	method subirTemperatura(grados) {
+		temperatura = temperatura + grados
+	}
+	
+	// Bajar totalmente la temperatura.
+	method bajarTotalmenteTemperatura() {
+		temperatura = 0
+	}
+	
+	// Matar una cantidad dada de celulas.
+	method matarCelulas(cantCelulas) {
+		cantidadDeCelulas = cantidadDeCelulas - cantCelulas
 	}
 	
 	// Obtener las enfermedades de una persona (Para test)

@@ -21,7 +21,7 @@ const cuddy = new JefeDeDepartamento(subordinados = #{new Medico(cantidadDeCelul
 // ----------------------------------------------------------------
 describe "Enfermedades infecciosas" {
 	test "Es posible obtener el efecto que le hace una dosis dada" {
-		assert.equals(160, malaria.efecto(180))
+		assert.equals(160, malaria.efectoMedicamento(180))
 	}
 	
 	test "Es posible atenuarla" {
@@ -38,11 +38,38 @@ describe "Enfermedades infecciosas" {
 		malaria.atenuar(27)
 		assert.that(malaria.puedeCurarse())
 	}
+	
+	test "Es posible que se reproduzca (Duplica la cantidad de celulas amenazadas)" {
+		malaria.reproducir()
+		assert.equals(5000, malaria.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible producir los efectos de la enfermedad en una persona dada (Si es agresiva, mata la mitad de las celulas que amenaza de la persona)" {
+		// Si no es agresiva, entonces se duplica la cantidad de celulas afectadas.
+		const unaEnfermedadInfecciosa = new EnfermedadInfecciosa(cantDeCelulasAmenazadas = 500)
+		
+		unaEnfermedadInfecciosa.producirEfecto(logan)
+		assert.equals(36000000000, logan.cantidadDeCelulas())
+		assert.equals(1000, unaEnfermedadInfecciosa.cantDeCelulasAmenazadas())
+		
+		// Si es agresiva, entonces mata la mitad de las celulas que amenaza de la persona. Luego, se reproduce.
+		malaria.producirEfecto(logan)
+		assert.equals(35999998750, logan.cantidadDeCelulas())
+		assert.equals(5000, malaria.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible saber si es una enfermedad agresiva para una persona dada (La enfermedad de la persona dada posee una cantidad de celulas amenazadas mayor a 1000)" {
+		// Si la enfermedad de una persona dada posee una cantidad de celulas amenazadas menor a 1000, entonces no es agresiva.
+		assert.notThat(new EnfermedadInfecciosa(cantDeCelulasAmenazadas = 500).esAgresiva(logan))
+		
+		// Si la enfermedad de una persona dada posee una cantidad de celulas amenazadas mayor a 1000, entonces es agresiva.
+		assert.that(malaria.esAgresiva(logan))
+	}
 }
 
 describe "Enfermedades autoinmune" {
 	test "Es posible obtener el efecto que le hace una dosis dada" {
-		assert.equals(100, lupus.efecto(100))
+		assert.equals(100, lupus.efectoMedicamento(100))
 	}
 	
 	test "Es posible atenuarla" {
@@ -58,6 +85,40 @@ describe "Enfermedades autoinmune" {
 		// Si la cantidad de celulas amenazadas es menor o igual a 0, entonces puede curarse.
 		lupus.atenuar(34)
 		assert.that(lupus.puedeCurarse())
+	}
+	
+	test "Es posible producir los efectos de la enfermedad en una persona dada (Sube un grado la temperatura de la persona dada)" {
+		lupus.producirEfecto(logan)
+		lupus.producirEfecto(logan)
+		assert.equals(38, logan.temperatura())
+		assert.equals(2, lupus.cantVecesProducidoEfecto())
+	}
+	
+	test "Es posible saber si es una enfermedad agresiva para una persona dada (La temperatura de la persona esta entre los 35 y 40 grados)" {
+		// Si la temperatura de la persona esta entre 35 y 40 grados, entonces no es agresiva.
+		assert.notThat(lupus.esAgresiva(logan))
+		
+		// Si la temperatura de la persona es menor a 35 grados, entonces es agresiva.
+		assert.that(lupus.esAgresiva(new Persona(cantidadDeCelulas = 36000000000, temperatura = 34)))
+		
+		// Si la temperatura de la persona es mayor a 40 grados, entonces es agresiva.
+		assert.that(lupus.esAgresiva(new Persona(cantidadDeCelulas = 36000000000, temperatura = 41)))
+	}
+}
+
+describe "Hipotermia" {
+	test "Es posible atenuar (No se atenua)" {
+		laHipotermia.atenuar(100)
+		assert.equals(0, laHipotermia.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible producir los efectos de la enfermedad en una persona dada (Le baja totalmente la temperatura)" {
+		laHipotermia.producirEfecto(logan)
+		assert.equals(0, logan.temperatura())
+	}
+	
+	test "Es posible saber si es una enfermedad agresiva para una persona dada (Es extremadamente agresiva)" {
+		assert.that(laHipotermia.esAgresiva(logan))
 	}
 }
 
@@ -84,6 +145,12 @@ describe "Personas" {
 		assert.equals(malaria, logan.laQueMasCelulasAfecta())
 	}
 	
+	test "Es posible obtener la cantidad total de celulas agresivas" {
+		logan.contraer(malaria)
+		logan.contraer(lupus)
+		assert.equals(4500, logan.cantidadDeCelulasAgresivas())
+	}
+	
 	test "Es posible aplicar una dosis a una enfermedad" {
 		logan.contraer(malaria)
 		logan.contraer(lupus)
@@ -108,6 +175,21 @@ describe "Personas" {
 		assert.equals(#{malaria}, logan.enfermedades())
 		assert.equals(790, malaria.cantDeCelulasAmenazadas())
 		assert.equals(-10, lupus.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible bajarle totalmente la temperatura" {
+		logan.bajarTotalmenteTemperatura()
+		assert.equals(0, logan.temperatura())
+	}
+	
+	test "Es posible subirle la temperatura" {
+		logan.subirTemperatura(10)
+		assert.equals(46, logan.temperatura())
+	}
+	
+	test "Es posible matar una cantidad dada de celulas" {
+		logan.matarCelulas(1000000000)
+		assert.equals(35000000000, logan.cantidadDeCelulas())
 	}
 }
 
@@ -144,6 +226,12 @@ describe "Medicos" {
 		assert.equals(lupus, cameron.laQueMasCelulasAfecta())
 	}
 	
+	test "Es posible obtener la cantidad total de celulas agresivas" {
+		cameron.contraer(malaria)
+		cameron.contraer(lupus)
+		assert.equals(600, cameron.cantidadDeCelulasAgresivas())
+	}
+	
 	test "Es posible aplicar una dosis a una enfermedad" {
 		// Si no puede curarse, entonces no se cura.
 		cameron.contraer(malaria)
@@ -173,6 +261,21 @@ describe "Medicos" {
 		cameron.contraer(malaria)
 		assert.equals(#{malaria}, cameron.enfermedades())
 		assert.equals(1300, malaria.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible bajarle totalmente la temperatura" {
+		cameron.bajarTotalmenteTemperatura()
+		assert.equals(0, cameron.temperatura())
+	}
+	
+	test "Es posible subirle la temperatura" {
+		cameron.subirTemperatura(10)
+		assert.equals(46, cameron.temperatura())
+	}
+	
+	test "Es posible matar una cantidad dada de celulas" {
+		cameron.matarCelulas(1000000000)
+		assert.equals(27000000000, cameron.cantidadDeCelulas())
 	}
 }
 
@@ -208,6 +311,12 @@ describe "Jefes de departamento" {
 		assert.equals(malaria, cuddy.laQueMasCelulasAfecta())
 	}
 	
+	test "Es posible obtener la cantidad total de celulas agresivas" {
+		cuddy.contraer(malaria)
+		cuddy.contraer(lupus)
+		assert.equals(3885, cuddy.cantidadDeCelulasAgresivas())
+	}
+	
 	test "Es posible aplicar una dosis a una enfermedad" {
 		// Si no puede curarse, entonces no se cura.
 		cuddy.contraer(malaria)
@@ -237,5 +346,20 @@ describe "Jefes de departamento" {
 		cuddy.contraer(malaria)
 		assert.equals(#{malaria}, cuddy.enfermedades())
 		assert.equals(2395, malaria.cantDeCelulasAmenazadas())
+	}
+	
+	test "Es posible bajarle totalmente la temperatura" {
+		cuddy.bajarTotalmenteTemperatura()
+		assert.equals(0, cuddy.temperatura())
+	}
+	
+	test "Es posible subirle la temperatura" {
+		cuddy.subirTemperatura(10)
+		assert.equals(46, cuddy.temperatura())
+	}
+	
+	test "Es posible matar una cantidad dada de celulas" {
+		cuddy.matarCelulas(1000000000)
+		assert.equals(27000000000, cuddy.cantidadDeCelulas())
 	}
 }
