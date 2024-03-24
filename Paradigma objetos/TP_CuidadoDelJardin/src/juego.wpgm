@@ -1,0 +1,12 @@
+import Configuracion.*
+import wollok.game.*
+
+/*================================================================
+🔸 Juego.
+================================================================*/
+program juego {
+	// Cargar las configuraciones.
+	config.cargar()
+	// Lanzar juego.
+	game.start()
+}
