@@ -26,18 +26,18 @@ object olivia {
 	}
 	
 	// Desestresar en una cantidad de desestres.
-	method desestresar(nivelDesestres) {
-		relax = relax + nivelDesestres
-	}
-	
-	// Tomar un banio de vapor por un tiempo dado.
-	method banioVapor(tiempo) {
-		self.desestresar(tiempo / 5)
+	method desestresar(cantidadDesestres) {
+		relax = relax + cantidadDesestres
 	}
 	
 	// Recibir masajes.
 	method masajes() {
 		self.desestresar(3)
+	}
+	
+	// Tomar un banio de vapor por un tiempo dado.
+	method banioVapor(tiempo) {
+		self.desestresar(tiempo.div(5))
 	}
 	
 	// Establecer su nivel de relax (Para test)
@@ -74,7 +74,22 @@ object adriano {
 		contracturas = contracturas + 7.min(cantidadContracturas)
 	}
 	
-	// Establecer su cantidad de contracturas.
+	// Descontracturar dado un nivel de descontractura.
+	method descontracturar(nivelDescontractura) {
+		contracturas = 0.max(contracturas - nivelDescontractura)
+	}
+	
+	// Recibir un masaje.
+	method masajes() {
+		self.descontracturar(5)
+	}
+	
+	// Tomar un banio de vapor por un tiempo dado.
+	method banioVapor(tiempo) {
+		if(self.lastimado()) self.descontracturar(2)
+	}
+	
+	// Establecer su cantidad de contracturas (Para test)
 	method contracturas(nuevoNivelContractura) {
 		contracturas = nuevoNivelContractura
 	}

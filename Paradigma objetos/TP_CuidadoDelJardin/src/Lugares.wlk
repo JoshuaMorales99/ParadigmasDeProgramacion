@@ -37,5 +37,16 @@ object jardin {
 }
 
 object spa {
+	// Obtener la imagen del spa.
+	method image() = "spa.png"
 	
+	// Atender a una persona dada en el Spa.
+	method atender(persona) {
+		// Brindar banio de vapor durante 5 minutos.
+		persona.banioVapor(5)
+		// Brindar masajes.
+		persona.masajes()
+		// Brindar banio de vapor durante 15 minutos.
+		persona.banioVapor(15)
+	}
 }
