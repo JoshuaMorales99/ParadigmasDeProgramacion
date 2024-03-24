@@ -1,0 +1,82 @@
+import Lugares.*
+import Personajes.*
+
+/*================================================================
+🔸 Lugares.
+================================================================*/
+describe "Jardin" {
+	test "Es posible hacer crecer malezas (Incrementar en 5 la cantidad de malezas)" {
+		jardin.crecerMalezas()
+		assert.equals(35, jardin.malezas())
+	}
+	
+	test "Es posible saber si esta desprolijo (Tiene una cantidad de malezas mayor a 20)" {
+		// Si tiene una cantidad de malezas mayor a 20, entonce esta desprolijo.
+		assert.that(jardin.desprolijo())
+		
+		// Si tiene una cantidad de malezas menor a 20, entonces no esta desprolijo.
+		jardin.malezas(19)
+		assert.notThat(jardin.desprolijo())
+	}
+	
+	test "Es posible saber si el nivel de prolijidad es alto (Nivel de prolijidad mayor o igual a 10)" {
+		// Si el nivel de prolijidad es mayor o igual a 10, entonces es un nivel alto de prolijidad.
+		assert.that(jardin.nivelAltoProlijidad(10))
+		
+		// Si el nivel de prolijidad es menor a 10, entonces no es un nivel alto de prolijidad.
+		assert.notThat(jardin.nivelAltoProlijidad(9))
+	}
+	
+	test "Es posible saber si el nivel de prolijidad es medio (Nivel de prolijidad esta entre 3 y 9)" {
+		// Si el nivel de prolijidad esta entre 3 y 9, entoces es un nivel medio de prolijidad.
+		assert.that(jardin.nivelMedioProlijidad(9))
+		assert.that(jardin.nivelMedioProlijidad(3))
+		
+		// Si el nivel de prolijidad no esta entre 3 y 9, entonces no es un nivel medio de prolijidad.
+		assert.notThat(jardin.nivelMedioProlijidad(2))
+	}
+	
+	test "Es posible emprolijarlo con un nivel de prolijidad dado" {
+		// Si se emprolija con un nivel bajo de prolijidad, entonces no se reducen malezas.
+		jardin.emprolijar(2)
+		assert.equals(30, jardin.malezas())
+		
+		// Si se emprolija con un nivel medio de prolijidad, entonces la cantidad de malezas se reduce a la mitad.
+		jardin.emprolijar(3)
+		assert.equals(15, jardin.malezas())
+		
+		// Si se emprolija con un nivel alto de prolijidad, entonces queda sin malezas.
+		jardin.emprolijar(10)
+		assert.equals(0, jardin.malezas())
+	}
+	
+	test "Es posible obtener la imagen del jardin" {
+		// Si esta deprolijo, entonces se obtiene la imagen del jardin desprolijo.
+		assert.equals("arbusto-desprolijo.png", jardin.image())
+		
+		// Si no esta desprolijo, entonces se obtiene la imagen del jardin prolijo.
+		jardin.malezas(19)
+		assert.equals("arbusto.png", jardin.image())
+	}
+}
+
+describe "Spa" {
+	test "X" {
+		assert.that(true)
+	}
+}
+
+/*================================================================
+🔸 Personajes.
+================================================================*/
+describe "Olivia" {
+	test "X" {
+		assert.that(true)
+	}
+}
+
+describe "Adriano" {
+	test "X" {
+		assert.that(true)
+	}
+}
