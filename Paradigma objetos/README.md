@@ -9,11 +9,17 @@ Un POO es un conjunto de objetos que se conocen entre sí a través de referenci
 - Abstracción.
 - Declaratividad.
 - Expresividad.
+- Bloques y testing.
 - Orden Superior.
 - Polimorfismo.
 - Esquemas de Tipado.
 - Declaratividad vs. Expresividad.
 - Diferencias entre polimorfismo, abstracción y encapsulamiento.
+- Clases.
+- Colecciones.
+- Herencias.
+- Herencias vs. composicion.
+- Excepciones.
 
 ## Contenido de la carpeta.
 En esta carpeta se encuentran algunos parciales resueltos por mi, que fueron realizados con el fin de practicar dicho paradigma y prepararme para su examen. Además, agregué el parcial que se me tomó en 2023 (con mi posible solución) y los TPs que realicé durante todo ese año.
