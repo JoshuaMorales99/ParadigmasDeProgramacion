@@ -99,7 +99,30 @@ describe "Olivia" {
 }
 
 describe "Adriano" {
-	test "X" {
-		assert.that(true)
+	test "Es posible contracturarlo dado una cantidad de contractura" {
+		// Si la cantidad a contracturar es menor a 7, entonces sera igual a la cantidad de contracturas que tiene + cantidad a contracturar.
+		adriano.contracturar(2)
+		assert.equals(2, adriano.contracturas())
+		
+		// Si la cantidad a contracturar es mayor a 7, entonces sera igual a la cantidad de contracturas que tiene + 7.
+		adriano.contracturar(20)
+		assert.equals(9, adriano.contracturas())
+	}
+	
+	test "Es posible trabajar en el jardin dado" {
+		// Si no esta lastimado, entonces lo emprolija en 5 punto y aumenta su cantidad de contracturas.
+		adriano.trabajarEnJardin(jardin)
+		assert.equals(15, jardin.malezas())
+		assert.equals(7, adriano.contracturas())
+		
+		// Si esta lastimado, entonces lo emprolija en 1 punto y aumenta su cantidad de contracturas.
+		adriano.contracturar(4)
+		adriano.trabajarEnJardin(jardin)
+		assert.equals(15, jardin.malezas())
+		assert.equals(18, adriano.contracturas())
+	}
+	
+	test "Es posible obtener la imagen de Adriano" {
+		assert.equals("jardinero.png", adriano.image())
 	}
 }
