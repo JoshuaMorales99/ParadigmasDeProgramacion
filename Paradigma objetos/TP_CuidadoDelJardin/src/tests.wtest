@@ -70,8 +70,31 @@ describe "Spa" {
 🔸 Personajes.
 ================================================================*/
 describe "Olivia" {
-	test "X" {
-		assert.that(true)
+	test "Es posible estresarla dado un nivel de estres" {
+		// Si su nivel de relax es mayor al nivel de estres dado, entonces se estresa en una cantidada igual a su nivel de relax - nivel de estres dado.
+		olivia.estresar(2)
+		assert.equals(2, olivia.relax())
+		
+		// Si su nivel de relax es menor al nivel de estres dado, entonces su nivel de relax pasa a ser 1 (El nivel de relax no puede ser menor a 1)
+		olivia.estresar(10)
+		assert.equals(1, olivia.relax())
+	}
+	
+	test "Es posible trabajar en el jardin dado" {
+		// Si el jardin esta desprolijo, entonces se estresa 2 puntos al inicio, lo emprolija con un nivel de prolijidad igual al doble de su relax y se vuelve a estresar un punto.
+		olivia.relax(6)
+		olivia.trabajarEnJardin(jardin)
+		assert.equals(15, jardin.malezas())
+		assert.equals(3, olivia.relax())
+		
+		// Si el jardin esta prolijo, entonces no se estresa inicialmente, lo emprolija con un nivel de prolijidad igual al doble de su relax y se vuelve a estresar un punto.
+		olivia.trabajarEnJardin(jardin)
+		assert.equals(7, jardin.malezas())
+		assert.equals(2, olivia.relax())
+	}
+	
+	test "Es posible obtener la imagen de Olivia" {
+		assert.equals("jardinera.png", olivia.image())
 	}
 }
 
