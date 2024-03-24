@@ -20,7 +20,7 @@ Decimos que el jardín está desprolijo si tiene más de 20 malezas. Por otro la
 - Si el nivel de prolijidad se encuentra entre 3 y 9, la cantidad de malezas se reduce a la mitad.
 - En cualquier otro caso no pasa nada.
 
-Además deben implementarse los siguientes tests (que van a fallar siempre porque están incompletos):
+Además, deben implementarse (como minimo) los siguientes tests:
 - Al emprolijarlo con un nivel de prolijidad alto, queda sin malezas
 - Al emprolijarlo con un nivel de prolijidad intermedio, las malezas bajan a la mitad
 - Al emprolijarlo con un nivel de prolijidad bajo, no se reducen las malezas
