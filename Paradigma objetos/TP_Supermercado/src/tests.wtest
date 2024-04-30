@@ -1,3 +1,4 @@
+import Supermercado.*
 import TipoVenta.*
 import Carrito.*
 
@@ -5,10 +6,9 @@ import Carrito.*
  🔸 MI UNIVERSO.
 ===========================================================*/
 // Productos por venta unitaria.
-const aceiteGirasol = new VentaUnitaria(nombre = "Aceite de girasol", precio = 60.75)
-
+const aceiteGirasol = supermercado.crearProductoDeVentaUnitaria("Aceite de girasol", 60.75)
 // Productos por venta por peso.
-const quesoCremoso = new VentaPorPeso(nombre = "Queso cremoso", precio = 320, peso = 0.3)
+const quesoCremoso = supermercado.crearProductoDeVentaPorPeso("Queso cremoso", 320, 0.3)
 
 // Carritos de compra.
 const carrito = new Carrito()
