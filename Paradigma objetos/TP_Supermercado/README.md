@@ -34,7 +34,7 @@ Los puntos de entrada para estos requerimientos ya están definidos. Dado un obj
 >>> carrito.agregar(producto)
 >>> carrito.estaVacio()
 >>> carrito.cantidadDeProductos()
->>> carrito.totalAAbonar()
+>>> carrito.totalAbonar()
 >>> carrito.productoMasCaro()
 >>> carrito.detalleDeCompra()
 ```
