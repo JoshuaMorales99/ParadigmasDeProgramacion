@@ -5,7 +5,7 @@ import Carrito.*
  🔸 MI UNIVERSO.
 ===========================================================*/
 // Productos por venta unitaria.
-const aceiteGirasol = new VentaUnitaria(nombre = "Aceite de Girasol", precio = 60.75)
+const aceiteGirasol = new VentaUnitaria(nombre = "Aceite de girasol", precio = 60.75)
 
 // Productos por venta por peso.
 const quesoCremoso = new VentaPorPeso(nombre = "Queso cremoso", precio = 320, peso = 0.3)
@@ -20,11 +20,19 @@ describe "Venta unitaria" {
 	test "Es posible obtener el precio a abonar (Igual al precio del producto)" {
 		assert.equals(60.75, aceiteGirasol.precioAbonar())
 	}
+	
+	test "Es posible obtener la descripcion (Igual al nombre del producto)" {
+		assert.equals("Aceite de girasol", aceiteGirasol.descripcion())
+	}
 }
 
 describe "Venta por peso" {
 	test "Es posible obtener el precio a abonar (Precio por kilo * Peso del producto)" {
 		assert.equals(96, quesoCremoso.precioAbonar())
+	}
+	
+	test "Es posible obtener la descripcion (Nombre del producto x Peso del producto kg)" {
+		assert.equals("Queso cremoso x 0.3 kg", quesoCremoso.descripcion())
 	}
 }
 
@@ -63,5 +71,28 @@ describe "Carrito" {
 		carrito.agregar(aceiteGirasol)
 		carrito.agregar(quesoCremoso)
 		assert.equals(quesoCremoso, carrito.productoMasCaro())
+	}
+	
+	test "Es posible obtener los detalles de los productos agregados" {
+		carrito.agregar(quesoCremoso)
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(aceiteGirasol)
+		assert.equals(["Queso cremoso x 0.3 kg", "Aceite de girasol", "Aceite de girasol"], carrito.descripcionesProductos())
+	}
+	
+	test "Es posible obtener los detalles de los productos agregados de forma ordenada alfabeticamente" {
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(quesoCremoso)
+		carrito.agregar(aceiteGirasol)
+		assert.equals(["Aceite de girasol", "Aceite de girasol", "Queso cremoso x 0.3 kg"], carrito.descripcionesOrdenadas())
+	}
+	
+	test "PUNTO 3: Es posible obtener el detalle de la compra" {
+		carrito.agregar(quesoCremoso)
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(quesoCremoso)
+		carrito.agregar(aceiteGirasol)
+		assert.equals(#{"Aceite de girasol", "Queso cremoso x 0.3 kg"}, carrito.detalleDeCompra())
+		
 	}
 }
