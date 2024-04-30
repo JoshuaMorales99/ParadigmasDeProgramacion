@@ -10,6 +10,9 @@ const aceiteGirasol = new VentaUnitaria(nombre = "Aceite de Girasol", precio = 6
 // Productos por venta por peso.
 const quesoCremoso = new VentaPorPeso(nombre = "Queso cremoso", precio = 320, peso = 0.3)
 
+// Carritos de compra.
+const carrito = new Carrito()
+
 /* =========================================================
  🔸 TIPO DE VENTAS.
 ===========================================================*/
@@ -29,7 +32,36 @@ describe "Venta por peso" {
  🔸 CARRITO.
 ===========================================================*/
 describe "Carrito" {
-	test "testX" {
-		assert.that(true)
+	test "PUNTO 2.a: Es posible saber si el carrito de la compra esta vacio" {
+		// Si no se agregan productos, entonces esta vacio.
+		assert.that(carrito.estaVacio())
+		
+		// Si se agregan productos, entonces no esta vacio.
+		carrito.agregar(quesoCremoso)
+		assert.notThat(carrito.estaVacio())
+	}
+	
+	test "PUNTO 2.b: Es posible obtener la cantidad de productos agregados" {
+		// Si se no se tienen productos repetidos, entonces se contabilizan cada producto.
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(quesoCremoso)
+		assert.equals(2, carrito.cantidadDeProductos())
+		
+		// Si se tienen productos repetidos, entonces se contabilizan como si fueran varios.
+		carrito.agregar(aceiteGirasol)
+		assert.equals(3, carrito.cantidadDeProductos())
+	}
+	
+	test "PUNTO 2.c: Es posible obtener el total a abonar" {
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(quesoCremoso)
+		assert.equals(217.5, carrito.totalAbonar())
+	}
+	
+	test "PUNTO 2.d: Es posible obtener el producto mas caro de los agregados" {
+		carrito.agregar(aceiteGirasol)
+		carrito.agregar(quesoCremoso)
+		assert.equals(quesoCremoso, carrito.productoMasCaro())
 	}
 }
