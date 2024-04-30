@@ -1,6 +1,35 @@
+import TipoVenta.*
+import Carrito.*
 
-test "testX" {
+/* =========================================================
+ 🔸 MI UNIVERSO.
+===========================================================*/
+// Productos por venta unitaria.
+const aceiteGirasol = new VentaUnitaria(nombre = "Aceite de Girasol", precio = 60.75)
 
-	assert.that(true)
+// Productos por venta por peso.
+const quesoCremoso = new VentaPorPeso(nombre = "Queso cremoso", precio = 320, peso = 0.3)
 
+/* =========================================================
+ 🔸 TIPO DE VENTAS.
+===========================================================*/
+describe "Venta unitaria" {
+	test "Es posible obtener el precio a abonar (Igual al precio del producto)" {
+		assert.equals(60.75, aceiteGirasol.precioAbonar())
+	}
+}
+
+describe "Venta por peso" {
+	test "Es posible obtener el precio a abonar (Precio por kilo * Peso del producto)" {
+		assert.equals(96, quesoCremoso.precioAbonar())
+	}
+}
+
+/* =========================================================
+ 🔸 CARRITO.
+===========================================================*/
+describe "Carrito" {
+	test "testX" {
+		assert.that(true)
+	}
 }
