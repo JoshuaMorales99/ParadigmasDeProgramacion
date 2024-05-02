@@ -1,5 +1,5 @@
 # Peligro por Distraccion.
-## Trabajo Practico.
+## Trabajo Práctico 2023.
 
 La planta nuclear de Springfield puede estar en peligro. Para ello vamos a modelar con el **paradigma de objetos** algunas partes que nos interesan:
 
@@ -11,7 +11,7 @@ Se pide la codificación de la solución en Wollok para:
 1. Homero puede tener una cantidad de donas, al principio no tiene ninguna. 
     - Hacer que Homero compre y coma donas. Cuando Homero compra donas, lo hace por docena, mientras que cuando las come lo hace de a una.
     - Hacer tests que prueben que lo de arriba funciona correctamente. (Si funciona, commit!)
-2. Homero se distrae cuando tiene pocas donas (menos de 2). 
+2. Homero se distrae cuando tiene pocas donas (Menos de 2). 
     - Poder saber si Homero está distraído.
     - ¡Tests!
         - Homero con pocas donas está distraído.

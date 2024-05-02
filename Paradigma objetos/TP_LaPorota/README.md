@@ -1,5 +1,5 @@
 # La Porota.
-## Trabajo Practico.
+## Trabajo Práctico 2023.
 
 "La Porota" es una empresa de venta de porotos por peso, y nos pide un sistema para administrar su negocio tipo billetera virtual. "La Porota" tiene un stock de porotos y un precio por gramo. Los clientes tienen un único medio de pago (que puede variar en el tiempo) y que es el que usan al momento de realizar la compra en La Porota.
 

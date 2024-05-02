@@ -1,11 +1,11 @@
 # Wollok Game Worlds.
-## Trabajo Practico.
+## Trabajo Práctico 2023.
 
-![](WollokGameWorlds.jpg)
+<img src=WollokGameWorlds.jpg width=400/>
 
 Este mes, la cátedra de los jueves a la mañana, comenzó a llamar la atención por todo el mundo. Estudiantes de PdepJM crearon juegos tan copados que varias organizaciones exigieron la creación de un Mundial de Juegos de Wollok, en donde se podrán presentar los y las mejores jugadoras del mundo, participando en varias etapas hasta llegar a la final por el gran premio. Nos pidieron entonces armar un sistema para organizarlo.
 
-### Parte 1. Jugadores.
+### Parte 1. Jugadores 👥
 Queremos preguntar a diferentes jugadores/as si pueden jugar en el campeonato.<br>
 - En primer lugar está **Caps**, también conocido como Claps o Craps, dependiendo de su rendimiento.<br>
     De él sabemos que:
@@ -26,9 +26,7 @@ Queremos preguntar a diferentes jugadores/as si pueden jugar en el campeonato.<b
     - También comienza con 50 de cansancio y puede beber bebidas energizantes.
     - Nos interesa preguntarle lo mismo que a Caps y sabemos que tiene en cuenta las mismas consideraciones para responder.
 
-
-
-### PARTE 2. Partidas.
+### PARTE 2. Partidas 🎮
 Dado que esto es una competencia, vamos a tener **partidas**, en donde dos participantes (que se van a identificar como azul y rojo) van a poder enfrentarse. De una partida nos interesa que comience, y luego, poder saber en otro momento quién gana.
 - Al comenzar, cada participante juega, primero el rojo y luego el azul. Cuando un **jugador normal** juega, este aumentará su cansancio en 20; en cambio si el participante es Faker, al jugar aumentará en 30 su habilidad (sí, Faker tiene una habilidad variable).
 - La partida la ganará quien tenga mayor habilidad. Para un **jugador normal**, la habilidad está dada por su antigüedad multiplicada por 2 menos su nivel de cansancio.<br>
@@ -36,7 +34,7 @@ Para Faker en cambio, su habilidad será 0 si está tilteado, si no lo está ret
 
 ![](RoboCat.png)
 
-### PARTE 3. EQUIPOS.
+### PARTE 3. Equipos ✨
 ¡Aparece un nuevo tipo de participante para las partidas! En vez de competir individualmente, hay participantes que decidieron unirse en equipos para poder tener mayores chances de ganar. De un equipo sabemos que:
 - Estará conformado por cierta cantidad de jugadores, y se podrá hacer cambios de estos; es decir que se podrá agregar o quitar.
 - Cuando un equipo juega, solamente lo harán aquellos jugadores que estén disponibles para hacerlo, es decir solo aquellos que pueden jugar.

@@ -1,11 +1,11 @@
-# Cuidado del jardin 💐 ✂️.
-## Trabajo Practico 2022.
+# Cuidando el Jardín.
+## Trabajo Práctico 2022.
 
 Queremos hacer un juego en el cual podremos controlar a uno de dos personajes: **Olivia** o **Adriano**.
 
-Cada personaje tiene formas distintas de trabajar sobre un jardín para mantener las malezas bajo control, pero el trabajo es desgastante! Para compensar, pueden atenderse en un spa que les ayudará a recuperarse para volver a trabajar 💪
+Cada personaje tiene formas distintas de trabajar sobre un jardín para mantener las malezas bajo control, pero el trabajo es desgastante! Para compensar, pueden atenderse en un spa que les ayudará a recuperarse para volver a trabajar.
 
-> Con la barra espaciadora podés cambiar el personaje para controlar a Olivia o a Adriano. Al pasar con el mouse por encima del jardín deberías poder ver la cantidad de malezas que tiene en ese momento y cómo se actualiza automáticamente 🤩
+> Con la barra espaciadora podés cambiar el personaje para controlar a Olivia o a Adriano. Al pasar con el mouse por encima del jardín deberías poder ver la cantidad de malezas que tiene en ese momento y cómo se actualiza automáticamente.
 
 ![](CuidadosJardin.jpg)
 
@@ -21,9 +21,9 @@ Decimos que el jardín está desprolijo si tiene más de 20 malezas. Por otro la
 - En cualquier otro caso no pasa nada.
 
 Además, deben implementarse (como minimo) los siguientes tests:
-- Al emprolijarlo con un nivel de prolijidad alto, queda sin malezas
-- Al emprolijarlo con un nivel de prolijidad intermedio, las malezas bajan a la mitad
-- Al emprolijarlo con un nivel de prolijidad bajo, no se reducen las malezas
+- Al emprolijarlo con un nivel de prolijidad alto, queda sin malezas.
+- Al emprolijarlo con un nivel de prolijidad intermedio, las malezas bajan a la mitad.
+- Al emprolijarlo con un nivel de prolijidad bajo, no se reducen las malezas.
 
 ___
 ### Parte 2: Olivia y el Jardín 💐
@@ -55,3 +55,7 @@ Sabemos que:
 - Cuando Olivia se da un baño de vapor, su nivel de relax aumenta 1 punto cada 5 minutos que dura el baño de vapor.
 - Cuando Adriano recibe masajes, sus contracturas disminuyen en 5 (teniendo en cuenta que el valor final no quede por debajo de 0).
 - Cuando Adriano se da un baño de vapor, sólo si está lastimado sus contracturas disminuyen en 2, independientemente de la duración del baño.
+
+___
+### Pruebas automáticas 🧪
+Para que el ejercicio esté completo deben pasar los tests unitarios.
